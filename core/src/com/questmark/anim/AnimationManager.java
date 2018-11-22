@@ -43,30 +43,7 @@ public class AnimationManager {
     }
 
     /**
-     * Sets up for animations based on world index
-     * Used for storing multiple animations on a single row sorted by worlds
-     *
-     * @param sprites
-     * @param worldIndex
-     * @param startIndex
-     * @param numFrames
-     * @param delay
-     */
-    public AnimationManager(TextureRegion[][] sprites, int worldIndex, int startIndex, int numFrames, float delay) {
-        TextureRegion[] frames = new TextureRegion[numFrames];
-
-        width = sprites[worldIndex][startIndex].getRegionWidth();
-        height = sprites[worldIndex][startIndex].getRegionHeight();
-
-        for (int i = startIndex; i < startIndex + numFrames; i++) {
-            frames[i - startIndex] = sprites[worldIndex][i];
-        }
-
-        currentAnimation = new CustomAnimation(delay, frames);
-    }
-
-    /**
-     * Specifically handles four directional animations animations
+     * Specifically handles four directional animations
      *
      * @param sprites
      * @param index
