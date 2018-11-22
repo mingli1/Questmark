@@ -3,7 +3,6 @@ package com.questmark.screen;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.questmark.game.Questmark;
-import com.questmark.util.Resources;
 
 /**
  * A screen template for game states.
@@ -12,16 +11,14 @@ import com.questmark.util.Resources;
  */
 public abstract class AbstractScreen implements Screen {
 
-    // every screen receives a reference to the main game class and resource manager
+    // every screen receives a reference to the main game class
     protected final Questmark game;
-    protected final Resources res;
 
     // main stage of each screen
     protected Stage stage;
 
-    public AbstractScreen(final Questmark game, final Resources res) {
+    public AbstractScreen(final Questmark game) {
         this.game = game;
-        this.res = res;
     }
 
     @Override
