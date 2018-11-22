@@ -1,9 +1,10 @@
-package util;
+package com.questmark.util;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonReader;
 
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import java.util.Map;
  *
  * @author Ming Li
  */
-public class Resources {
+public class Resources implements Disposable {
 
     private AssetManager manager;
     private JsonReader jsonReader;
@@ -79,6 +80,13 @@ public class Resources {
      */
     public BitmapFont getFont() {
         return font;
+    }
+
+    @Override
+    public void dispose() {
+        manager.dispose();
+        atlas.dispose();
+        font.dispose();
     }
 
 }
