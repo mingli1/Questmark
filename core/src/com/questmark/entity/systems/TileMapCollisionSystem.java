@@ -5,11 +5,11 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.questmark.entity.Mapper;
 import com.questmark.entity.components.BoundingBoxComponent;
 import com.questmark.entity.components.PositionComponent;
+import com.questmark.entity.components.PreviousPositionComponent;
 import com.questmark.entity.components.VelocityComponent;
 
 /**
@@ -22,13 +22,10 @@ public class TileMapCollisionSystem extends IteratingSystem {
 
     // tile map bounding boxes
     private Array<Rectangle> boundingBoxes;
-    private Vector2 nextPosition;
-    private Rectangle nextCollision;
 
     public TileMapCollisionSystem() {
-        super(Family.all(BoundingBoxComponent.class, PositionComponent.class, VelocityComponent.class).get());
-        nextPosition = new Vector2();
-        nextCollision = new Rectangle();
+        super(Family.all(BoundingBoxComponent.class, PositionComponent.class,
+                VelocityComponent.class, PreviousPositionComponent.class).get());
     }
 
     @Override
@@ -36,15 +33,15 @@ public class TileMapCollisionSystem extends IteratingSystem {
         BoundingBoxComponent boundingBox = Mapper.BOUNDING_BOX_MAPPER.get(entity);
         PositionComponent position = Mapper.POS_MAPPER.get(entity);
         VelocityComponent velocity = Mapper.VEL_MAPPER.get(entity);
+        PreviousPositionComponent prevPosition = Mapper.PREV_POS_MAPPER.get(entity);
         boundingBox.bounds.setPosition(position.getPos());
 
-        nextPosition.set(position.x + velocity.dx * dt, position.y + velocity.dy * dt);
-        nextCollision.set(nextPosition.x, nextPosition.y, boundingBox.bounds.width, boundingBox.bounds.height);
-
         for (Rectangle mapBounds : boundingBoxes) {
-            if (nextCollision.overlaps(mapBounds)) {
+            if (boundingBox.bounds.overlaps(mapBounds)) {
                 velocity.dx = 0.f;
                 velocity.dy = 0.f;
+                position.x = prevPosition.x;
+                position.y = prevPosition.y;
             }
         }
     }

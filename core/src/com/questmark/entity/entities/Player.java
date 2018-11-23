@@ -22,6 +22,7 @@ public final class Player extends Entity {
         this.add(new PlayerComponent());
         this.add(new TextureComponent(res.getSingleTexture("player")));
         this.add(new PositionComponent(position));
+        this.add(new PreviousPositionComponent(position.x, position.y));
         this.add(new VelocityComponent(0, 0));
         this.add(new SpeedComponent(25.f));
         this.add(new BoundingBoxComponent(10, 12));
