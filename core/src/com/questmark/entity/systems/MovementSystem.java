@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.questmark.entity.Mapper;
 import com.questmark.entity.components.PositionComponent;
+import com.questmark.entity.components.PreviousPositionComponent;
 import com.questmark.entity.components.VelocityComponent;
 
 /**
@@ -17,14 +18,17 @@ import com.questmark.entity.components.VelocityComponent;
 public class MovementSystem extends IteratingSystem {
 
     public MovementSystem() {
-        super(Family.all(PositionComponent.class, VelocityComponent.class).get());
+        super(Family.all(PositionComponent.class, VelocityComponent.class, PreviousPositionComponent.class).get());
     }
 
     @Override
     protected void processEntity(Entity entity, float dt) {
         PositionComponent position = Mapper.POS_MAPPER.get(entity);
         VelocityComponent velocity = Mapper.VEL_MAPPER.get(entity);
+        PreviousPositionComponent prevPosition = Mapper.PREV_POS_MAPPER.get(entity);
 
+        prevPosition.x = position.x;
+        prevPosition.y = position.y;
         position.x += velocity.dx * dt;
         position.y += velocity.dy * dt;
     }

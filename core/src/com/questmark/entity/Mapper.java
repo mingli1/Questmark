@@ -15,6 +15,9 @@ public final class Mapper {
     public static final ComponentMapper<PositionComponent> POS_MAPPER
             = ComponentMapper.getFor(PositionComponent.class);
 
+    public static final ComponentMapper<PreviousPositionComponent> PREV_POS_MAPPER
+            = ComponentMapper.getFor(PreviousPositionComponent.class);
+
     public static final ComponentMapper<VelocityComponent> VEL_MAPPER
             = ComponentMapper.getFor(VelocityComponent.class);
 
