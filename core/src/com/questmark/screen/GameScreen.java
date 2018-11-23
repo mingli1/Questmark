@@ -53,8 +53,10 @@ public class GameScreen extends AbstractScreen {
         game.batch.setProjectionMatrix(cam.combined);
         game.batch.begin();
 
-        tileMapManager.render(dt);
+        tileMapManager.renderBottom();
+        tileMapManager.renderMiddle();
         ecs.update(dt);
+        tileMapManager.renderTop();
 
         game.batch.end();
     }
