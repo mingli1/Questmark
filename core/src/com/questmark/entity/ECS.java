@@ -54,9 +54,9 @@ public final class ECS implements Disposable {
         renderSystem = new RenderSystem(batch);
         collisionSystem = new CollisionSystem();
 
-        engine.addSystem(renderSystem);
         engine.addSystem(movementSystem);
         engine.addSystem(collisionSystem);
+        engine.addSystem(renderSystem);
     }
 
     public void update(float dt) {
