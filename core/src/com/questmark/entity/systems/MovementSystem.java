@@ -1,10 +1,9 @@
 package com.questmark.entity.systems;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.ashley.systems.IteratingSystem;
 import com.questmark.entity.Mapper;
 import com.questmark.entity.components.PositionComponent;
 import com.questmark.entity.components.VelocityComponent;
@@ -15,29 +14,19 @@ import com.questmark.entity.components.VelocityComponent;
  *
  * @author Ming Li
  */
-public class MovementSystem extends EntitySystem {
+public class MovementSystem extends IteratingSystem {
 
-    private ImmutableArray<Entity> entities;
-
-    @Override
-    public void addedToEngine(Engine engine) {
-        entities = engine.getEntitiesFor(Family.all(PositionComponent.class, VelocityComponent.class).get());
+    public MovementSystem() {
+        super(Family.all(PositionComponent.class, VelocityComponent.class).get());
     }
 
     @Override
-    public void update(float dt) {
-        for (Entity e : entities) {
-            PositionComponent position = Mapper.POS_MAPPER.get(e);
-            VelocityComponent velocity = Mapper.VEL_MAPPER.get(e);
+    protected void processEntity(Entity entity, float dt) {
+        PositionComponent position = Mapper.POS_MAPPER.get(entity);
+        VelocityComponent velocity = Mapper.VEL_MAPPER.get(entity);
 
-            position.x += velocity.dx * dt;
-            position.y += velocity.dy * dt;
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "movement";
+        position.x += velocity.dx * dt;
+        position.y += velocity.dy * dt;
     }
 
 }

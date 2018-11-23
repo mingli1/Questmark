@@ -1,10 +1,9 @@
 package com.questmark.entity.systems;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.questmark.entity.Mapper;
 import com.questmark.entity.components.PositionComponent;
@@ -16,37 +15,21 @@ import com.questmark.entity.components.TextureComponent;
  *
  * @author Ming Li
  */
-public class RenderSystem extends EntitySystem {
+public class RenderSystem extends IteratingSystem {
 
-    private ImmutableArray<Entity> entities;
     private Batch batch;
 
     public RenderSystem(Batch batch) {
+        super(Family.all(TextureComponent.class, PositionComponent.class).get());
         this.batch = batch;
     }
 
     @Override
-    public void addedToEngine(Engine engine) {
-        entities = engine.getEntitiesFor(Family.all(TextureComponent.class, PositionComponent.class).get());
-    }
+    protected void processEntity(Entity entity, float dt) {
+        TextureComponent texture = Mapper.TEXTURE_MAPPER.get(entity);
+        PositionComponent position = Mapper.POS_MAPPER.get(entity);
 
-    @Override
-    /**
-     * This should be surrounded by SpriteBatch.begin and SpriteBatch.end
-     * Will probably rewrite this in the future
-     */
-    public void update(float dt) {
-        for (Entity e : entities) {
-            TextureComponent texture = Mapper.TEXTURE_MAPPER.get(e);
-            PositionComponent position = Mapper.POS_MAPPER.get(e);
-
-            batch.draw(texture.texture, position.x, position.y);
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "render";
+        batch.draw(texture.texture, position.x, position.y);
     }
 
 }
