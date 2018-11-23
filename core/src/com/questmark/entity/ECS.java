@@ -55,9 +55,9 @@ public final class ECS implements Disposable {
         renderSystem = new RenderSystem(batch);
         tileMapCollisionSystem = new TileMapCollisionSystem();
 
-        engine.addSystem(movementSystem);
-        engine.addSystem(tileMapCollisionSystem);
-        engine.addSystem(renderSystem);
+        addSystem(movementSystem);
+        addSystem(tileMapCollisionSystem);
+        addSystem(renderSystem);
     }
 
     public void update(float dt) {
