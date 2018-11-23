@@ -23,7 +23,7 @@ public final class ECS implements Disposable {
     // default systems that are inherent with entites
     private MovementSystem movementSystem;
     private RenderSystem renderSystem;
-    private CollisionSystem collisionSystem;
+    private TileMapCollisionSystem tileMapCollisionSystem;
 
     // entities
     private Player player;
@@ -53,10 +53,10 @@ public final class ECS implements Disposable {
     private void addSystems(Batch batch, Resources res) {
         movementSystem = new MovementSystem();
         renderSystem = new RenderSystem(batch);
-        collisionSystem = new CollisionSystem();
+        tileMapCollisionSystem = new TileMapCollisionSystem();
 
         engine.addSystem(movementSystem);
-        engine.addSystem(collisionSystem);
+        engine.addSystem(tileMapCollisionSystem);
         engine.addSystem(renderSystem);
     }
 
@@ -76,6 +76,15 @@ public final class ECS implements Disposable {
      */
     public void addSystem(EntitySystem system) {
         engine.addSystem(system);
+    }
+
+    /**
+     * Returns an {@link EntitySystem} from a given {@link com.badlogic.ashley.core.Component} class type.
+     *
+     * @param system
+     */
+    public <T extends EntitySystem> T getSystem(Class<T> system) {
+        return engine.getSystem(system);
     }
 
 }

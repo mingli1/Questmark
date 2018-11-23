@@ -4,9 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.questmark.entity.ECS;
 import com.questmark.entity.systems.KeyInputSystem;
+import com.questmark.entity.systems.TileMapCollisionSystem;
 import com.questmark.game.Questmark;
 import com.questmark.input.KeyInput;
-import com.questmark.input.KeyInputHandler;
 import com.questmark.map.TileMapManager;
 
 /**
@@ -42,6 +42,7 @@ public class GameScreen extends AbstractScreen {
         Gdx.input.setInputProcessor(input);
         // load map on show
         tileMapManager.load("test");
+        ecs.getSystem(TileMapCollisionSystem.class).setBoundingBoxes(tileMapManager.getCollisionBoxes());
     }
 
     @Override

@@ -8,7 +8,6 @@ import com.questmark.entity.Mapper;
 import com.questmark.entity.components.PlayerComponent;
 import com.questmark.entity.components.SpeedComponent;
 import com.questmark.entity.components.VelocityComponent;
-import com.questmark.entity.entities.Player;
 import com.questmark.input.Direction;
 import com.questmark.input.KeyInputHandler;
 
