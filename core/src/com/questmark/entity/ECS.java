@@ -87,4 +87,13 @@ public final class ECS implements Disposable {
         return engine.getSystem(system);
     }
 
+    /**
+     * Returns the universal player instance.
+     *
+     * @return
+     */
+    public Player getPlayer() {
+        return player;
+    }
+
 }
