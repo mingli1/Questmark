@@ -1,5 +1,6 @@
 package com.questmark.input;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
 /**
@@ -9,13 +10,47 @@ import com.badlogic.gdx.InputProcessor;
  */
 public class KeyInput implements InputProcessor {
 
+    private KeyInputHandler keyInputHandler;
+
+    public KeyInput(KeyInputHandler keyInputHandler) {
+        this.keyInputHandler = keyInputHandler;
+    }
+
     @Override
     public boolean keyDown(int keycode) {
+        switch (keycode) {
+            case Input.Keys.W:
+                keyInputHandler.move(Direction.Up);
+                break;
+            case Input.Keys.S:
+                keyInputHandler.move(Direction.Down);
+                break;
+            case Input.Keys.A:
+                keyInputHandler.move(Direction.Left);
+                break;
+            case Input.Keys.D:
+                keyInputHandler.move(Direction.Right);
+                break;
+        }
         return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
+        switch (keycode) {
+            case Input.Keys.W:
+                keyInputHandler.stop(Direction.Up);
+                break;
+            case Input.Keys.S:
+                keyInputHandler.stop(Direction.Down);
+                break;
+            case Input.Keys.A:
+                keyInputHandler.stop(Direction.Left);
+                break;
+            case Input.Keys.D:
+                keyInputHandler.stop(Direction.Right);
+                break;
+        }
         return true;
     }
 

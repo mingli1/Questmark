@@ -2,9 +2,7 @@ package com.questmark.entity;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
-import com.questmark.entity.components.PositionComponent;
-import com.questmark.entity.components.TextureComponent;
-import com.questmark.entity.components.VelocityComponent;
+import com.questmark.entity.components.*;
 
 /**
  * A utility class that contains a {@link ComponentMapper} for each Ashley {@link Component}
@@ -22,5 +20,11 @@ public final class Mapper {
 
     public static final ComponentMapper<TextureComponent> TEXTURE_MAPPER
             = ComponentMapper.getFor(TextureComponent.class);
+
+    public static final ComponentMapper<BoundingBoxComponent> BOUNDING_BOX_MAPPER
+            = ComponentMapper.getFor(BoundingBoxComponent.class);
+
+    public static final ComponentMapper<SpeedComponent> SPEED_MAPPER
+            = ComponentMapper.getFor(SpeedComponent.class);
 
 }

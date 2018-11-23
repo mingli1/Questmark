@@ -3,7 +3,10 @@ package com.questmark.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.questmark.entity.ECS;
+import com.questmark.entity.systems.KeyInputSystem;
 import com.questmark.game.Questmark;
+import com.questmark.input.KeyInput;
+import com.questmark.input.KeyInputHandler;
 import com.questmark.map.TileMapManager;
 
 /**
@@ -12,6 +15,9 @@ import com.questmark.map.TileMapManager;
  * @author Ming Li
  */
 public class GameScreen extends AbstractScreen {
+
+    // input
+    private KeyInput input;
 
     // entity
     private ECS ecs;
@@ -24,10 +30,16 @@ public class GameScreen extends AbstractScreen {
 
         ecs = new ECS(game.batch, game.res);
         tileMapManager = new TileMapManager(game.batch, cam);
+
+        // player input system
+        KeyInputSystem inputSystem = new KeyInputSystem();
+        input = new KeyInput(inputSystem);
+        ecs.addSystem(inputSystem);
     }
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(input);
         // load map on show
         tileMapManager.load("test");
     }

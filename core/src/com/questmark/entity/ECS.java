@@ -2,6 +2,7 @@ package com.questmark.entity;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
@@ -19,7 +20,7 @@ public final class ECS implements Disposable {
 
     private Engine engine;
 
-    // systems
+    // default systems that are inherent with entites
     private MovementSystem movementSystem;
     private RenderSystem renderSystem;
     private CollisionSystem collisionSystem;
@@ -66,6 +67,15 @@ public final class ECS implements Disposable {
     @Override
     public void dispose() {
 
+    }
+
+    /**
+     * Adds an {@link EntitySystem} to the engine.
+     *
+     * @param system
+     */
+    public void addSystem(EntitySystem system) {
+        engine.addSystem(system);
     }
 
 }

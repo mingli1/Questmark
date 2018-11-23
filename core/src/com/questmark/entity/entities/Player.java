@@ -2,8 +2,7 @@ package com.questmark.entity.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
-import com.questmark.entity.components.PositionComponent;
-import com.questmark.entity.components.TextureComponent;
+import com.questmark.entity.components.*;
 import com.questmark.util.Resources;
 
 /**
@@ -20,8 +19,11 @@ import com.questmark.util.Resources;
 public final class Player extends Entity {
 
     public Player(Vector2 position, Resources res) {
+        this.add(new PlayerComponent());
         this.add(new TextureComponent(res.getSingleTexture("player")));
         this.add(new PositionComponent(position));
+        this.add(new VelocityComponent(0, 0));
+        this.add(new SpeedComponent(25.f));
     }
 
 }
