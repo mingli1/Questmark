@@ -9,9 +9,9 @@ package com.questmark.game;
 public final class Config {
 
     // virtual dimensions (4:3 aspect ratio)
-    public static final int V_WIDTH = 120;
-    public static final int V_HEIGHT = V_WIDTH * 3 / 4;
-    public static final int SCALE = 8;
+    public static final int V_WIDTH = 200;
+    public static final int V_HEIGHT = V_WIDTH * 3 / 5;
+    public static final int SCALE = 6;
 
     // screen dimensions with scaling
     public static final int S_WIDTH = V_WIDTH * SCALE;
