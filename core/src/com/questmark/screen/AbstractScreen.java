@@ -1,6 +1,7 @@
 package com.questmark.screen;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -20,11 +21,14 @@ public abstract class AbstractScreen implements Screen {
     // main stage of each screen
     protected Stage stage;
     protected Viewport viewport;
+    protected OrthographicCamera cam;
 
     public AbstractScreen(final Questmark game) {
         this.game = game;
 
-        viewport = new StretchViewport(Config.V_WIDTH, Config.V_HEIGHT);
+        cam = new OrthographicCamera(Config.V_WIDTH, Config.V_HEIGHT);
+        cam.setToOrtho(false);
+        viewport = new StretchViewport(Config.V_WIDTH, Config.V_HEIGHT, cam);
         stage = new Stage(viewport, game.batch);
     }
 
