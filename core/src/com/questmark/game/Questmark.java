@@ -1,6 +1,7 @@
 package com.questmark.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.questmark.screen.GameScreen;
@@ -30,6 +31,7 @@ public class Questmark extends Game {
 
 	@Override
 	public void render() {
+		Gdx.graphics.setTitle(Config.TITLE + " | " + Gdx.graphics.getFramesPerSecond() + " fps");
 		super.render();
 	}
 	
