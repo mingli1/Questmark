@@ -2,6 +2,7 @@ package com.questmark.map;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -49,7 +50,7 @@ public class TileMapManager implements Disposable {
     private TiledMapTileLayer bottom;
     private TiledMapTileLayer middle;
     private TiledMapTileLayer top;
-    private TiledMapTileLayer collision;
+    private MapLayer collision;
 
     // map properties (tile dimensions in pixels, map dimensions in tiles)
     private int tileSize;
@@ -76,7 +77,7 @@ public class TileMapManager implements Disposable {
      *
      * @param mapName name of the map
      */
-    public void load(String mapName) {
+    public void load(String mapName) throws IllegalStateException {
         tiledMap = mapLoader.load(DIR + mapName + ".tmx");
 
         // retrieve data from set properties in the map files
@@ -88,7 +89,11 @@ public class TileMapManager implements Disposable {
         bottom = (TiledMapTileLayer) tiledMap.getLayers().get(BOTTOM_LAYER);
         middle = (TiledMapTileLayer) tiledMap.getLayers().get(MIDDLE_LAYER);
         top = (TiledMapTileLayer) tiledMap.getLayers().get(TOP_LAYER);
-        collision = (TiledMapTileLayer) tiledMap.getLayers().get(COLLISION_LAYER);
+        collision = tiledMap.getLayers().get(COLLISION_LAYER);
+
+        if (bottom == null || middle == null || top == null || collision == null) {
+            throw new IllegalStateException("Map layers were not properly set.");
+        }
 
         collisionBoxes.clear();
         MapObjects objects = collision.getObjects();
