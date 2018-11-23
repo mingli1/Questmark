@@ -41,6 +41,15 @@ public class Resources implements Disposable {
         sheet = new HashMap<String, TextureRegion[][]>();
 
         // load assets here and store in maps
+        manager.load("textures/textures.atlas", TextureAtlas.class);
+
+        manager.finishLoading();
+
+        font = new BitmapFont();
+        atlas = manager.get("textures/textures.atlas", TextureAtlas.class);
+
+        // mapping textures
+        single.put("player", atlas.findRegion("test_player"));
     }
 
     /**

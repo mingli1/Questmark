@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.questmark.entity.ECS;
+import com.questmark.screen.GameScreen;
 import com.questmark.util.Resources;
 
 /**
@@ -16,19 +16,23 @@ public class Questmark extends Game {
 
 	public Batch batch;
 	public Resources res;
-	public ECS ecs;
+
+	// screens
+	public GameScreen gameScreen;
 
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
 		res = new Resources();
-		ecs = new ECS(batch, res);
+
+		gameScreen = new GameScreen(this);
+		this.setScreen(gameScreen);
 	}
 
 	@Override
 	public void render() {
+		Gdx.graphics.setTitle(Config.TITLE + " | " + Gdx.graphics.getFramesPerSecond() + " fps");
 		super.render();
-		ecs.update(Gdx.graphics.getDeltaTime());
 	}
 	
 	@Override
@@ -36,7 +40,6 @@ public class Questmark extends Game {
 		super.dispose();
 		batch.dispose();
 		res.dispose();
-		ecs.dispose();
 	}
 
 }

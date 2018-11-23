@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.1" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="12" tileheight="12" nextobjectid="10">
+ <properties>
+  <property name="mapHeight" type="int" value="10"/>
+  <property name="mapWidth" type="int" value="10"/>
+  <property name="tileSize" type="int" value="12"/>
+ </properties>
+ <tileset firstgid="1" name="tileset" tilewidth="12" tileheight="12" tilecount="8" columns="4">
+  <image source="tileset.png" width="48" height="24"/>
+ </tileset>
+ <layer name="bottom" width="10" height="10">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <layer name="middle" width="10" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,2,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,2,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,7,8,0,0,
+7,8,0,0,0,0,0,0,0,0,
+0,0,2,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,2,0,0,
+0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="top" width="10" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,3,4,0,0,
+3,4,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="collision">
+  <object id="1" x="61.25" y="13.125" width="9.375" height="9.125"/>
+  <object id="2" x="12.875" y="36.875" width="10" height="10.375"/>
+  <object id="5" x="6" y="71.625" width="11.25" height="11.25"/>
+  <object id="6" x="24.75" y="85.25" width="10.125" height="9.625"/>
+  <object id="8" x="77.625" y="60" width="12.125" height="10.875"/>
+  <object id="9" x="84.75" y="97.125" width="10.375" height="10"/>
+ </objectgroup>
+</map>
