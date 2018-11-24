@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public class CircularMovementSystem extends EntitySystem {
 
-    private float time = 0;
+    private Map<Entity, Float> timers;
 
     private ImmutableArray<Entity> entities;
     // map of entity to its rotation scheme (true for clockwise, false for counterclockwise)
@@ -36,10 +36,12 @@ public class CircularMovementSystem extends EntitySystem {
     public void addedToEngine(Engine engine) {
         entities = engine.getEntitiesFor(Family.all(EnemyComponent.class, CircularMovementComponent.class,
                 MovementFrequencyComponent.class).get());
+        timers = new HashMap<Entity, Float>();
         rotationDir = new HashMap<Entity, Boolean>();
         lastDir = new HashMap<Entity, Direction>();
 
         for (Entity e : entities) {
+            timers.put(e, 0.f);
             rotationDir.put(e, MathUtils.randomBoolean());
             lastDir.put(e, Direction.Up);
         }
@@ -47,15 +49,14 @@ public class CircularMovementSystem extends EntitySystem {
 
     @Override
     public void update(float dt) {
-        if (time > 1000000) time = 0;
-        time += dt;
-
         for (Entity e : entities) {
+            timers.put(e, timers.get(e) + dt);
+
             VelocityComponent vel = Mapper.VEL_MAPPER.get(e);
             SpeedComponent mag = Mapper.SPEED_MAPPER.get(e);
             MovementFrequencyComponent freq = Mapper.MOVE_FREQ_MAPPER.get(e);
 
-            if (time % freq.frequency <= dt) {
+            if (timers.get(e) > freq.frequency) {
                 vel.dx = vel.dy = 0.f;
                 if (rotationDir.get(e)) {
                     switch (lastDir.get(e)) {
@@ -97,6 +98,7 @@ public class CircularMovementSystem extends EntitySystem {
                             break;
                     }
                 }
+                timers.put(e, timers.get(e) - freq.frequency);
             }
         }
     }

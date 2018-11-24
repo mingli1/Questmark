@@ -3,10 +3,7 @@ package com.questmark.entity.entities;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.questmark.entity.components.*;
-import com.questmark.entity.components.enemy.CircularMovementComponent;
-import com.questmark.entity.components.enemy.EnemyComponent;
-import com.questmark.entity.components.enemy.MovementFrequencyComponent;
-import com.questmark.entity.components.enemy.RandomMovementComponent;
+import com.questmark.entity.components.enemy.*;
 import com.questmark.util.Resources;
 
 /**

@@ -7,28 +7,28 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
 import com.questmark.entity.Mapper;
-import com.questmark.entity.components.enemy.EnemyComponent;
 import com.questmark.entity.components.SpeedComponent;
 import com.questmark.entity.components.VelocityComponent;
+import com.questmark.entity.components.enemy.EnemyComponent;
+import com.questmark.entity.components.enemy.HorizontalMovementComponent;
 import com.questmark.entity.components.enemy.MovementFrequencyComponent;
-import com.questmark.entity.components.enemy.RandomMovementComponent;
-import com.questmark.input.Direction;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * A LibGDX Ashley {@link EntitySystem} that handles the movement of enemies. In this system,
- * enemies move randomly by changing actions (either idle or movement in a random direction)
+ * enemies move back and forth in a horizontal path determined by frequency of direction change.
  *
  * @author Ming Li
  */
-public class RandomMovementSystem extends IteratingSystem {
+public class HorizontalMovementSystem extends IteratingSystem {
 
     private Map<Entity, Float> timers;
 
-    public RandomMovementSystem() {
-        super(Family.all(EnemyComponent.class, RandomMovementComponent.class, MovementFrequencyComponent.class).get());
+    public HorizontalMovementSystem() {
+        super(Family.all(EnemyComponent.class, HorizontalMovementComponent.class,
+                MovementFrequencyComponent.class).get());
     }
 
     @Override
@@ -50,9 +50,12 @@ public class RandomMovementSystem extends IteratingSystem {
 
         // change action every frequency seconds
         if (timers.get(entity) > freq.frequency) {
-            int action = MathUtils.random(4);
-            if (action == 4) vel.dx = vel.dy = 0.f;
-            else vel.move(Direction.getDir(action), mag.speed);
+            if (vel.dx == 0.f) {
+                vel.dx = MathUtils.randomBoolean() ? mag.speed : -mag.speed;
+                return;
+            }
+            if (vel.dx > 0) vel.dx = -mag.speed;
+            else vel.dx = mag.speed;
             timers.put(entity, timers.get(entity) - freq.frequency);
         }
     }
