@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.questmark.entity.entities.Player;
-import com.questmark.entity.entities.Enemy;
 import com.questmark.entity.entities.testenemies.*;
 import com.questmark.entity.systems.*;
 import com.questmark.entity.systems.enemy.*;

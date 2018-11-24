@@ -31,6 +31,9 @@ public final class Mapper {
     public static final ComponentMapper<SpeedComponent> SPEED_MAPPER
             = ComponentMapper.getFor(SpeedComponent.class);
 
+    public static final ComponentMapper<DimensionComponent> SIZE_MAPPER
+            = ComponentMapper.getFor(DimensionComponent.class);
+
     // enemy specific components
 
     public static final ComponentMapper<MovementFrequencyComponent> MOVE_FREQ_MAPPER
