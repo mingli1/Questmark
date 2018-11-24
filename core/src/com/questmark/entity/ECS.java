@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.questmark.entity.entities.Player;
 import com.questmark.entity.entities.Enemy;
+import com.questmark.entity.entities.testenemies.*;
 import com.questmark.entity.systems.*;
 import com.questmark.entity.systems.enemy.*;
 import com.questmark.util.Resources;
@@ -35,8 +36,6 @@ public final class ECS implements Disposable {
 
     // entities
     private Player player;
-    private Enemy enemy;
-    private Enemy enemy2;
 
     public ECS(Batch batch, Resources res) {
         engine = new Engine();
@@ -50,12 +49,13 @@ public final class ECS implements Disposable {
      */
     private void addEntities(Resources res) {
         player = new Player(new Vector2(0, 0), res);
-        enemy = new Enemy(new Vector2(100, 100), res);
-        enemy2 = new Enemy(new Vector2(140, 100), res);
 
         engine.addEntity(player);
-        engine.addEntity(enemy);
-        engine.addEntity(enemy2);
+        engine.addEntity(new Dog(new Vector2(100, 100), res));
+        engine.addEntity(new Cat(new Vector2(20, 100), res));
+        engine.addEntity(new Colonel(new Vector2(200, 200), res));
+        engine.addEntity(new Nil(new Vector2(200, 50), res));
+        engine.addEntity(new Steven(new Vector2(100, 10), res));
     }
 
     /**

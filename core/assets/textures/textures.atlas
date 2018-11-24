@@ -4,9 +4,23 @@ size: 128,32
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+cat
+  rotate: false
+  xy: 56, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 colonel
   rotate: false
   xy: 2, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+dog
+  rotate: false
+  xy: 110, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -18,16 +32,23 @@ luffy
   orig: 16, 16
   offset: 0, 0
   index: -1
-test_enemy
+nil
   rotate: false
   xy: 38, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
+test_enemy
+  rotate: false
+  xy: 74, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 test_player
   rotate: false
-  xy: 56, 2
+  xy: 92, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

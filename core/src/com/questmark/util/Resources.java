@@ -53,6 +53,9 @@ public class Resources implements Disposable {
         single.put("enemy", atlas.findRegion("test_enemy"));
         single.put("colonel", atlas.findRegion("colonel"));
         single.put("luffy", atlas.findRegion("luffy"));
+        single.put("cat", atlas.findRegion("cat"));
+        single.put("dog", atlas.findRegion("dog"));
+        single.put("nil", atlas.findRegion("nil"));
     }
 
     /**
