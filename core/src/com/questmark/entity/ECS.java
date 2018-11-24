@@ -12,6 +12,7 @@ import com.questmark.entity.systems.*;
 import com.questmark.entity.systems.enemy.CircularMovementSystem;
 import com.questmark.entity.systems.enemy.HorizontalMovementSystem;
 import com.questmark.entity.systems.enemy.RandomMovementSystem;
+import com.questmark.entity.systems.enemy.VerticalMovementSystem;
 import com.questmark.util.Resources;
 
 /**
@@ -32,6 +33,7 @@ public final class ECS implements Disposable {
     private RandomMovementSystem randomMovementSystem;
     private CircularMovementSystem circularMovementSystem;
     private HorizontalMovementSystem horizontalMovementSystem;
+    private VerticalMovementSystem verticalMovementSystem;
 
     // entities
     private Player player;
@@ -72,6 +74,7 @@ public final class ECS implements Disposable {
         randomMovementSystem = new RandomMovementSystem();
         circularMovementSystem = new CircularMovementSystem();
         horizontalMovementSystem = new HorizontalMovementSystem();
+        verticalMovementSystem = new VerticalMovementSystem();
 
         addSystem(movementSystem);
         addSystem(tileMapCollisionSystem);
@@ -79,6 +82,7 @@ public final class ECS implements Disposable {
         addSystem(randomMovementSystem);
         addSystem(circularMovementSystem);
         addSystem(horizontalMovementSystem);
+        addSystem(verticalMovementSystem);
         addSystem(renderSystem);
     }
 
