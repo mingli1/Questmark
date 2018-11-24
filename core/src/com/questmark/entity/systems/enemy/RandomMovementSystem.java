@@ -9,27 +9,28 @@ import com.questmark.entity.Mapper;
 import com.questmark.entity.components.enemy.EnemyComponent;
 import com.questmark.entity.components.SpeedComponent;
 import com.questmark.entity.components.VelocityComponent;
+import com.questmark.entity.components.enemy.MovementFrequencyComponent;
+import com.questmark.entity.components.enemy.RandomMovementComponent;
 import com.questmark.input.Direction;
 
 /**
- * A LibGDX Ashley {@link EntitySystem} that handles the movement of enemies. Enemies
- * can have different movement patterns and even follow the player using A* pathfinding.
+ * A LibGDX Ashley {@link EntitySystem} that handles the movement of enemies. In this system,
+ * enemies move randomly by changing actions (either idle or movement in a random direction)
  *
  * @author Ming Li
  */
-public class EnemyMovementSystem extends IteratingSystem {
+public class RandomMovementSystem extends IteratingSystem {
 
     private float time;
-    private static final int CHANGE_ACTION = 2;
 
-    public EnemyMovementSystem() {
-        super(Family.all(EnemyComponent.class).get());
+    public RandomMovementSystem() {
+        super(Family.all(EnemyComponent.class, RandomMovementComponent.class, MovementFrequencyComponent.class).get());
     }
 
     @Override
     public void update(float dt) {
         super.update(dt);
-        if (time > CHANGE_ACTION * 10000) time = 0;
+        if (time > 1000000) time = 0;
         time += dt;
     }
 
@@ -37,9 +38,10 @@ public class EnemyMovementSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float dt) {
         VelocityComponent vel = Mapper.VEL_MAPPER.get(entity);
         SpeedComponent mag = Mapper.SPEED_MAPPER.get(entity);
+        MovementFrequencyComponent freq = Mapper.MOVE_FREQ_MAPPER.get(entity);
 
-        // change action every CHANGE_ACTION seconds
-        if (time % CHANGE_ACTION <= dt) {
+        // change action every frequency seconds
+        if (time % freq.frequency <= dt) {
             int action = MathUtils.random(4);
             if (action == 4) vel.dx = vel.dy = 0.f;
             else vel.move(Direction.getDir(action), mag.speed);

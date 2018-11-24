@@ -9,7 +9,8 @@ import com.badlogic.gdx.utils.Disposable;
 import com.questmark.entity.entities.Player;
 import com.questmark.entity.entities.Enemy;
 import com.questmark.entity.systems.*;
-import com.questmark.entity.systems.enemy.EnemyMovementSystem;
+import com.questmark.entity.systems.enemy.CircularMovementSystem;
+import com.questmark.entity.systems.enemy.RandomMovementSystem;
 import com.questmark.util.Resources;
 
 /**
@@ -27,7 +28,8 @@ public final class ECS implements Disposable {
     private RenderSystem renderSystem;
     private TileMapCollisionSystem tileMapCollisionSystem;
     private EntityCollisionSystem entityCollisionSystem;
-    private EnemyMovementSystem enemyMovementSystem;
+    private RandomMovementSystem randomMovementSystem;
+    private CircularMovementSystem circularMovementSystem;
 
     // entities
     private Player player;
@@ -65,12 +67,14 @@ public final class ECS implements Disposable {
         renderSystem = new RenderSystem(batch);
         tileMapCollisionSystem = new TileMapCollisionSystem();
         entityCollisionSystem = new EntityCollisionSystem();
-        enemyMovementSystem = new EnemyMovementSystem();
+        randomMovementSystem = new RandomMovementSystem();
+        circularMovementSystem = new CircularMovementSystem();
 
         addSystem(movementSystem);
         addSystem(tileMapCollisionSystem);
         addSystem(entityCollisionSystem);
-        addSystem(enemyMovementSystem);
+        addSystem(randomMovementSystem);
+        addSystem(circularMovementSystem);
         addSystem(renderSystem);
     }
 
