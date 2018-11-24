@@ -1,4 +1,4 @@
-package com.questmark.entity.systems;
+package com.questmark.entity.systems.enemy;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
@@ -6,7 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
 import com.questmark.entity.Mapper;
-import com.questmark.entity.components.EnemyComponent;
+import com.questmark.entity.components.enemy.EnemyComponent;
 import com.questmark.entity.components.SpeedComponent;
 import com.questmark.entity.components.VelocityComponent;
 import com.questmark.input.Direction;

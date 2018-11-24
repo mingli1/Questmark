@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.questmark.entity.entities.Player;
 import com.questmark.entity.entities.Enemy;
 import com.questmark.entity.systems.*;
+import com.questmark.entity.systems.enemy.EnemyMovementSystem;
 import com.questmark.util.Resources;
 
 /**

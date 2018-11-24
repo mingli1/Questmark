@@ -1,4 +1,4 @@
-package com.questmark.entity.components;
+package com.questmark.entity.components.enemy;
 
 import com.badlogic.ashley.core.Component;
 
