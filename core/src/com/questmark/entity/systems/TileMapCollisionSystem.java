@@ -40,8 +40,8 @@ public class TileMapCollisionSystem extends IteratingSystem {
         boundingBox.bounds.setPosition(position.getPos());
 
         // check for going outside of map
-        if (position.x < 0 || position.x > mapWidth * (tileSize - 1)
-                || position.y < 0 || position.y > mapHeight * (tileSize - 1))  {
+        if (position.x < 0 || position.x > (mapWidth - 1) * tileSize
+                || position.y < 0 || position.y > (mapHeight - 1) * tileSize)  {
             velocity.dx = 0.f;
             velocity.dy = 0.f;
             position.x = prevPosition.x;
