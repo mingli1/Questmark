@@ -22,6 +22,9 @@ public class TileMapCollisionSystem extends IteratingSystem {
 
     // tile map bounding boxes
     private Array<Rectangle> boundingBoxes;
+    private int mapWidth;
+    private int mapHeight;
+    private int tileSize;
 
     public TileMapCollisionSystem() {
         super(Family.all(BoundingBoxComponent.class, PositionComponent.class,
@@ -36,6 +39,15 @@ public class TileMapCollisionSystem extends IteratingSystem {
         PreviousPositionComponent prevPosition = Mapper.PREV_POS_MAPPER.get(entity);
         boundingBox.bounds.setPosition(position.getPos());
 
+        // check for going outside of map
+        if (position.x < 0 || position.x > mapWidth * (tileSize - 1)
+                || position.y < 0 || position.y > mapHeight * (tileSize - 1))  {
+            velocity.dx = 0.f;
+            velocity.dy = 0.f;
+            position.x = prevPosition.x;
+            position.y = prevPosition.y;
+        }
+
         for (Rectangle mapBounds : boundingBoxes) {
             if (boundingBox.bounds.overlaps(mapBounds)) {
                 velocity.dx = 0.f;
@@ -47,11 +59,17 @@ public class TileMapCollisionSystem extends IteratingSystem {
     }
 
     /**
-     * Updates the list of bounding boxes for the tiled map for each new map loading.
+     * Updates the collision system with map data.
      *
+     * @param mapWidth
+     * @param mapHeight
+     * @param tileSize
      * @param boundingBoxes
      */
-    public void setBoundingBoxes(Array<Rectangle> boundingBoxes) {
+    public void setMapData(int mapWidth, int mapHeight, int tileSize, Array<Rectangle> boundingBoxes) {
+        this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
+        this.tileSize = tileSize;
         this.boundingBoxes = boundingBoxes;
     }
 

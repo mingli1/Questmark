@@ -47,7 +47,8 @@ public class GameScreen extends AbstractScreen {
         Gdx.input.setInputProcessor(input);
         // load map on show
         tileMapManager.load("test");
-        ecs.getSystem(TileMapCollisionSystem.class).setBoundingBoxes(tileMapManager.getCollisionBoxes());
+        ecs.getSystem(TileMapCollisionSystem.class).setMapData(tileMapManager.getMapWidth(),
+                tileMapManager.getMapHeight(), tileMapManager.getTileSize(), tileMapManager.getCollisionBoxes());
     }
 
     @Override
