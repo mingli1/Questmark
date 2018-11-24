@@ -21,7 +21,7 @@ public class Enemy extends Entity {
         this.add(new VelocityComponent(0, 0));
         this.add(new SpeedComponent(15.f));
         this.add(new BoundingBoxComponent(12, 16));
-        this.add(new VerticalMovementComponent());
+        this.add(new NaiveFollowMovementComponent());
         this.add(new MovementFrequencyComponent(0.8f));
     }
 

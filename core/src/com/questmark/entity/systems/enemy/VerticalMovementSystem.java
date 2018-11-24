@@ -2,6 +2,7 @@ package com.questmark.entity.systems.enemy;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
@@ -15,6 +16,12 @@ import com.questmark.entity.components.enemy.VerticalMovementComponent;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A LibGDX Ashley {@link EntitySystem} that handles the movement of enemies. In this system,
+ * enemies move back and forth in a vertical path determined by frequency of direction change.
+ *
+ * @author Ming Li
+ */
 public class VerticalMovementSystem extends IteratingSystem {
 
     private Map<Entity, Float> timers;
