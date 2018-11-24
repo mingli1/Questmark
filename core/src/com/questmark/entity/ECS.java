@@ -26,6 +26,7 @@ public final class ECS implements Disposable {
     private RenderSystem renderSystem;
     private TileMapCollisionSystem tileMapCollisionSystem;
     private EntityCollisionSystem entityCollisionSystem;
+    private EnemyMovementSystem enemyMovementSystem;
 
     // entities
     private Player player;
@@ -63,10 +64,12 @@ public final class ECS implements Disposable {
         renderSystem = new RenderSystem(batch);
         tileMapCollisionSystem = new TileMapCollisionSystem();
         entityCollisionSystem = new EntityCollisionSystem();
+        enemyMovementSystem = new EnemyMovementSystem();
 
         addSystem(movementSystem);
         addSystem(tileMapCollisionSystem);
         addSystem(entityCollisionSystem);
+        addSystem(enemyMovementSystem);
         addSystem(renderSystem);
     }
 
