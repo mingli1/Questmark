@@ -12,7 +12,10 @@ public class SpeedComponent implements Component {
 
     public float speed;
 
-    public SpeedComponent(float speed) {
+    public SpeedComponent(float speed) throws IllegalArgumentException {
+        if (speed < 0) {
+            throw new IllegalArgumentException("Speed cannot be negative");
+        }
         this.speed = speed;
     }
 
