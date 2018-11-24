@@ -24,7 +24,7 @@ public class EnemyMovementSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float dt) {
-        
+
     }
 
 }

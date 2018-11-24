@@ -30,20 +30,7 @@ public class KeyInputSystem extends EntitySystem implements KeyInputHandler {
     public void move(Direction direction) {
         VelocityComponent velocity = Mapper.VEL_MAPPER.get(player);
         SpeedComponent speed = Mapper.SPEED_MAPPER.get(player);
-        switch (direction) {
-            case Up:
-                velocity.dy = speed.speed;
-                break;
-            case Down:
-                velocity.dy = -speed.speed;
-                break;
-            case Left:
-                velocity.dx = -speed.speed;
-                break;
-            case Right:
-                velocity.dx = speed.speed;
-                break;
-        }
+        velocity.move(direction, speed.speed);
     }
 
     @Override
