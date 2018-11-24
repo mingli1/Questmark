@@ -108,7 +108,7 @@ gradle-app.setting
 /html/build/
 /ios/build/
 /ios-moe/build/
-**/out
+out/
 
 ## OS Specific
 .DS_Store
