@@ -21,7 +21,7 @@ public final class ECS implements Disposable {
 
     private Engine engine;
 
-    // default systems that are inherent with entites
+    // default systems that are inherent with entities
     private MovementSystem movementSystem;
     private RenderSystem renderSystem;
     private TileMapCollisionSystem tileMapCollisionSystem;
@@ -36,14 +36,14 @@ public final class ECS implements Disposable {
     public ECS(Batch batch, Resources res) {
         engine = new Engine();
 
-        this.addEntites(res);
+        this.addEntities(res);
         this.addSystems(batch, res);
     }
 
     /**
      * Initializes and adds all entities to the engine.
      */
-    private void addEntites(Resources res) {
+    private void addEntities(Resources res) {
         player = new Player(new Vector2(0, 0), res);
         enemy = new Enemy(new Vector2(100, 100), res);
         enemy2 = new Enemy(new Vector2(140, 100), res);
