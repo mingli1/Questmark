@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.questmark.entity.entities.Player;
+import com.questmark.entity.entities.Enemy;
 import com.questmark.entity.systems.*;
 import com.questmark.util.Resources;
 
@@ -24,9 +25,12 @@ public final class ECS implements Disposable {
     private MovementSystem movementSystem;
     private RenderSystem renderSystem;
     private TileMapCollisionSystem tileMapCollisionSystem;
+    private EntityCollisionSystem entityCollisionSystem;
 
     // entities
     private Player player;
+    private Enemy enemy;
+    private Enemy enemy2;
 
     public ECS(Batch batch, Resources res) {
         engine = new Engine();
@@ -40,8 +44,12 @@ public final class ECS implements Disposable {
      */
     private void addEntites(Resources res) {
         player = new Player(new Vector2(0, 0), res);
+        enemy = new Enemy(new Vector2(100, 100), res);
+        enemy2 = new Enemy(new Vector2(140, 100), res);
 
         engine.addEntity(player);
+        engine.addEntity(enemy);
+        engine.addEntity(enemy2);
     }
 
     /**
@@ -54,9 +62,11 @@ public final class ECS implements Disposable {
         movementSystem = new MovementSystem();
         renderSystem = new RenderSystem(batch);
         tileMapCollisionSystem = new TileMapCollisionSystem();
+        entityCollisionSystem = new EntityCollisionSystem();
 
         addSystem(movementSystem);
         addSystem(tileMapCollisionSystem);
+        addSystem(entityCollisionSystem);
         addSystem(renderSystem);
     }
 
