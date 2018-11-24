@@ -51,6 +51,8 @@ public class Resources implements Disposable {
         // mapping textures
         single.put("player", atlas.findRegion("test_player"));
         single.put("enemy", atlas.findRegion("test_enemy"));
+        single.put("colonel", atlas.findRegion("colonel"));
+        single.put("luffy", atlas.findRegion("luffy"));
     }
 
     /**

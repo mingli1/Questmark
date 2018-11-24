@@ -14,7 +14,7 @@ public class Enemy extends Entity {
 
     public Enemy(Vector2 position, Resources res) {
         this.add(new EnemyComponent());
-        this.add(new TextureComponent(res.getSingleTexture("enemy")));
+        this.add(new TextureComponent(res.getSingleTexture("colonel")));
         this.add(new PositionComponent(position));
         this.add(new PreviousPositionComponent(position));
         this.add(new VelocityComponent(0, 0));

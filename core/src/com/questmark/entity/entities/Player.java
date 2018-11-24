@@ -20,7 +20,7 @@ public final class Player extends Entity {
 
     public Player(Vector2 position, Resources res) {
         this.add(new PlayerComponent());
-        this.add(new TextureComponent(res.getSingleTexture("player")));
+        this.add(new TextureComponent(res.getSingleTexture("luffy")));
         this.add(new PositionComponent(position));
         this.add(new PreviousPositionComponent(position));
         this.add(new VelocityComponent(0, 0));
