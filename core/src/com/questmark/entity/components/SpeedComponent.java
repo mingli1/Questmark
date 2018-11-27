@@ -8,7 +8,7 @@ import com.badlogic.ashley.core.Component;
  *
  * @author Ming Li
  */
-public class SpeedComponent implements Component {
+public final class SpeedComponent implements Component {
 
     public float speed;
 

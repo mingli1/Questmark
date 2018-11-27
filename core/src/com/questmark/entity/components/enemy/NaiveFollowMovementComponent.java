@@ -8,5 +8,5 @@ import com.badlogic.ashley.core.Component;
  *
  * @author Ming Li
  */
-public class NaiveFollowMovementComponent implements Component {
+public final class NaiveFollowMovementComponent implements Component {
 }

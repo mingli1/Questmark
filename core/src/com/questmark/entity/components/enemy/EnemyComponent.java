@@ -7,5 +7,5 @@ import com.badlogic.ashley.core.Component;
  *
  * @author Ming Li
  */
-public class EnemyComponent implements Component {
+public final class EnemyComponent implements Component {
 }

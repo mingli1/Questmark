@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
  *
  * @author Ming Li
  */
-public class BoundingBoxComponent implements Component {
+public final class BoundingBoxComponent implements Component {
 
     public Rectangle bounds;
 

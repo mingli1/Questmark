@@ -8,5 +8,5 @@ import com.badlogic.ashley.core.Component;
  *
  * @author Ming Li
  */
-public class CircularMovementComponent implements Component {
+public final class CircularMovementComponent implements Component {
 }

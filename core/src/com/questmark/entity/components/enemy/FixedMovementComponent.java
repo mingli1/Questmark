@@ -7,5 +7,5 @@ import com.badlogic.ashley.core.Component;
  *
  * @author Ming Li
  */
-public class FixedMovementComponent implements Component {
+public final class FixedMovementComponent implements Component {
 }

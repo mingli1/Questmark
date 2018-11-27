@@ -5,7 +5,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.questmark.entity.components.*;
 import com.questmark.entity.components.enemy.EnemyComponent;
-import com.questmark.entity.components.enemy.NaiveFollowMovementComponent;
+import com.questmark.entity.components.enemy.MovementDistanceComponent;
+import com.questmark.entity.components.enemy.VerticalMovementComponent;
 import com.questmark.util.Resources;
 
 public class Dog extends Entity {
@@ -20,7 +21,8 @@ public class Dog extends Entity {
         this.add(new VelocityComponent(0, 0));
         this.add(new SpeedComponent(10.f));
         this.add(new BoundingBoxComponent(12, 12));
-        this.add(new NaiveFollowMovementComponent());
+        this.add(new MovementDistanceComponent(50.f));
+        this.add(new VerticalMovementComponent());
     }
 
 }

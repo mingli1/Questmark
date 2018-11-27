@@ -9,7 +9,7 @@ import com.badlogic.ashley.core.Component;
  *
  * @author Ming Li
  */
-public class AggressionRangeComponent implements Component {
+public final class AggressionRangeComponent implements Component {
 
     public float range;
 

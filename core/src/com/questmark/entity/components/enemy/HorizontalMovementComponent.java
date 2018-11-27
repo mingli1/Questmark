@@ -8,5 +8,5 @@ import com.badlogic.ashley.core.Component;
  *
  * @author Ming Li
  */
-public class HorizontalMovementComponent implements Component {
+public final class HorizontalMovementComponent implements Component {
 }

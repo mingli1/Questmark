@@ -7,7 +7,7 @@ import com.badlogic.ashley.core.Component;
  *
  * @author Ming Li
  */
-public class DimensionComponent implements Component {
+public final class DimensionComponent implements Component {
 
     public int width;
     public int height;

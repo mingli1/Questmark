@@ -51,10 +51,10 @@ public final class ECS implements Disposable {
 
         engine.addEntity(player);
         engine.addEntity(new Dog(new Vector2(100, 100), res));
-        engine.addEntity(new Cat(new Vector2(20, 100), res));
-        engine.addEntity(new Colonel(new Vector2(200, 200), res));
-        engine.addEntity(new Nil(new Vector2(200, 50), res));
-        engine.addEntity(new Steven(new Vector2(100, 10), res));
+        //engine.addEntity(new Cat(new Vector2(20, 100), res));
+        //engine.addEntity(new Colonel(new Vector2(200, 200), res));
+        //engine.addEntity(new Nil(new Vector2(200, 50), res));
+        //engine.addEntity(new Steven(new Vector2(100, 10), res));
     }
 
     /**

@@ -8,5 +8,5 @@ import com.badlogic.ashley.core.Component;
  *
  * @author Ming Li
  */
-public class AggressionComponent implements Component {
+public final class AggressionComponent implements Component {
 }
