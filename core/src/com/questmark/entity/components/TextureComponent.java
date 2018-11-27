@@ -12,7 +12,10 @@ public final class TextureComponent implements Component {
 
     public TextureRegion texture;
 
-    public TextureComponent(TextureRegion texture) {
+    public TextureComponent(TextureRegion texture) throws IllegalArgumentException {
+        if (texture == null) {
+            throw new IllegalArgumentException("Texture cannot be null");
+        }
         this.texture = texture;
     }
 

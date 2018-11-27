@@ -2,6 +2,7 @@ package com.questmark.entity.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
+import com.questmark.input.Direction;
 
 /**
  * Represents the velocity of an entity in (dx,dy) as speed in either dimension.
@@ -30,6 +31,29 @@ public final class VelocityComponent implements Component {
 
     public Vector2 getVel() {
         return new Vector2(dx, dy);
+    }
+
+    /**
+     * Sets velocity given an direction and magnitude.
+     *
+     * @param dir direction of movement
+     * @param mag magnitude of movement
+     */
+    public void move(Direction dir, float mag) {
+        switch (dir) {
+            case Up:
+                dy = mag;
+                break;
+            case Down:
+                dy = -mag;
+                break;
+            case Left:
+                dx = -mag;
+                break;
+            case Right:
+                dx = mag;
+                break;
+        }
     }
 
 }

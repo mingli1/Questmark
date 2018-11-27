@@ -22,4 +22,11 @@ public enum Direction {
         return dir;
     }
 
+    public static Direction getDir(int dir) {
+        for (Direction d : Direction.values()) {
+            if (d.toNumeric() == dir) return d;
+        }
+        return null;
+    }
+
 }

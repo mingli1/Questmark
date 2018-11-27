@@ -7,5 +7,5 @@ import com.badlogic.ashley.core.Component;
  *
  * @author Ming Li
  */
-public class PlayerComponent implements Component {
+public final class PlayerComponent implements Component {
 }

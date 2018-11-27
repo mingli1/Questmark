@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
  *
  * @author Ming Li
  */
-public class PreviousPositionComponent implements Component {
+public final class PreviousPositionComponent implements Component {
 
     public float x;
     public float y;

@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.questmark.entity.entities.Player;
 import com.questmark.entity.systems.*;
+import com.questmark.entity.systems.enemy.*;
 import com.questmark.util.Resources;
 
 /**
@@ -20,10 +21,16 @@ public final class ECS implements Disposable {
 
     private Engine engine;
 
-    // default systems that are inherent with entites
+    // default systems that are inherent with entities
     private MovementSystem movementSystem;
     private RenderSystem renderSystem;
     private TileMapCollisionSystem tileMapCollisionSystem;
+    private EntityCollisionSystem entityCollisionSystem;
+    private RandomMovementSystem randomMovementSystem;
+    private CircularMovementSystem circularMovementSystem;
+    private HorizontalMovementSystem horizontalMovementSystem;
+    private VerticalMovementSystem verticalMovementSystem;
+    private NaiveFollowMovementSystem naiveFollowMovementSystem;
 
     // entities
     private Player player;
@@ -31,14 +38,14 @@ public final class ECS implements Disposable {
     public ECS(Batch batch, Resources res) {
         engine = new Engine();
 
-        this.addEntites(res);
+        this.addEntities(res);
         this.addSystems(batch, res);
     }
 
     /**
      * Initializes and adds all entities to the engine.
      */
-    private void addEntites(Resources res) {
+    private void addEntities(Resources res) {
         player = new Player(new Vector2(0, 0), res);
 
         engine.addEntity(player);
@@ -54,10 +61,22 @@ public final class ECS implements Disposable {
         movementSystem = new MovementSystem();
         renderSystem = new RenderSystem(batch);
         tileMapCollisionSystem = new TileMapCollisionSystem();
+        entityCollisionSystem = new EntityCollisionSystem();
+        randomMovementSystem = new RandomMovementSystem();
+        circularMovementSystem = new CircularMovementSystem();
+        horizontalMovementSystem = new HorizontalMovementSystem();
+        verticalMovementSystem = new VerticalMovementSystem();
+        naiveFollowMovementSystem = new NaiveFollowMovementSystem();
 
-        engine.addSystem(movementSystem);
-        engine.addSystem(tileMapCollisionSystem);
-        engine.addSystem(renderSystem);
+        addSystem(movementSystem);
+        addSystem(tileMapCollisionSystem);
+        addSystem(entityCollisionSystem);
+        addSystem(randomMovementSystem);
+        addSystem(circularMovementSystem);
+        addSystem(horizontalMovementSystem);
+        addSystem(verticalMovementSystem);
+        addSystem(naiveFollowMovementSystem);
+        addSystem(renderSystem);
     }
 
     public void update(float dt) {
@@ -85,6 +104,15 @@ public final class ECS implements Disposable {
      */
     public <T extends EntitySystem> T getSystem(Class<T> system) {
         return engine.getSystem(system);
+    }
+
+    /**
+     * Returns the universal player instance.
+     *
+     * @return
+     */
+    public Player getPlayer() {
+        return player;
     }
 
 }

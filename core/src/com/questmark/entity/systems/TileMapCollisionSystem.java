@@ -7,10 +7,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.questmark.entity.Mapper;
-import com.questmark.entity.components.BoundingBoxComponent;
-import com.questmark.entity.components.PositionComponent;
-import com.questmark.entity.components.PreviousPositionComponent;
-import com.questmark.entity.components.VelocityComponent;
+import com.questmark.entity.components.*;
 
 /**
  * A LibGDX Ashley {@link EntitySystem} that handles the collision between entities
@@ -22,6 +19,9 @@ public class TileMapCollisionSystem extends IteratingSystem {
 
     // tile map bounding boxes
     private Array<Rectangle> boundingBoxes;
+    private int mapWidth;
+    private int mapHeight;
+    private int tileSize;
 
     public TileMapCollisionSystem() {
         super(Family.all(BoundingBoxComponent.class, PositionComponent.class,
@@ -33,8 +33,19 @@ public class TileMapCollisionSystem extends IteratingSystem {
         BoundingBoxComponent boundingBox = Mapper.BOUNDING_BOX_MAPPER.get(entity);
         PositionComponent position = Mapper.POS_MAPPER.get(entity);
         VelocityComponent velocity = Mapper.VEL_MAPPER.get(entity);
+        DimensionComponent size = Mapper.SIZE_MAPPER.get(entity);
         PreviousPositionComponent prevPosition = Mapper.PREV_POS_MAPPER.get(entity);
-        boundingBox.bounds.setPosition(position.getPos());
+        boundingBox.bounds.setPosition(position.x + (size.width - boundingBox.bounds.width) / 2,
+                position.y + (size.height - boundingBox.bounds.height) / 2);
+
+        // check for going outside of map
+        if (position.x < 0 || position.x > (mapWidth - 1) * tileSize
+                || position.y < 0 || position.y > (mapHeight - 1) * tileSize)  {
+            velocity.dx = 0.f;
+            velocity.dy = 0.f;
+            position.x = prevPosition.x;
+            position.y = prevPosition.y;
+        }
 
         for (Rectangle mapBounds : boundingBoxes) {
             if (boundingBox.bounds.overlaps(mapBounds)) {
@@ -47,11 +58,17 @@ public class TileMapCollisionSystem extends IteratingSystem {
     }
 
     /**
-     * Updates the list of bounding boxes for the tiled map for each new map loading.
+     * Updates the collision system with map data.
      *
+     * @param mapWidth
+     * @param mapHeight
+     * @param tileSize
      * @param boundingBoxes
      */
-    public void setBoundingBoxes(Array<Rectangle> boundingBoxes) {
+    public void setMapData(int mapWidth, int mapHeight, int tileSize, Array<Rectangle> boundingBoxes) {
+        this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
+        this.tileSize = tileSize;
         this.boundingBoxes = boundingBoxes;
     }
 
