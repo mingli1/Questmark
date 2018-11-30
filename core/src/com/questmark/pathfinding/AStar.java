@@ -34,13 +34,14 @@ public final class AStar {
     /**
      * Returns a list of {@link Node} representing the A* path from a given start position to
      * a given target position, considering a list of bounding boxes to avoid.
+     * Uses Euclidean heuristic function
      *
      * @param start the start position
      * @param target the target position
      * @return an A* path
      */
     public Array<Node> findPath(Vector2 start, Vector2 target) {
-        return null;
+        return findPath(start, target, 0);
     }
 
     /**
