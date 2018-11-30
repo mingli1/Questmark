@@ -43,7 +43,6 @@ public class EntityCollisionSystem extends EntitySystem implements CollisionSyst
             BoundingBoxComponent bb = Mapper.BOUNDING_BOX_MAPPER.get(e);
             PositionComponent p = Mapper.POS_MAPPER.get(e);
             VelocityComponent v = Mapper.VEL_MAPPER.get(e);
-            DimensionComponent d = Mapper.SIZE_MAPPER.get(e);
             PreviousPositionComponent pp = Mapper.PREV_POS_MAPPER.get(e);
 
             collisions.clear();

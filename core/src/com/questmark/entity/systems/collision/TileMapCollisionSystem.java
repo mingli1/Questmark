@@ -22,7 +22,6 @@ public class TileMapCollisionSystem extends IteratingSystem implements Collision
     private Array<Rectangle> collisions;
 
     // tile map bounding boxes
-    private Array<Rectangle> boundingBoxes;
     private int mapWidth;
     private int mapHeight;
     private int tileSize;
@@ -70,7 +69,6 @@ public class TileMapCollisionSystem extends IteratingSystem implements Collision
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
         this.tileSize = tileSize;
-        this.boundingBoxes = boundingBoxes;
 
         quadTree = new QuadTree(0, new Rectangle(0, 0, mapWidth * tileSize, mapHeight * tileSize));
         // insert into quadtree only once in this instance because map bounding boxes don't change
