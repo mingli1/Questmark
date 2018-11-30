@@ -7,7 +7,6 @@ import com.questmark.entity.Mapper;
 import com.questmark.entity.components.PositionComponent;
 import com.questmark.entity.entities.Player;
 import com.questmark.entity.systems.KeyInputSystem;
-import com.questmark.entity.systems.TileMapCollisionSystem;
 import com.questmark.game.Questmark;
 import com.questmark.input.KeyInput;
 import com.questmark.map.TileMapManager;
@@ -47,7 +46,7 @@ public class GameScreen extends AbstractScreen {
         Gdx.input.setInputProcessor(input);
         // load map on show
         tileMapManager.load("test");
-        ecs.getSystem(TileMapCollisionSystem.class).setMapData(tileMapManager.getMapWidth(),
+        ecs.updateCollisionSystems(tileMapManager.getMapWidth(),
                 tileMapManager.getMapHeight(), tileMapManager.getTileSize(), tileMapManager.getCollisionBoxes());
     }
 

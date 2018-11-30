@@ -1,4 +1,4 @@
-package com.questmark.entity.systems;
+package com.questmark.entity.systems.collision;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
@@ -16,7 +16,7 @@ import com.questmark.entity.components.*;
  *
  * @author Ming Li
  */
-public class TileMapCollisionSystem extends IteratingSystem {
+public class TileMapCollisionSystem extends IteratingSystem implements CollisionSystem {
 
     private QuadTree quadTree;
     private Array<Rectangle> collisions;
@@ -65,14 +65,7 @@ public class TileMapCollisionSystem extends IteratingSystem {
         }
     }
 
-    /**
-     * Updates the collision system with map data.
-     *
-     * @param mapWidth
-     * @param mapHeight
-     * @param tileSize
-     * @param boundingBoxes
-     */
+    @Override
     public void setMapData(int mapWidth, int mapHeight, int tileSize, Array<Rectangle> boundingBoxes) {
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;

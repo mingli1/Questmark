@@ -4,10 +4,13 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.questmark.entity.entities.Player;
 import com.questmark.entity.systems.*;
+import com.questmark.entity.systems.collision.*;
 import com.questmark.entity.systems.enemy.*;
 import com.questmark.util.Resources;
 
@@ -124,6 +127,19 @@ public final class ECS implements Disposable {
      */
     public Player getPlayer() {
         return player;
+    }
+
+    /**
+     * Updates {@link com.questmark.entity.systems.collision.CollisionSystem} systems with tile map data.
+     *
+     * @param mapWidth
+     * @param mapHeight
+     * @param tileSize
+     * @param boundingBoxes
+     */
+    public void updateCollisionSystems(int mapWidth, int mapHeight, int tileSize, Array<Rectangle> boundingBoxes) {
+        tileMapCollisionSystem.setMapData(mapWidth, mapHeight, tileSize, boundingBoxes);
+        entityCollisionSystem.setMapData(mapWidth, mapHeight, tileSize, boundingBoxes);
     }
 
 }
