@@ -12,8 +12,8 @@ import com.badlogic.gdx.utils.Array;
  */
 public class QuadTree {
 
-    private static final int MAX_BOXES_PER_LEVEL = 20;
-    private static final int MAX_LEVELS = 5;
+    private static final int MAX_BOXES_PER_LEVEL = 8;
+    private static final int MAX_LEVELS = 4;
 
     // Region quadrants
     private static final int QUADRANT_II = 0;

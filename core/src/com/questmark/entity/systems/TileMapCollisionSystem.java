@@ -7,6 +7,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.questmark.entity.Mapper;
+import com.questmark.entity.QuadTree;
 import com.questmark.entity.components.*;
 
 /**
@@ -17,6 +18,9 @@ import com.questmark.entity.components.*;
  */
 public class TileMapCollisionSystem extends IteratingSystem {
 
+    private QuadTree quadTree;
+    private Array<Rectangle> collisions;
+
     // tile map bounding boxes
     private Array<Rectangle> boundingBoxes;
     private int mapWidth;
@@ -26,6 +30,7 @@ public class TileMapCollisionSystem extends IteratingSystem {
     public TileMapCollisionSystem() {
         super(Family.all(BoundingBoxComponent.class, PositionComponent.class,
                 VelocityComponent.class, PreviousPositionComponent.class).get());
+        collisions = new Array<Rectangle>();
     }
 
     @Override
@@ -47,8 +52,11 @@ public class TileMapCollisionSystem extends IteratingSystem {
             position.y = prevPosition.y;
         }
 
-        for (Rectangle mapBounds : boundingBoxes) {
-            if (boundingBox.bounds.overlaps(mapBounds)) {
+        collisions.clear();
+        quadTree.retrieve(collisions, boundingBox.bounds);
+
+        for (Rectangle bounds : collisions) {
+            if (boundingBox.bounds.overlaps(bounds)) {
                 velocity.dx = 0.f;
                 velocity.dy = 0.f;
                 position.x = prevPosition.x;
@@ -70,6 +78,14 @@ public class TileMapCollisionSystem extends IteratingSystem {
         this.mapHeight = mapHeight;
         this.tileSize = tileSize;
         this.boundingBoxes = boundingBoxes;
+
+        quadTree = new QuadTree(0, new Rectangle(0, 0, mapWidth * tileSize, mapHeight * tileSize));
+        // insert into quadtree only once in this instance because map bounding boxes don't change
+        // currently. but if we decide map objects can move in the future (moving tiles) then it
+        // will have to be inserted every update call
+        for (Rectangle bounds : boundingBoxes) {
+            quadTree.insert(bounds);
+        }
     }
 
 }

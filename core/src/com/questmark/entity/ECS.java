@@ -107,6 +107,17 @@ public final class ECS implements Disposable {
     }
 
     /**
+     * Toggles a given {@link EntitySystem} on or off.
+     *
+     * @param system the given entity system
+     * @param toggle toggle on or off
+     * @param <T>
+     */
+    public <T extends EntitySystem> void toggleProcessing(Class<T> system, boolean toggle) {
+        engine.getSystem(system).setProcessing(toggle);
+    }
+
+    /**
      * Returns the universal player instance.
      *
      * @return
