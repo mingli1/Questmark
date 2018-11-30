@@ -1,4 +1,4 @@
-package com.questmark.entity.systems;
+package com.questmark.entity.systems.collision;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
@@ -7,6 +7,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.questmark.entity.Mapper;
+import com.questmark.entity.QuadTree;
 import com.questmark.entity.components.*;
 
 /**
@@ -15,10 +16,12 @@ import com.questmark.entity.components.*;
  *
  * @author Ming Li
  */
-public class TileMapCollisionSystem extends IteratingSystem {
+public class TileMapCollisionSystem extends IteratingSystem implements CollisionSystem {
+
+    private QuadTree quadTree;
+    private Array<Rectangle> collisions;
 
     // tile map bounding boxes
-    private Array<Rectangle> boundingBoxes;
     private int mapWidth;
     private int mapHeight;
     private int tileSize;
@@ -26,6 +29,7 @@ public class TileMapCollisionSystem extends IteratingSystem {
     public TileMapCollisionSystem() {
         super(Family.all(BoundingBoxComponent.class, PositionComponent.class,
                 VelocityComponent.class, PreviousPositionComponent.class).get());
+        collisions = new Array<Rectangle>();
     }
 
     @Override
@@ -47,8 +51,11 @@ public class TileMapCollisionSystem extends IteratingSystem {
             position.y = prevPosition.y;
         }
 
-        for (Rectangle mapBounds : boundingBoxes) {
-            if (boundingBox.bounds.overlaps(mapBounds)) {
+        collisions.clear();
+        quadTree.retrieve(collisions, boundingBox.bounds);
+
+        for (Rectangle bounds : collisions) {
+            if (boundingBox.bounds.overlaps(bounds)) {
                 velocity.dx = 0.f;
                 velocity.dy = 0.f;
                 position.x = prevPosition.x;
@@ -57,19 +64,19 @@ public class TileMapCollisionSystem extends IteratingSystem {
         }
     }
 
-    /**
-     * Updates the collision system with map data.
-     *
-     * @param mapWidth
-     * @param mapHeight
-     * @param tileSize
-     * @param boundingBoxes
-     */
+    @Override
     public void setMapData(int mapWidth, int mapHeight, int tileSize, Array<Rectangle> boundingBoxes) {
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
         this.tileSize = tileSize;
-        this.boundingBoxes = boundingBoxes;
+
+        quadTree = new QuadTree(0, new Rectangle(0, 0, mapWidth * tileSize, mapHeight * tileSize));
+        // insert into quadtree only once in this instance because map bounding boxes don't change
+        // currently. but if we decide map objects can move in the future (moving tiles) then it
+        // will have to be inserted every update call
+        for (Rectangle bounds : boundingBoxes) {
+            quadTree.insert(bounds);
+        }
     }
 
 }
