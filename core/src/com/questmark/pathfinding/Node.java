@@ -3,6 +3,8 @@ package com.questmark.pathfinding;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.BinaryHeap;
 
+import java.util.Objects;
+
 /**
  * Represents a node on a graph for A* search. Stores f, g, and h scores such that
  * f = g + h represents the estimated cost for a particular path to the target.
@@ -38,6 +40,19 @@ public class Node extends BinaryHeap.Node {
         this.gScore = gScore;
         this.hScore = hScore;
         this.fScore = gScore + hScore;
+    }
+
+    @Override
+    public boolean equals(Object node) {
+        if (!(node instanceof Node)) return false;
+        Node n = (Node) node;
+        return this.position.equals(n.position) && this.parent.equals(n.parent) &&
+                this.fScore == n.fScore && this.gScore == n.gScore && this.hScore == n.hScore;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fScore, gScore, hScore, position, parent);
     }
 
 }
