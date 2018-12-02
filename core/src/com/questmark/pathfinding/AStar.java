@@ -121,11 +121,14 @@ public final class AStar {
 
                 collisions.clear();
                 quadTree.retrieve(collisions, currBounds);
+                boolean invalid = false;
                 for (Rectangle bounds : collisions) {
                     if (currBounds.overlaps(bounds)) {
-                        continue;
+                        invalid = true;
+                        break;
                     }
                 }
+                if (invalid) continue;
 
                 float gScore = curr.gScore + getHeuristic(curr.position, tempTarget, heuristic);
                 float hScore = getHeuristic(tempTarget, target, heuristic);
