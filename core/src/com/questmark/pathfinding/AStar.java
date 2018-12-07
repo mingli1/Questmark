@@ -68,11 +68,10 @@ public final class AStar {
      *
      * @param start the start position as the center of the tile the player's position is currently on
      * @param target the target position
-     * @param epsilon margin of error between current position and target
      * @return an A* path
      */
-    public Array<Node> findPath(Vector2 start, Vector2 target, float epsilon) {
-        return findPath(start, target, 0, epsilon);
+    public Array<Node> findPath(Vector2 start, Vector2 target) {
+        return findPath(start, target, 0);
     }
 
     /**
@@ -84,10 +83,9 @@ public final class AStar {
      * @param start the start position of the tile the player's position is currently on
      * @param target the target position
      * @param heuristic an int representing a heuristic function as documented above
-     * @param epsilon margin of error between current position and target
      * @return an A* path and null if there is no path
      */
-    public Array<Node> findPath(Vector2 start, Vector2 target, int heuristic, float epsilon) {
+    public Array<Node> findPath(Vector2 start, Vector2 target, int heuristic) {
         openHeap.clear();
         openSet.clear();
         closedSet.clear();
@@ -101,7 +99,10 @@ public final class AStar {
         while (openHeap.size > 0) {
             Node curr = openHeap.pop();
             openSet.remove(curr.position);
-            if (curr.position.epsilonEquals(target, epsilon)) {
+            int tx = ((int) target.x / tileSize) * tileSize;
+            int ty = ((int) target.y / tileSize) * tileSize;
+            if (curr.position.x >= tx && curr.position.x <= tx + tileSize &&
+                    curr.position.y >= ty && curr.position.y <= ty + tileSize) {
                 while (curr.parent != null) {
                     path.add(curr);
                     curr = curr.parent;
@@ -112,8 +113,8 @@ public final class AStar {
             // process current node's 8 successors
             for (int i = 0; i < 9; i++) {
                 if (i == 4) continue;
-                float x = curr.position.x + ((i % 3) - 1) * tileSize;
-                float y = curr.position.y + ((i / 3) - 1) * tileSize;
+                float x = ((int) (curr.position.x + ((i % 3) - 1) * tileSize) / tileSize) * tileSize;
+                float y = ((int) (curr.position.y + ((i / 3) - 1) * tileSize) / tileSize) * tileSize;
                 currBounds.setPosition(x, y);
                 tempTarget.set(x, y);
 
