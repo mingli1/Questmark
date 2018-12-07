@@ -113,8 +113,8 @@ public final class AStar {
             // process current node's 8 successors
             for (int i = 0; i < 9; i++) {
                 if (i == 4) continue;
-                float x = ((int) (curr.position.x + ((i % 3) - 1) * tileSize) / tileSize) * tileSize;
-                float y = ((int) (curr.position.y + ((i / 3) - 1) * tileSize) / tileSize) * tileSize;
+                int x = ((int) (curr.position.x + ((i % 3) - 1) * tileSize) / tileSize) * tileSize;
+                int y = ((int) (curr.position.y + ((i / 3) - 1) * tileSize) / tileSize) * tileSize;
                 currBounds.setPosition(x, y);
                 tempTarget.set(x, y);
 

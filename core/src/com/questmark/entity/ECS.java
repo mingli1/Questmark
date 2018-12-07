@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.questmark.entity.entities.AStarEntity;
 import com.questmark.entity.entities.Player;
 import com.questmark.entity.systems.*;
 import com.questmark.entity.systems.collision.*;
@@ -34,9 +35,11 @@ public final class ECS implements Disposable {
     private HorizontalMovementSystem horizontalMovementSystem;
     private VerticalMovementSystem verticalMovementSystem;
     private NaiveFollowMovementSystem naiveFollowMovementSystem;
+    private AStarMovementSystem aStarMovementSystem;
 
     // entities
     private Player player;
+    private AStarEntity aStarEntity;
 
     public ECS(Batch batch, Resources res) {
         engine = new Engine();
@@ -50,8 +53,10 @@ public final class ECS implements Disposable {
      */
     private void addEntities(Resources res) {
         player = new Player(new Vector2(0, 0), res);
+        aStarEntity = new AStarEntity(new Vector2(100, 80), res);
 
         engine.addEntity(player);
+        engine.addEntity(aStarEntity);
     }
 
     /**
@@ -70,6 +75,7 @@ public final class ECS implements Disposable {
         horizontalMovementSystem = new HorizontalMovementSystem();
         verticalMovementSystem = new VerticalMovementSystem();
         naiveFollowMovementSystem = new NaiveFollowMovementSystem();
+        aStarMovementSystem = new AStarMovementSystem();
 
         addSystem(movementSystem);
         addSystem(tileMapCollisionSystem);
@@ -79,6 +85,7 @@ public final class ECS implements Disposable {
         addSystem(horizontalMovementSystem);
         addSystem(verticalMovementSystem);
         addSystem(naiveFollowMovementSystem);
+        addSystem(aStarMovementSystem);
         addSystem(renderSystem);
     }
 
@@ -140,6 +147,7 @@ public final class ECS implements Disposable {
     public void updateCollisionSystems(int mapWidth, int mapHeight, int tileSize, Array<Rectangle> boundingBoxes) {
         tileMapCollisionSystem.setMapData(mapWidth, mapHeight, tileSize, boundingBoxes);
         entityCollisionSystem.setMapData(mapWidth, mapHeight, tileSize, boundingBoxes);
+        aStarMovementSystem.setMapData(mapWidth, mapHeight, tileSize, boundingBoxes);
     }
 
 }
