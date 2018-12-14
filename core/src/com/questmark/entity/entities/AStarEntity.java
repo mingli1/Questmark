@@ -21,7 +21,7 @@ public class AStarEntity extends Entity {
         this.add(new VelocityComponent(0, 0));
         this.add(new SpeedComponent(12.f));
         this.add(new BoundingBoxComponent(12, 16));
-        this.add(new MovementFrequencyComponent(0.5f));
+        this.add(new MovementFrequencyComponent(0.1f));
         this.add(new AStarMovementComponent());
     }
 

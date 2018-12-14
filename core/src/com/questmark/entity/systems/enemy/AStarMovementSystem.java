@@ -76,8 +76,8 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
             }
             alg.setCollisionData(allCollisions);
             paths.put(entity, alg.findPath(pos.getPos(), playerPos.getPos()));
-            System.out.println("PATH: ");
-            System.out.println(paths.get(entity));
+            //System.out.println("PATH: ");
+            //System.out.println(paths.get(entity));
             timers.put(entity, timers.get(entity) - freq.frequency);
         }
 
@@ -85,6 +85,8 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
         if (path != null) {
             if (path.size > 0) {
                 Vector2 target = path.get(path.size - 1).position;
+                System.out.println("TARGET: " + target);
+                System.out.println("CURR POSITION: " + pos.getPos());
                 if (pos.x < target.x) vel.dx = mag.speed;
                 else if (pos.x > target.x) vel.dx = -mag.speed;
                 if (pos.y < target.y) vel.dy = mag.speed;
