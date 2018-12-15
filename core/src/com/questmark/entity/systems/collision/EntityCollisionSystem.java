@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.questmark.entity.Mapper;
 import com.questmark.entity.QuadTree;
 import com.questmark.entity.components.*;
+import com.questmark.entity.components.enemy.EnemyComponent;
 
 /**
  * A LibGDX Ashley {@link EntitySystem} that handles the collision between any two entities
@@ -27,7 +28,7 @@ public class EntityCollisionSystem extends EntitySystem implements CollisionSyst
     @Override
     public void addedToEngine(Engine engine) {
         entities = engine.getEntitiesFor(Family.all(BoundingBoxComponent.class, PositionComponent.class,
-                VelocityComponent.class, PreviousPositionComponent.class).get());
+                VelocityComponent.class, PreviousPositionComponent.class).exclude(EnemyComponent.class).get());
         collisions = new Array<Rectangle>();
     }
 
