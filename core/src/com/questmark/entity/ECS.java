@@ -56,7 +56,7 @@ public final class ECS implements Disposable {
         aStarEntity = new AStarEntity(new Vector2(100, 80), res);
 
         engine.addEntity(player);
-        engine.addEntity(aStarEntity);
+        //engine.addEntity(aStarEntity);
     }
 
     /**
