@@ -97,12 +97,11 @@ public final class AStar {
         openSet.put(source.position, source);
 
         while (openHeap.size > 0) {
+            System.out.println(openHeap);
             Node curr = openHeap.pop();
             openSet.remove(curr.position);
-            int tx = ((int) target.x / tileSize) * tileSize;
-            int ty = ((int) target.y / tileSize) * tileSize;
-            if (curr.position.x >= tx && curr.position.x <= tx + tileSize &&
-                    curr.position.y >= ty && curr.position.y <= ty + tileSize) {
+            if (curr.position.x >= target.x && curr.position.x <= target.x + tileSize &&
+                    curr.position.y >= target.y && curr.position.y <= target.y + tileSize) {
                 while (curr.parent != null) {
                     path.add(curr);
                     curr = curr.parent;
@@ -141,13 +140,12 @@ public final class AStar {
                 if (closedSet.containsKey(successor.position) &&
                         closedSet.get(successor.position).fScore < successor.fScore) continue;
                 if (!closedSet.containsKey(successor.position) ||
-                        closedSet.get(successor.position).fScore >= successor.fScore) {
+                        closedSet.get(successor.position).fScore > successor.fScore) {
                     openHeap.add(successor);
                     openSet.put(successor.position, successor);
                 }
             }
         }
-
         return null;
     }
 

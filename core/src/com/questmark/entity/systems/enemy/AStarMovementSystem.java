@@ -33,6 +33,7 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
     private ImmutableArray<Entity> collidableEntities;
     private Array<Rectangle> mapCollisions;
     private Array<Rectangle> allCollisions;
+    private int tileSize;
 
     private Entity player;
     private Map<Entity, Array<Node>> paths;
@@ -52,7 +53,8 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
             timers.put(e, 0.f);
         }
         player = engine.getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
-        collidableEntities = engine.getEntitiesFor(Family.all(EnemyComponent.class, BoundingBoxComponent.class).get());
+        collidableEntities = engine.getEntitiesFor(Family.all(BoundingBoxComponent.class)
+                .exclude(EnemyComponent.class).get());
     }
 
     @Override
@@ -69,15 +71,20 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
             allCollisions.clear();
             allCollisions.addAll(mapCollisions);
             for (Entity e : collidableEntities) {
-                if (!entity.equals(e)) {
+                if (!entity.equals(e) && !e.equals(player)) {
                     BoundingBoxComponent bb = Mapper.BOUNDING_BOX_MAPPER.get(e);
                     allCollisions.add(bb.bounds);
                 }
             }
             alg.setCollisionData(allCollisions);
-            paths.put(entity, alg.findPath(pos.getPos(), playerPos.getPos()));
-            //System.out.println("PATH: ");
-            //System.out.println(paths.get(entity));
+
+            Vector2 source = new Vector2(((int) pos.getPos().x / tileSize) * tileSize,
+                    ((int) pos.getPos().y / tileSize) * tileSize);
+            Vector2 target = new Vector2(((int) playerPos.getPos().x / tileSize) * tileSize,
+                    ((int) playerPos.getPos().y / tileSize) * tileSize);
+            if (source.equals(target)) return;
+
+            paths.put(entity, alg.findPath(source, target));
             timers.put(entity, timers.get(entity) - freq.frequency);
         }
 
@@ -85,8 +92,6 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
         if (path != null) {
             if (path.size > 0) {
                 Vector2 target = path.get(path.size - 1).position;
-                System.out.println("TARGET: " + target);
-                System.out.println("CURR POSITION: " + pos.getPos());
                 if (pos.x < target.x) vel.dx = mag.speed;
                 else if (pos.x > target.x) vel.dx = -mag.speed;
                 if (pos.y < target.y) vel.dy = mag.speed;
@@ -99,6 +104,7 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
     public void setMapData(int mapWidth, int mapHeight, int tileSize, Array<Rectangle> boundingBoxes) {
         alg = new AStar(mapWidth, mapHeight, tileSize);
         this.mapCollisions = boundingBoxes;
+        this.tileSize = tileSize;
     }
 
 }
