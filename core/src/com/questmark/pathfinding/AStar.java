@@ -27,6 +27,9 @@ public final class AStar {
 
     // the bounding box of the current node
     private Rectangle currBounds;
+    // bounding boxes of diagonal nodes
+    private Rectangle diag1;
+    private Rectangle diag2;
 
     private BinaryHeap<Node> openHeap;
     private Map<Vector2, Node> openSet;
@@ -48,6 +51,8 @@ public final class AStar {
 
         collisions = new Array<Rectangle>();
         currBounds = new Rectangle(0, 0, tileSize, tileSize);
+        diag1 = new Rectangle(0, 0, tileSize, tileSize);
+        diag2 = new Rectangle(0, 0, tileSize, tileSize);
     }
 
     /**
@@ -97,7 +102,6 @@ public final class AStar {
         openSet.put(source.position, source);
 
         while (openHeap.size > 0) {
-            System.out.println(openHeap);
             Node curr = openHeap.pop();
             openSet.remove(curr.position);
             if (curr.position.x >= target.x && curr.position.x <= target.x + tileSize &&
@@ -112,8 +116,8 @@ public final class AStar {
             // process current node's 8 successors
             for (int i = 0; i < 9; i++) {
                 if (i == 4) continue;
-                int x = ((int) (curr.position.x + ((i % 3) - 1) * tileSize) / tileSize) * tileSize;
-                int y = ((int) (curr.position.y + ((i / 3) - 1) * tileSize) / tileSize) * tileSize;
+                float x = curr.position.x + ((i % 3) - 1) * tileSize;
+                float y = curr.position.y + ((i / 3) - 1) * tileSize;
                 currBounds.setPosition(x, y);
                 tempTarget.set(x, y);
 
@@ -129,6 +133,38 @@ public final class AStar {
                     }
                 }
                 if (invalid) continue;
+
+                // check for diagonal path but blocked by perpendicular nodes
+                if (i == 0) {
+                    diag1.setPosition(curr.position.x - tileSize, curr.position.y);
+                    diag2.setPosition(curr.position.x, curr.position.y - tileSize);
+                }
+                else if (i == 6) {
+                    diag1.setPosition(curr.position.x, curr.position.y + tileSize);
+                    diag2.setPosition(curr.position.x - tileSize, curr.position.y);
+                }
+                else if (i == 8) {
+                    diag1.setPosition(curr.position.x, curr.position.y + tileSize);
+                    diag2.setPosition(curr.position.x + tileSize, curr.position.y);
+                }
+                else if (i == 2) {
+                    diag1.setPosition(curr.position.x + tileSize, curr.position.y);
+                    diag2.setPosition(curr.position.x, curr.position.y - tileSize);
+                }
+                boolean b1 = false, b2 = false;
+                for (Rectangle bounds : collisions) {
+                    if (diag1.overlaps(bounds)) {
+                        b1 = true;
+                        break;
+                    }
+                }
+                for (Rectangle bounds : collisions) {
+                    if (diag2.overlaps(bounds)) {
+                        b2 = true;
+                        break;
+                    }
+                }
+                if (b1 && b2) continue;
 
                 float gScore = curr.gScore + getHeuristic(curr.position, tempTarget, heuristic);
                 float hScore = getHeuristic(tempTarget, target, heuristic);
