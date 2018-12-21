@@ -40,12 +40,36 @@ public class NaiveFollowMovementSystem extends IteratingSystem {
         SpeedComponent mag = Mapper.SPEED_MAPPER.get(entity);
         PositionComponent playerPos = Mapper.POS_MAPPER.get(player);
 
-        if (pos.x < playerPos.x) vel.dx = mag.speed;
-        else if (pos.x > playerPos.x) vel.dx = -mag.speed;
+        if (pos.x < playerPos.x) {
+            if (pos.x + mag.speed * deltaTime > playerPos.x) {
+                vel.dx = 0.f;
+                pos.x = playerPos.x;
+            }
+            else vel.dx = mag.speed;
+        }
+        else if (pos.x > playerPos.x) {
+            if (pos.x - mag.speed * deltaTime < playerPos.x) {
+                vel.dx = 0.f;
+                pos.x = playerPos.x;
+            }
+            else vel.dx = -mag.speed;
+        }
         else vel.dx = 0;
 
-        if (pos.y < playerPos.y) vel.dy = mag.speed;
-        else if (pos.y > playerPos.y) vel.dy = -mag.speed;
+        if (pos.y < playerPos.y) {
+            if (pos.y + mag.speed * deltaTime > playerPos.y) {
+                vel.dy = 0.f;
+                pos.y = playerPos.y;
+            }
+            else vel.dy = mag.speed;
+        }
+        else if (pos.y > playerPos.y) {
+            if (pos.y - mag.speed * deltaTime < playerPos.y) {
+                vel.dy = 0.f;
+                pos.y = playerPos.y;
+            }
+            else vel.dy = -mag.speed;
+        }
         else vel.dy = 0;
     }
 

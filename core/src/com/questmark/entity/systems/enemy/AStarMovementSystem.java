@@ -104,10 +104,34 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
         if (path != null) {
             if (path.size > 0) {
                 Vector2 target = path.get(path.size - 1).position;
-                if (pos.x < target.x) vel.dx = mag.speed;
-                if (pos.x > target.x) vel.dx = -mag.speed;
-                if (pos.y < target.y) vel.dy = mag.speed;
-                if (pos.y > target.y) vel.dy = -mag.speed;
+                if (pos.x < target.x) {
+                    if (pos.x + mag.speed * deltaTime > target.x) {
+                        vel.dx = 0.f;
+                        pos.x = target.x;
+                    }
+                    else vel.dx = mag.speed;
+                }
+                if (pos.x > target.x) {
+                    if (pos.x - mag.speed * deltaTime < target.x) {
+                        vel.dx = 0.f;
+                        pos.x = target.x;
+                    }
+                    else vel.dx = -mag.speed;
+                }
+                if (pos.y < target.y) {
+                    if (pos.y + mag.speed * deltaTime > target.y) {
+                        vel.dy = 0.f;
+                        pos.y = target.y;
+                    }
+                    else vel.dy = mag.speed;
+                }
+                if (pos.y > target.y) {
+                    if (pos.y - mag.speed * deltaTime < target.y) {
+                        vel.dy = 0.f;
+                        pos.y = target.y;
+                    }
+                    else vel.dy = -mag.speed;
+                }
             }
         }
     }
