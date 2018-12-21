@@ -151,20 +151,22 @@ public final class AStar {
                     diag1.setPosition(curr.position.x + tileSize, curr.position.y);
                     diag2.setPosition(curr.position.x, curr.position.y - tileSize);
                 }
-                boolean b1 = false, b2 = false;
-                for (Rectangle bounds : collisions) {
-                    if (diag1.overlaps(bounds)) {
-                        b1 = true;
-                        break;
+                if (i == 0 || i == 2 || i == 6 || i == 8) {
+                    boolean b1 = false, b2 = false;
+                    for (Rectangle bounds : collisions) {
+                        if (diag1.overlaps(bounds)) {
+                            b1 = true;
+                            break;
+                        }
                     }
-                }
-                for (Rectangle bounds : collisions) {
-                    if (diag2.overlaps(bounds)) {
-                        b2 = true;
-                        break;
+                    for (Rectangle bounds : collisions) {
+                        if (diag2.overlaps(bounds)) {
+                            b2 = true;
+                            break;
+                        }
                     }
+                    if (b1 && b2) continue;
                 }
-                if (b1 && b2) continue;
 
                 float gScore = curr.gScore + getHeuristic(curr.position, tempTarget, heuristic);
                 float hScore = getHeuristic(tempTarget, target, heuristic);
@@ -174,7 +176,7 @@ public final class AStar {
                         openSet.get(successor.position).fScore < successor.fScore) continue;
 
                 if (closedSet.containsKey(successor.position) &&
-                        closedSet.get(successor.position).fScore < successor.fScore) continue;
+                        closedSet.get(successor.position).fScore <= successor.fScore) continue;
                 if (!closedSet.containsKey(successor.position) ||
                         closedSet.get(successor.position).fScore > successor.fScore) {
                     openHeap.add(successor);

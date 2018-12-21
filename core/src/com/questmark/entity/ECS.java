@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -53,7 +54,7 @@ public final class ECS implements Disposable {
      */
     private void addEntities(Resources res) {
         player = new Player(new Vector2(0, 0), res);
-        aStarEntity = new AStarEntity(new Vector2(100, 80), res);
+        aStarEntity = new AStarEntity(new Vector2(6 * 16, 3 * 16), res);
 
         engine.addEntity(player);
         engine.addEntity(aStarEntity);
