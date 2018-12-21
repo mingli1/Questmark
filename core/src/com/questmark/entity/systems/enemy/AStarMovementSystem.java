@@ -33,7 +33,6 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
     private ImmutableArray<Entity> collidableEntities;
     private Array<Rectangle> mapCollisions;
     private Array<Rectangle> allCollisions;
-    private Rectangle currBounds;
     private int tileSize;
 
     private Entity player;
@@ -77,26 +76,14 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
                     allCollisions.add(bb.bounds);
                 }
             }
-            currBounds.setPosition(((int) pos.getPos().x / tileSize) * tileSize,
-                    ((int) pos.getPos().y / tileSize) * tileSize);
-            boolean shouldCalculate = true;
-            for (Rectangle bounds : allCollisions) {
-                if (bounds.overlaps(currBounds)) {
-                    shouldCalculate = false;
-                    break;
-                }
-            }
+            alg.setCollisionData(allCollisions);
+            Vector2 source = new Vector2(Math.round(pos.getPos().x / tileSize) * tileSize,
+                    Math.round(pos.getPos().y / tileSize) * tileSize);
+            Vector2 target = new Vector2(Math.round(playerPos.getPos().x / tileSize) * tileSize,
+                    Math.round(playerPos.getPos().y / tileSize) * tileSize);
+            if (source.equals(target)) return;
 
-            if (shouldCalculate) {
-                alg.setCollisionData(allCollisions);
-                Vector2 source = new Vector2(((int) pos.getPos().x / tileSize) * tileSize,
-                        ((int) pos.getPos().y / tileSize) * tileSize);
-                Vector2 target = new Vector2(((int) playerPos.getPos().x / tileSize) * tileSize,
-                        ((int) playerPos.getPos().y / tileSize) * tileSize);
-                if (source.equals(target)) return;
-
-                paths.put(entity, alg.findPath(source, target));
-            }
+            paths.put(entity, alg.findPath(source, target));
             timers.put(entity, timers.get(entity) - freq.frequency);
         }
 
@@ -141,7 +128,6 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
         alg = new AStar(mapWidth, mapHeight, tileSize);
         this.mapCollisions = boundingBoxes;
         this.tileSize = tileSize;
-        currBounds = new Rectangle(0, 0, tileSize, tileSize);
     }
 
 }
