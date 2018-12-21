@@ -43,12 +43,12 @@ public class HorizontalMovementSystem extends IteratingSystem {
             SpeedComponent mag = Mapper.SPEED_MAPPER.get(e);
             boolean p = MathUtils.randomBoolean();
             if (p) {
-                targets.put(e, pos.x + dist.dist);
-                vel.dx = mag.speed;
+                targets.put(e, pos.p.x + dist.dist);
+                vel.v.x = mag.speed;
             }
             else {
-                targets.put(e, pos.x - dist.dist);
-                vel.dx = -mag.speed;
+                targets.put(e, pos.p.x - dist.dist);
+                vel.v.x = -mag.speed;
             }
         }
     }
@@ -62,18 +62,18 @@ public class HorizontalMovementSystem extends IteratingSystem {
 
         float target = targets.get(entity);
 
-        if (vel.dx == 0.f) {
-            if (pos.x < target) vel.dx = mag.speed;
-            else if (pos.x > target) vel.dx = -mag.speed;
+        if (vel.v.x == 0.f) {
+            if (pos.p.x < target) vel.v.x = mag.speed;
+            else if (pos.p.x > target) vel.v.x = -mag.speed;
         }
 
-        if (vel.dx > 0 && pos.x >= target) {
+        if (vel.v.x > 0 && pos.p.x >= target) {
             targets.put(entity, target - dist.dist);
-            vel.dx = -mag.speed;
+            vel.v.x = -mag.speed;
         }
-        if (vel.dx < 0 && pos.x <= target) {
+        if (vel.v.x < 0 && pos.p.x <= target) {
             targets.put(entity, target + dist.dist);
-            vel.dx = mag.speed;
+            vel.v.x = mag.speed;
         }
     }
 

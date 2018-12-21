@@ -66,19 +66,19 @@ public class GameScreen extends AbstractScreen {
         int mh = tileMapManager.getMapHeight();
         int ts = tileMapManager.getTileSize();
 
-        if (pc.x <= mw * ts - ((ts / 2 - 1) * ts) && pc.x >= 6 * ts) {
-            cam.position.x = pc.x + 8;
+        if (pc.p.x <= mw * ts - ((ts / 2 - 1) * ts) && pc.p.x >= 6 * ts) {
+            cam.position.x = pc.p.x + 8;
         }
-        if (pc.y <= mh * ts - ((ts / 4) * ts) && pc.y >= 4 * ts - (ts / 2)) {
-            cam.position.y = pc.y + 4;
+        if (pc.p.y <= mh * ts - ((ts / 4) * ts) && pc.p.y >= 4 * ts - (ts / 2)) {
+            cam.position.y = pc.p.y + 4;
         }
 
         cam.update();
 
-        if (pc.x < 6 * ts) cam.position.x = 6 * ts + (ts / 2);
-        if (pc.y < 4 * ts - (ts / 2)) cam.position.y = 4 * ts - ((ts / 2 - 1) / 2);
-        if (pc.x > mw * ts - 7 * ts) cam.position.x = (mw * ts - 7 * ts) + 8;
-        if (pc.y > mh * ts - 4 * ts) cam.position.y = (mh * ts - 4 * ts) + 4;
+        if (pc.p.x < 6 * ts) cam.position.x = 6 * ts + (ts / 2);
+        if (pc.p.y < 4 * ts - (ts / 2)) cam.position.y = 4 * ts - ((ts / 2 - 1) / 2);
+        if (pc.p.x > mw * ts - 7 * ts) cam.position.x = (mw * ts - 7 * ts) + 8;
+        if (pc.p.y > mh * ts - 4 * ts) cam.position.y = (mh * ts - 4 * ts) + 4;
     }
 
     @Override

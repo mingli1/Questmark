@@ -44,7 +44,7 @@ public class CircularMovementSystem extends EntitySystem {
 
         for (Entity e : entities) {
             PositionComponent pos = Mapper.POS_MAPPER.get(e);
-            targets.put(e, new Vector2(pos.x, pos.y));
+            targets.put(e, new Vector2(pos.p.x, pos.p.y));
             rotationDir.put(e, MathUtils.randomBoolean());
             lastDir.put(e, Direction.Up);
         }
@@ -62,42 +62,42 @@ public class CircularMovementSystem extends EntitySystem {
             Vector2 target = targets.get(e);
 
             // entity is stopped during movement
-            if (vel.dx == 0.f) {
-                if (pos.x < target.x) vel.dx = mag.speed;
-                else if (pos.x > target.x) vel.dx = -mag.speed;
+            if (vel.v.x == 0.f) {
+                if (pos.p.x < target.x) vel.v.x = mag.speed;
+                else if (pos.p.x > target.x) vel.v.x = -mag.speed;
             }
-            if (vel.dy == 0.f) {
-                if (pos.y < target.y) vel.dy = mag.speed;
-                else if (pos.y > target.y) vel.dy = -mag.speed;
+            if (vel.v.y == 0.f) {
+                if (pos.p.y < target.y) vel.v.y = mag.speed;
+                else if (pos.p.y > target.y) vel.v.y = -mag.speed;
             }
 
-            if ((prevDir == Direction.Up && pos.y >= target.y) ||
-                    (prevDir == Direction.Right && pos.x >= target.x) ||
-                    (prevDir == Direction.Down && pos.y <= target.y) ||
-                    (prevDir == Direction.Left && pos.x <= target.x)) {
-                pos.x = target.x;
-                pos.y = target.y;
-                vel.dx = vel.dy = 0.f;
+            if ((prevDir == Direction.Up && pos.p.y >= target.y) ||
+                    (prevDir == Direction.Right && pos.p.x >= target.x) ||
+                    (prevDir == Direction.Down && pos.p.y <= target.y) ||
+                    (prevDir == Direction.Left && pos.p.x <= target.x)) {
+                pos.p.x = target.x;
+                pos.p.y = target.y;
+                vel.v.x = vel.v.y = 0.f;
 
                 if (rotationDir.get(e)) {
                     switch (lastDir.get(e)) {
                         case Up:
-                            vel.dx = mag.speed;
+                            vel.v.x = mag.speed;
                             lastDir.put(e, Direction.Right);
                             targets.put(e, target.set(target.x + dist.dist, target.y));
                             break;
                         case Right:
-                            vel.dy = -mag.speed;
+                            vel.v.y = -mag.speed;
                             lastDir.put(e, Direction.Down);
                             targets.put(e, target.set(target.x, target.y - dist.dist));
                             break;
                         case Down:
-                            vel.dx = -mag.speed;
+                            vel.v.x = -mag.speed;
                             lastDir.put(e, Direction.Left);
                             targets.put(e, target.set(target.x - dist.dist, target.y));
                             break;
                         case Left:
-                            vel.dy = mag.speed;
+                            vel.v.y = mag.speed;
                             lastDir.put(e, Direction.Up);
                             targets.put(e, target.set(target.x, target.y + dist.dist));
                             break;
@@ -105,22 +105,22 @@ public class CircularMovementSystem extends EntitySystem {
                 } else {
                     switch (lastDir.get(e)) {
                         case Up:
-                            vel.dx = -mag.speed;
+                            vel.v.x = -mag.speed;
                             lastDir.put(e, Direction.Left);
                             targets.put(e, target.set(target.x - dist.dist, target.y));
                             break;
                         case Left:
-                            vel.dy = -mag.speed;
+                            vel.v.y = -mag.speed;
                             lastDir.put(e, Direction.Down);
                             targets.put(e, target.set(target.x, target.y - dist.dist));
                             break;
                         case Down:
-                            vel.dx = mag.speed;
+                            vel.v.x = mag.speed;
                             lastDir.put(e, Direction.Right);
                             targets.put(e, target.set(target.x + dist.dist, target.y));
                             break;
                         case Right:
-                            vel.dy = mag.speed;
+                            vel.v.y = mag.speed;
                             lastDir.put(e, Direction.Up);
                             targets.put(e, target.set(target.x, target.y + dist.dist));
                             break;

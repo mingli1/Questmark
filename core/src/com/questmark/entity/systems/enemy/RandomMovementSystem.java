@@ -51,7 +51,7 @@ public class RandomMovementSystem extends IteratingSystem {
         // change action every frequency seconds
         if (timers.get(entity) > freq.frequency) {
             int action = MathUtils.random(4);
-            if (action == 4) vel.dx = vel.dy = 0.f;
+            if (action == 4) vel.v.x = vel.v.y = 0.f;
             else vel.move(Direction.getDir(action), mag.speed);
             timers.put(entity, timers.get(entity) - freq.frequency);
         }

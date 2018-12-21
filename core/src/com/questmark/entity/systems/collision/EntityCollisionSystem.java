@@ -52,9 +52,8 @@ public class EntityCollisionSystem extends EntitySystem implements CollisionSyst
             for (Rectangle bounds : collisions) {
                 if (!bb.bounds.equals(bounds)) {
                     if (bb.bounds.overlaps(bounds)) {
-                        v.dx = v.dy = 0.f;
-                        p.x = pp.x;
-                        p.y = pp.y;
+                        v.v.set(0.f, 0.f);
+                        p.p.set(pp.p.x, pp.p.y);
                     }
                 }
             }

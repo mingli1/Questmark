@@ -27,10 +27,9 @@ public class MovementSystem extends IteratingSystem {
         VelocityComponent velocity = Mapper.VEL_MAPPER.get(entity);
         PreviousPositionComponent prevPosition = Mapper.PREV_POS_MAPPER.get(entity);
 
-        prevPosition.x = position.x;
-        prevPosition.y = position.y;
-        position.x += velocity.dx * dt;
-        position.y += velocity.dy * dt;
+        prevPosition.p.set(position.p);
+        position.p.x += velocity.v.x * dt;
+        position.p.y += velocity.v.y * dt;
     }
 
 }

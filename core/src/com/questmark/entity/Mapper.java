@@ -3,8 +3,10 @@ package com.questmark.entity;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.questmark.entity.components.*;
+import com.questmark.entity.components.enemy.AggressionComponent;
 import com.questmark.entity.components.enemy.MovementDistanceComponent;
 import com.questmark.entity.components.enemy.MovementFrequencyComponent;
+import com.questmark.entity.components.enemy.SourcePositionComponent;
 
 /**
  * A utility class that contains a {@link ComponentMapper} for each Ashley {@link Component}
@@ -42,5 +44,11 @@ public final class Mapper {
 
     public static final ComponentMapper<MovementDistanceComponent> MOVE_DIST_MAPPER
             = ComponentMapper.getFor(MovementDistanceComponent.class);
+
+    public static final ComponentMapper<AggressionComponent> AGGRESSION_MAPPER
+            = ComponentMapper.getFor(AggressionComponent.class);
+
+    public static final ComponentMapper<SourcePositionComponent> SOURCE_POS_MAPPER
+            = ComponentMapper.getFor(SourcePositionComponent.class);
 
 }

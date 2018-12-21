@@ -43,12 +43,12 @@ public class VerticalMovementSystem extends IteratingSystem {
             SpeedComponent mag = Mapper.SPEED_MAPPER.get(e);
             boolean p = MathUtils.randomBoolean();
             if (p) {
-                targets.put(e, pos.y + dist.dist);
-                vel.dy = mag.speed;
+                targets.put(e, pos.p.y + dist.dist);
+                vel.v.y = mag.speed;
             }
             else {
-                targets.put(e, pos.y - dist.dist);
-                vel.dy = -mag.speed;
+                targets.put(e, pos.p.y - dist.dist);
+                vel.v.y = -mag.speed;
             }
         }
     }
@@ -62,18 +62,18 @@ public class VerticalMovementSystem extends IteratingSystem {
 
         float target = targets.get(entity);
 
-        if (vel.dy == 0.f) {
-            if (pos.y < target) vel.dy = mag.speed;
-            else if (pos.y > target) vel.dy = -mag.speed;
+        if (vel.v.y == 0.f) {
+            if (pos.p.y < target) vel.v.y = mag.speed;
+            else if (pos.p.y > target) vel.v.y = -mag.speed;
         }
 
-        if (vel.dy > 0 && pos.y >= target) {
+        if (vel.v.y > 0 && pos.p.y >= target) {
             targets.put(entity, target - dist.dist);
-            vel.dy = -mag.speed;
+            vel.v.y = -mag.speed;
         }
-        if (vel.dy < 0 && pos.y <= target) {
+        if (vel.v.y < 0 && pos.p.y <= target) {
             targets.put(entity, target + dist.dist);
-            vel.dy = mag.speed;
+            vel.v.y = mag.speed;
         }
     }
 

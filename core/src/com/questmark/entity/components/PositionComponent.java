@@ -11,25 +11,14 @@ import com.badlogic.gdx.math.Vector2;
  */
 public final class PositionComponent implements Component {
 
-    public float x;
-    public float y;
+    public Vector2 p;
 
     public PositionComponent(float x, float y) {
-        this.x = x;
-        this.y = y;
+        p = new Vector2(x, y);
     }
 
     public PositionComponent(Vector2 pos) {
-        this.setPos(pos);
-    }
-
-    public void setPos(Vector2 pos) {
-        this.x = pos.x;
-        this.y = pos.y;
-    }
-
-    public Vector2 getPos() {
-        return new Vector2(x, y);
+        this(pos.x, pos.y);
     }
 
 }

@@ -34,7 +34,6 @@ public final class ECS implements Disposable {
     private CircularMovementSystem circularMovementSystem;
     private HorizontalMovementSystem horizontalMovementSystem;
     private VerticalMovementSystem verticalMovementSystem;
-    private NaiveFollowMovementSystem naiveFollowMovementSystem;
     private AStarMovementSystem aStarMovementSystem;
 
     // entities
@@ -74,7 +73,6 @@ public final class ECS implements Disposable {
         circularMovementSystem = new CircularMovementSystem();
         horizontalMovementSystem = new HorizontalMovementSystem();
         verticalMovementSystem = new VerticalMovementSystem();
-        naiveFollowMovementSystem = new NaiveFollowMovementSystem();
         aStarMovementSystem = new AStarMovementSystem();
 
         addSystem(movementSystem);
@@ -84,7 +82,6 @@ public final class ECS implements Disposable {
         addSystem(circularMovementSystem);
         addSystem(horizontalMovementSystem);
         addSystem(verticalMovementSystem);
-        addSystem(naiveFollowMovementSystem);
         addSystem(aStarMovementSystem);
         addSystem(renderSystem);
     }

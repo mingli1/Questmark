@@ -11,9 +11,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.questmark.entity.Mapper;
 import com.questmark.entity.components.*;
-import com.questmark.entity.components.enemy.AStarMovementComponent;
+import com.questmark.entity.components.enemy.AggressionComponent;
 import com.questmark.entity.components.enemy.EnemyComponent;
 import com.questmark.entity.components.enemy.MovementFrequencyComponent;
+import com.questmark.entity.components.enemy.SourcePositionComponent;
 import com.questmark.entity.systems.collision.CollisionSystem;
 import com.questmark.pathfinding.AStar;
 import com.questmark.pathfinding.Node;
@@ -40,7 +41,8 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
     private Map<Entity, Float> timers;
 
     public AStarMovementSystem() {
-        super(Family.all(EnemyComponent.class, AStarMovementComponent.class, MovementFrequencyComponent.class).get());
+        super(Family.all(EnemyComponent.class, AggressionComponent.class, SourcePositionComponent.class,
+                MovementFrequencyComponent.class).get());
         paths = new HashMap<Entity, Array<Node>>();
         timers = new HashMap<Entity, Float>();
         allCollisions = new Array<Rectangle>();
@@ -59,12 +61,14 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
+        AggressionComponent agg = Mapper.AGGRESSION_MAPPER.get(entity);
+        PositionComponent pos = Mapper.POS_MAPPER.get(entity);
+        PositionComponent playerPos = Mapper.POS_MAPPER.get(player);
+
         timers.put(entity, timers.get(entity) + deltaTime);
 
-        PositionComponent pos = Mapper.POS_MAPPER.get(entity);
         VelocityComponent vel = Mapper.VEL_MAPPER.get(entity);
         SpeedComponent mag = Mapper.SPEED_MAPPER.get(entity);
-        PositionComponent playerPos = Mapper.POS_MAPPER.get(player);
         MovementFrequencyComponent freq = Mapper.MOVE_FREQ_MAPPER.get(entity);
 
         if (timers.get(entity) > freq.frequency) {
@@ -77,10 +81,10 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
                 }
             }
             alg.setCollisionData(allCollisions);
-            Vector2 source = new Vector2(Math.round(pos.getPos().x / tileSize) * tileSize,
-                    Math.round(pos.getPos().y / tileSize) * tileSize);
-            Vector2 target = new Vector2(Math.round(playerPos.getPos().x / tileSize) * tileSize,
-                    Math.round(playerPos.getPos().y / tileSize) * tileSize);
+            Vector2 source = new Vector2(Math.round(pos.p.x / tileSize) * tileSize,
+                    Math.round(pos.p.y / tileSize) * tileSize);
+            Vector2 target = new Vector2(Math.round(playerPos.p.x / tileSize) * tileSize,
+                    Math.round(playerPos.p.y / tileSize) * tileSize);
             if (source.equals(target)) return;
 
             paths.put(entity, alg.findPath(source, target));
@@ -91,33 +95,33 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
         if (path != null) {
             if (path.size > 0) {
                 Vector2 target = path.get(path.size - 1).position;
-                if (pos.x < target.x) {
-                    if (pos.x + mag.speed * deltaTime > target.x) {
-                        vel.dx = 0.f;
-                        pos.x = target.x;
+                if (pos.p.x < target.x) {
+                    if (pos.p.x + mag.speed * deltaTime > target.x) {
+                        vel.v.x = 0.f;
+                        pos.p.x = target.x;
                     }
-                    else vel.dx = mag.speed;
+                    else vel.v.x = mag.speed;
                 }
-                if (pos.x > target.x) {
-                    if (pos.x - mag.speed * deltaTime < target.x) {
-                        vel.dx = 0.f;
-                        pos.x = target.x;
+                if (pos.p.x > target.x) {
+                    if (pos.p.x - mag.speed * deltaTime < target.x) {
+                        vel.v.x = 0.f;
+                        pos.p.x = target.x;
                     }
-                    else vel.dx = -mag.speed;
+                    else vel.v.x = -mag.speed;
                 }
-                if (pos.y < target.y) {
-                    if (pos.y + mag.speed * deltaTime > target.y) {
-                        vel.dy = 0.f;
-                        pos.y = target.y;
+                if (pos.p.y < target.y) {
+                    if (pos.p.y + mag.speed * deltaTime > target.y) {
+                        vel.v.y = 0.f;
+                        pos.p.y = target.y;
                     }
-                    else vel.dy = mag.speed;
+                    else vel.v.y = mag.speed;
                 }
-                if (pos.y > target.y) {
-                    if (pos.y - mag.speed * deltaTime < target.y) {
-                        vel.dy = 0.f;
-                        pos.y = target.y;
+                if (pos.p.y > target.y) {
+                    if (pos.p.y - mag.speed * deltaTime < target.y) {
+                        vel.v.y = 0.f;
+                        pos.p.y = target.y;
                     }
-                    else vel.dy = -mag.speed;
+                    else vel.v.y = -mag.speed;
                 }
             }
         }

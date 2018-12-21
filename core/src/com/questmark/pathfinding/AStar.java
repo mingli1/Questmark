@@ -238,9 +238,7 @@ public final class AStar {
      * @return the Euclidean distance
      */
     private float euclidean(Vector2 start, Vector2 target) {
-        float x = start.x - target.x;
-        float y = start.y - target.y;
-        return (float) Math.sqrt((x * x) + (y * y));
+        return start.dst(target);
     }
 
 }
