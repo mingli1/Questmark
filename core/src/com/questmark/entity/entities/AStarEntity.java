@@ -19,9 +19,9 @@ public class AStarEntity extends Entity {
         this.add(new PositionComponent(position));
         this.add(new PreviousPositionComponent(position));
         this.add(new VelocityComponent(0, 0));
-        this.add(new SpeedComponent(12.f));
+        this.add(new SpeedComponent(14.f));
         this.add(new BoundingBoxComponent(12, 16));
-        this.add(new AggressionComponent(-1.f));
+        this.add(new AggressionComponent(75));
         this.add(new SourcePositionComponent(position.x, position.y));
     }
 

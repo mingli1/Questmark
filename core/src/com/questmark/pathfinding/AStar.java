@@ -104,8 +104,7 @@ public final class AStar {
         while (openHeap.size > 0) {
             Node curr = openHeap.pop();
             openSet.remove(curr.position);
-            if (curr.position.x >= target.x && curr.position.x <= target.x + tileSize &&
-                    curr.position.y >= target.y && curr.position.y <= target.y + tileSize) {
+            if (curr.position.equals(target)) {
                 while (curr.parent != null) {
                     path.add(curr);
                     curr = curr.parent;

@@ -52,7 +52,7 @@ public final class ECS implements Disposable {
      */
     private void addEntities(Resources res) {
         player = new Player(new Vector2(0, 0), res);
-        aStarEntity = new AStarEntity(new Vector2(6 * 16, 8 * 16), res);
+        aStarEntity = new AStarEntity(new Vector2(103, 134), res);
 
         engine.addEntity(player);
         engine.addEntity(aStarEntity);

@@ -72,8 +72,6 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
         VelocityComponent vel = Mapper.VEL_MAPPER.get(entity);
         SpeedComponent mag = Mapper.SPEED_MAPPER.get(entity);
 
-        System.out.println(mag.speed * deltaTime);
-
         // player within aggression range
         if (pos.p.dst(playerPos.p) <= agg.range || agg.range == -1.f) {
             toSource.put(entity, false);
@@ -84,8 +82,8 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
                         Math.round(pos.p.y / tileSize) * tileSize);
                 Vector2 target = new Vector2(Math.round(playerPos.p.x / tileSize) * tileSize,
                         Math.round(playerPos.p.y / tileSize) * tileSize);
-
-                paths.put(entity, getPath(entity, source, target));
+                if (source.equals(target)) vel.v.set(0.f, 0.f);
+                else paths.put(entity, getPath(entity, source, target));
                 timers.put(entity, timers.get(entity) - freqs.get(entity));
             }
 
@@ -98,11 +96,12 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
             }
         }
         else {
+            SourcePositionComponent source = Mapper.SOURCE_POS_MAPPER.get(entity);
             if (!toSource.get(entity)) {
-                SourcePositionComponent source = Mapper.SOURCE_POS_MAPPER.get(entity);
+                Vector2 s = new Vector2(((int) source.s.x / tileSize) * tileSize, ((int) source.s.y / tileSize) * tileSize);
                 returnPath.clear();
                 returnPath = getPath(entity, new Vector2(Math.round(pos.p.x / tileSize) * tileSize,
-                        Math.round(pos.p.y / tileSize) * tileSize), source.s);
+                        Math.round(pos.p.y / tileSize) * tileSize), s);
                 toSource.put(entity, true);
             }
 
@@ -112,6 +111,11 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
                 if (pos.p.equals(target)) {
                     returnPath.removeIndex(returnPath.size - 1);
                 }
+            }
+            if (((int) pos.p.x / tileSize) * tileSize == ((int) source.s.x / tileSize) * tileSize
+                    && ((int) pos.p.y / tileSize) * tileSize == ((int) source.s.y / tileSize) * tileSize
+                    && pos.p.x != source.s.x && pos.p.y != source.s.y) {
+                move(pos.p, source.s, vel.v, mag.speed, deltaTime);
             }
         }
     }
