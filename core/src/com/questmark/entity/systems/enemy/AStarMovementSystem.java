@@ -39,13 +39,17 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
     private Entity player;
     private Map<Entity, Array<Node>> paths;
     private Map<Entity, Float> timers;
+    private Map<Entity, Boolean> toSource;
+    private Array<Node> returnPath;
 
     public AStarMovementSystem() {
         super(Family.all(EnemyComponent.class, AggressionComponent.class, SourcePositionComponent.class,
                 MovementFrequencyComponent.class).get());
         paths = new HashMap<Entity, Array<Node>>();
         timers = new HashMap<Entity, Float>();
+        toSource = new HashMap<Entity, Boolean>();
         allCollisions = new Array<Rectangle>();
+        returnPath = new Array<Node>();
     }
 
     @Override
@@ -53,10 +57,11 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
         super.addedToEngine(engine);
         for (Entity e : this.getEntities()) {
             timers.put(e, 0.f);
+            toSource.put(e, false);
         }
         player = engine.getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
         collidableEntities = engine.getEntitiesFor(Family.all(BoundingBoxComponent.class)
-                .exclude(EnemyComponent.class).get());
+                .exclude(EnemyComponent.class, PlayerComponent.class).get());
     }
 
     @Override
@@ -64,64 +69,48 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
         AggressionComponent agg = Mapper.AGGRESSION_MAPPER.get(entity);
         PositionComponent pos = Mapper.POS_MAPPER.get(entity);
         PositionComponent playerPos = Mapper.POS_MAPPER.get(player);
-
-        timers.put(entity, timers.get(entity) + deltaTime);
-
         VelocityComponent vel = Mapper.VEL_MAPPER.get(entity);
         SpeedComponent mag = Mapper.SPEED_MAPPER.get(entity);
-        MovementFrequencyComponent freq = Mapper.MOVE_FREQ_MAPPER.get(entity);
 
-        if (timers.get(entity) > freq.frequency) {
-            allCollisions.clear();
-            allCollisions.addAll(mapCollisions);
-            for (Entity e : collidableEntities) {
-                if (!entity.equals(e) && !e.equals(player)) {
-                    BoundingBoxComponent bb = Mapper.BOUNDING_BOX_MAPPER.get(e);
-                    allCollisions.add(bb.bounds);
+        // player within aggression range
+        if (pos.p.dst(playerPos.p) <= agg.range) {
+            toSource.put(entity, false);
+            timers.put(entity, timers.get(entity) + deltaTime);
+
+            MovementFrequencyComponent freq = Mapper.MOVE_FREQ_MAPPER.get(entity);
+
+            if (timers.get(entity) > freq.frequency) {
+                Vector2 source = new Vector2(Math.round(pos.p.x / tileSize) * tileSize,
+                        Math.round(pos.p.y / tileSize) * tileSize);
+                Vector2 target = new Vector2(Math.round(playerPos.p.x / tileSize) * tileSize,
+                        Math.round(playerPos.p.y / tileSize) * tileSize);
+
+                paths.put(entity, getPath(entity, source, target));
+                timers.put(entity, timers.get(entity) - freq.frequency);
+            }
+
+            Array<Node> path = paths.get(entity);
+            if (path != null) {
+                if (path.size > 0) {
+                    Vector2 target = path.get(path.size - 1).position;
+                    move(pos.p, target, vel.v, mag.speed, deltaTime);
                 }
             }
-            alg.setCollisionData(allCollisions);
-            Vector2 source = new Vector2(Math.round(pos.p.x / tileSize) * tileSize,
-                    Math.round(pos.p.y / tileSize) * tileSize);
-            Vector2 target = new Vector2(Math.round(playerPos.p.x / tileSize) * tileSize,
-                    Math.round(playerPos.p.y / tileSize) * tileSize);
-            if (source.equals(target)) return;
-
-            paths.put(entity, alg.findPath(source, target));
-            timers.put(entity, timers.get(entity) - freq.frequency);
         }
+        else {
+            if (!toSource.get(entity)) {
+                SourcePositionComponent source = Mapper.SOURCE_POS_MAPPER.get(entity);
+                returnPath.clear();
+                returnPath = getPath(entity, new Vector2(Math.round(pos.p.x / tileSize) * tileSize,
+                        Math.round(pos.p.y / tileSize) * tileSize), source.s);
+                toSource.put(entity, true);
+            }
 
-        Array<Node> path = paths.get(entity);
-        if (path != null) {
-            if (path.size > 0) {
-                Vector2 target = path.get(path.size - 1).position;
-                if (pos.p.x < target.x) {
-                    if (pos.p.x + mag.speed * deltaTime > target.x) {
-                        vel.v.x = 0.f;
-                        pos.p.x = target.x;
-                    }
-                    else vel.v.x = mag.speed;
-                }
-                if (pos.p.x > target.x) {
-                    if (pos.p.x - mag.speed * deltaTime < target.x) {
-                        vel.v.x = 0.f;
-                        pos.p.x = target.x;
-                    }
-                    else vel.v.x = -mag.speed;
-                }
-                if (pos.p.y < target.y) {
-                    if (pos.p.y + mag.speed * deltaTime > target.y) {
-                        vel.v.y = 0.f;
-                        pos.p.y = target.y;
-                    }
-                    else vel.v.y = mag.speed;
-                }
-                if (pos.p.y > target.y) {
-                    if (pos.p.y - mag.speed * deltaTime < target.y) {
-                        vel.v.y = 0.f;
-                        pos.p.y = target.y;
-                    }
-                    else vel.v.y = -mag.speed;
+            if (returnPath.size > 0) {
+                Vector2 target = returnPath.get(returnPath.size - 1).position;
+                move(pos.p, target, vel.v, mag.speed, deltaTime);
+                if (pos.p.equals(target)) {
+                    returnPath.removeIndex(returnPath.size - 1);
                 }
             }
         }
@@ -132,6 +121,55 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
         alg = new AStar(mapWidth, mapHeight, tileSize);
         this.mapCollisions = boundingBoxes;
         this.tileSize = tileSize;
+    }
+
+    /**
+     * Runs the A* algorithm with a given source and target on a given entity.
+     * Helper method that does the initial collision data setup.
+     *
+     * @param e
+     * @param source
+     * @param target
+     * @return
+     */
+    private Array<Node> getPath(Entity e, Vector2 source, Vector2 target) {
+        allCollisions.clear();
+        allCollisions.addAll(mapCollisions);
+        for (Entity entity : collidableEntities) {
+            if (!e.equals(entity)) {
+                BoundingBoxComponent bb = Mapper.BOUNDING_BOX_MAPPER.get(e);
+                allCollisions.add(bb.bounds);
+            }
+        }
+        alg.setCollisionData(allCollisions);
+        return alg.findPath(source, target);
+    }
+
+    private void move(Vector2 source, Vector2 target, Vector2 vel, float speed, float dt) {
+        if (source.x < target.x) {
+            if (source.x + speed * dt > target.x) {
+                vel.x = 0.f;
+                source.x = target.x;
+            } else vel.x = speed;
+        }
+        if (source.x > target.x) {
+            if (source.x - speed * dt < target.x) {
+                vel.x = 0.f;
+                source.x = target.x;
+            } else vel.x = -speed;
+        }
+        if (source.y < target.y) {
+            if (source.y + speed * dt > target.y) {
+                vel.y = 0.f;
+                source.y = target.y;
+            } else vel.y = speed;
+        }
+        if (source.y > target.y) {
+            if (source.y - speed * dt < target.y) {
+                vel.y = 0.f;
+                source.y = target.y;
+            } else vel.y = -speed;
+        }
     }
 
 }
