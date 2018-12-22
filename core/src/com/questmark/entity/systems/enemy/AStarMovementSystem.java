@@ -13,7 +13,6 @@ import com.questmark.entity.Mapper;
 import com.questmark.entity.components.*;
 import com.questmark.entity.components.enemy.AggressionComponent;
 import com.questmark.entity.components.enemy.EnemyComponent;
-import com.questmark.entity.components.enemy.MovementFrequencyComponent;
 import com.questmark.entity.components.enemy.SourcePositionComponent;
 import com.questmark.entity.systems.collision.CollisionSystem;
 import com.questmark.pathfinding.AStar;
@@ -39,14 +38,15 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
     private Entity player;
     private Map<Entity, Array<Node>> paths;
     private Map<Entity, Float> timers;
+    private Map<Entity, Float> freqs;
     private Map<Entity, Boolean> toSource;
     private Array<Node> returnPath;
 
     public AStarMovementSystem() {
-        super(Family.all(EnemyComponent.class, AggressionComponent.class, SourcePositionComponent.class,
-                MovementFrequencyComponent.class).get());
+        super(Family.all(EnemyComponent.class, AggressionComponent.class, SourcePositionComponent.class).get());
         paths = new HashMap<Entity, Array<Node>>();
         timers = new HashMap<Entity, Float>();
+        freqs = new HashMap<Entity, Float>();
         toSource = new HashMap<Entity, Boolean>();
         allCollisions = new Array<Rectangle>();
         returnPath = new Array<Node>();
@@ -72,21 +72,21 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
         VelocityComponent vel = Mapper.VEL_MAPPER.get(entity);
         SpeedComponent mag = Mapper.SPEED_MAPPER.get(entity);
 
+        System.out.println(mag.speed * deltaTime);
+
         // player within aggression range
-        if (pos.p.dst(playerPos.p) <= agg.range) {
+        if (pos.p.dst(playerPos.p) <= agg.range || agg.range == -1.f) {
             toSource.put(entity, false);
             timers.put(entity, timers.get(entity) + deltaTime);
 
-            MovementFrequencyComponent freq = Mapper.MOVE_FREQ_MAPPER.get(entity);
-
-            if (timers.get(entity) > freq.frequency) {
+            if (timers.get(entity) > freqs.get(entity)) {
                 Vector2 source = new Vector2(Math.round(pos.p.x / tileSize) * tileSize,
                         Math.round(pos.p.y / tileSize) * tileSize);
                 Vector2 target = new Vector2(Math.round(playerPos.p.x / tileSize) * tileSize,
                         Math.round(playerPos.p.y / tileSize) * tileSize);
 
                 paths.put(entity, getPath(entity, source, target));
-                timers.put(entity, timers.get(entity) - freq.frequency);
+                timers.put(entity, timers.get(entity) - freqs.get(entity));
             }
 
             Array<Node> path = paths.get(entity);
@@ -121,6 +121,10 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
         alg = new AStar(mapWidth, mapHeight, tileSize);
         this.mapCollisions = boundingBoxes;
         this.tileSize = tileSize;
+        for (Entity e : this.getEntities()) {
+            SpeedComponent mag = Mapper.SPEED_MAPPER.get(e);
+            freqs.put(e, (tileSize / 2) / mag.speed);
+        }
     }
 
     /**
@@ -145,6 +149,15 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
         return alg.findPath(source, target);
     }
 
+    /**
+     * Moves an entity from a source to a target by updating its velocity.
+     *
+     * @param source
+     * @param target
+     * @param vel
+     * @param speed
+     * @param dt
+     */
     private void move(Vector2 source, Vector2 target, Vector2 vel, float speed, float dt) {
         if (source.x < target.x) {
             if (source.x + speed * dt > target.x) {

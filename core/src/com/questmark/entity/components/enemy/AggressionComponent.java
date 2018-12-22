@@ -7,6 +7,8 @@ import com.badlogic.ashley.core.Component;
  * if an enemy will follow and attack the player if in range. Contains a value representing
  * the radius of the effective aggression circle.
  *
+ * If aggression range is -1, then the enemy has global aggression.
+ *
  * @author Ming Li
  */
 public final class AggressionComponent implements Component {
