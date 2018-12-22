@@ -121,7 +121,7 @@ public final class AStar {
                 currBounds.setPosition(x, y);
                 tempTarget.set(x, y);
 
-                if (x < 0 || x > mapWidth * tileSize || y < 0 || y > mapHeight * tileSize) continue;
+                if (x < 0 || x > (mapWidth - 1) * tileSize || y < 0 || y > (mapHeight - 1) * tileSize) continue;
 
                 collisions.clear();
                 quadTree.retrieve(collisions, currBounds);
