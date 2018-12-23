@@ -7,7 +7,7 @@ Questmark is a fast-paced survival RPG for Windows, Mac, and Linux.
 - [X] create game skeleton with Ashley ECS
 - [X] pixel-based collision detection with AABB
 - [X] entity pathfinding with the A* algorithm
-- [X] particle system for weather, hit effects, etc.
+- [ ] particle system for weather, hit effects, etc.
 - [ ] skill trees and attribute system
 - [ ] crowdsource enemy concepts
 - [ ] dialogue tree architecture
