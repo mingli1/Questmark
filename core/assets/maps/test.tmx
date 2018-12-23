@@ -63,9 +63,9 @@
 </data>
  </layer>
  <objectgroup name="collision">
-  <object id="1" x="97.75" y="30.75" width="44" height="14.5"/>
-  <object id="2" x="33.5" y="46.875" width="44" height="14.75"/>
-  <object id="3" x="130.25" y="78.375" width="44" height="15"/>
+  <object id="1" x="97.75" y="33.5" width="44" height="11.75"/>
+  <object id="2" x="33.5" y="49.375" width="44" height="12.25"/>
+  <object id="3" x="130.25" y="81.625" width="44" height="11.75"/>
   <object id="5" x="49.5" y="177.375" width="44" height="12.25"/>
   <object id="6" x="2" y="194.042" width="44" height="12.6667"/>
   <object id="7" x="97.6667" y="193.958" width="44" height="11.75"/>

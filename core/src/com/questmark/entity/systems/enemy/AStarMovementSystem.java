@@ -102,7 +102,6 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
 
             if (!toSource.get(entity)) {
                 Vector2 s = new Vector2(sx, sy);
-                if (returnPaths.get(entity) != null) returnPaths.get(entity).clear();
                 returnPaths.put(entity, getPath(entity, new Vector2(Math.round(pos.p.x / tileSize) * tileSize,
                         Math.round(pos.p.y / tileSize) * tileSize), s));
                 toSource.put(entity, true);
