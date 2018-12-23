@@ -9,4 +9,11 @@ import com.badlogic.ashley.core.Component;
  * @author Ming Li
  */
 public final class RandomMovementComponent implements Component {
+
+    public final float freq;
+
+    public RandomMovementComponent(float freq) {
+        this.freq = freq;
+    }
+
 }

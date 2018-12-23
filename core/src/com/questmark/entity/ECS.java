@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.questmark.entity.entities.AStarEntity;
 import com.questmark.entity.entities.Player;
 import com.questmark.entity.systems.*;
 import com.questmark.entity.systems.collision.*;
@@ -38,7 +37,6 @@ public final class ECS implements Disposable {
 
     // entities
     private Player player;
-    private AStarEntity aStarEntity;
 
     public ECS(Batch batch, Resources res) {
         engine = new Engine();
@@ -52,10 +50,8 @@ public final class ECS implements Disposable {
      */
     private void addEntities(Resources res) {
         player = new Player(new Vector2(168, 180), res);
-        aStarEntity = new AStarEntity(new Vector2(168, 180), res);
 
         engine.addEntity(player);
-        engine.addEntity(aStarEntity);
     }
 
     /**

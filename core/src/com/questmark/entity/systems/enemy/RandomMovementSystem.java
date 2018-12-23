@@ -11,7 +11,6 @@ import com.questmark.entity.components.enemy.AggressionComponent;
 import com.questmark.entity.components.enemy.EnemyComponent;
 import com.questmark.entity.components.SpeedComponent;
 import com.questmark.entity.components.VelocityComponent;
-import com.questmark.entity.components.enemy.MovementFrequencyComponent;
 import com.questmark.entity.components.enemy.RandomMovementComponent;
 import com.questmark.input.Direction;
 
@@ -29,7 +28,7 @@ public class RandomMovementSystem extends IteratingSystem {
     private Map<Entity, Float> timers;
 
     public RandomMovementSystem() {
-        super(Family.all(EnemyComponent.class, RandomMovementComponent.class, MovementFrequencyComponent.class).get());
+        super(Family.all(EnemyComponent.class, RandomMovementComponent.class).get());
     }
 
     @Override
@@ -55,14 +54,14 @@ public class RandomMovementSystem extends IteratingSystem {
 
         VelocityComponent vel = Mapper.VEL_MAPPER.get(entity);
         SpeedComponent mag = Mapper.SPEED_MAPPER.get(entity);
-        MovementFrequencyComponent freq = Mapper.MOVE_FREQ_MAPPER.get(entity);
+        RandomMovementComponent rand = Mapper.RAND_MOVE_MAPPER.get(entity);
 
         // change action every frequency seconds
-        if (timers.get(entity) > freq.frequency) {
+        if (timers.get(entity) > rand.freq) {
             int action = MathUtils.random(4);
             if (action == 4) vel.v.x = vel.v.y = 0.f;
             else vel.move(Direction.getDir(action), mag.speed);
-            timers.put(entity, timers.get(entity) - freq.frequency);
+            timers.put(entity, timers.get(entity) - rand.freq);
         }
     }
 

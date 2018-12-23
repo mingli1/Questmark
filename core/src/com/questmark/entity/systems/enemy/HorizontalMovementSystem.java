@@ -13,7 +13,6 @@ import com.questmark.entity.components.VelocityComponent;
 import com.questmark.entity.components.enemy.AggressionComponent;
 import com.questmark.entity.components.enemy.EnemyComponent;
 import com.questmark.entity.components.enemy.HorizontalMovementComponent;
-import com.questmark.entity.components.enemy.MovementDistanceComponent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,8 +28,7 @@ public class HorizontalMovementSystem extends IteratingSystem {
     private Map<Entity, Float> targets;
 
     public HorizontalMovementSystem() {
-        super(Family.all(EnemyComponent.class, HorizontalMovementComponent.class,
-                MovementDistanceComponent.class).get());
+        super(Family.all(EnemyComponent.class, HorizontalMovementComponent.class).get());
     }
 
     @Override
@@ -39,16 +37,16 @@ public class HorizontalMovementSystem extends IteratingSystem {
         targets = new HashMap<Entity, Float>();
         for (Entity e : this.getEntities()) {
             PositionComponent pos = Mapper.POS_MAPPER.get(e);
-            MovementDistanceComponent dist = Mapper.MOVE_DIST_MAPPER.get(e);
+            HorizontalMovementComponent hor = Mapper.HOR_MOVE_MAPPER.get(e);
             VelocityComponent vel = Mapper.VEL_MAPPER.get(e);
             SpeedComponent mag = Mapper.SPEED_MAPPER.get(e);
             boolean p = MathUtils.randomBoolean();
             if (p) {
-                targets.put(e, pos.p.x + dist.dist);
+                targets.put(e, pos.p.x + hor.dist);
                 vel.v.x = mag.speed;
             }
             else {
-                targets.put(e, pos.p.x - dist.dist);
+                targets.put(e, pos.p.x - hor.dist);
                 vel.v.x = -mag.speed;
             }
         }
@@ -58,12 +56,12 @@ public class HorizontalMovementSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float dt) {
         AggressionComponent agg = Mapper.AGGRESSION_MAPPER.get(entity);
         PositionComponent pos = Mapper.POS_MAPPER.get(entity);
-        MovementDistanceComponent dist = Mapper.MOVE_DIST_MAPPER.get(entity);
+        HorizontalMovementComponent hor = Mapper.HOR_MOVE_MAPPER.get(entity);
 
         if (agg != null) {
             if (agg.atSource) {
                 if (pos.p.x == targets.get(entity))
-                    targets.put(entity, MathUtils.randomBoolean() ? pos.p.x + dist.dist : pos.p.x - dist.dist);
+                    targets.put(entity, MathUtils.randomBoolean() ? pos.p.x + hor.dist : pos.p.x - hor.dist);
                 handleMovement(entity);
             }
         } else handleMovement(entity);
@@ -73,7 +71,7 @@ public class HorizontalMovementSystem extends IteratingSystem {
         PositionComponent pos = Mapper.POS_MAPPER.get(entity);
         VelocityComponent vel = Mapper.VEL_MAPPER.get(entity);
         SpeedComponent mag = Mapper.SPEED_MAPPER.get(entity);
-        MovementDistanceComponent dist = Mapper.MOVE_DIST_MAPPER.get(entity);
+        HorizontalMovementComponent hor = Mapper.HOR_MOVE_MAPPER.get(entity);
 
         float target = targets.get(entity);
 
@@ -83,11 +81,11 @@ public class HorizontalMovementSystem extends IteratingSystem {
         }
 
         if (vel.v.x > 0 && pos.p.x >= target) {
-            targets.put(entity, target - dist.dist);
+            targets.put(entity, target - hor.dist);
             vel.v.x = -mag.speed;
         }
         if (vel.v.x < 0 && pos.p.x <= target) {
-            targets.put(entity, target + dist.dist);
+            targets.put(entity, target + hor.dist);
             vel.v.x = mag.speed;
         }
     }
