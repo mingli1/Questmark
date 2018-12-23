@@ -97,8 +97,13 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
         }
         else {
             SourcePositionComponent source = Mapper.SOURCE_POS_MAPPER.get(entity);
+            int tx = ((int) pos.p.x / tileSize) * tileSize;
+            int ty = ((int) pos.p.y / tileSize) * tileSize;
+            int sx = ((int) source.s.x / tileSize) * tileSize;
+            int sy = ((int) source.s.y / tileSize) * tileSize;
+
             if (!toSource.get(entity)) {
-                Vector2 s = new Vector2(((int) source.s.x / tileSize) * tileSize, ((int) source.s.y / tileSize) * tileSize);
+                Vector2 s = new Vector2(sx, sy);
                 returnPath.clear();
                 returnPath = getPath(entity, new Vector2(Math.round(pos.p.x / tileSize) * tileSize,
                         Math.round(pos.p.y / tileSize) * tileSize), s);
@@ -107,15 +112,14 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
 
             if (returnPath.size > 0) {
                 Vector2 target = returnPath.get(returnPath.size - 1).position;
-                move(pos.p, target, vel.v, mag.speed, deltaTime);
-                if (pos.p.equals(target)) {
-                    returnPath.removeIndex(returnPath.size - 1);
+                if (sx == target.x && sy == target.y) {
+                    move(pos.p, source.s, vel.v, mag.speed, deltaTime);
+                    if (pos.p.equals(source.s)) returnPath.removeIndex(returnPath.size - 1);
                 }
-            }
-            if (((int) pos.p.x / tileSize) * tileSize == ((int) source.s.x / tileSize) * tileSize
-                    && ((int) pos.p.y / tileSize) * tileSize == ((int) source.s.y / tileSize) * tileSize
-                    && pos.p.x != source.s.x && pos.p.y != source.s.y) {
-                move(pos.p, source.s, vel.v, mag.speed, deltaTime);
+                else {
+                    move(pos.p, target, vel.v, mag.speed, deltaTime);
+                    if (pos.p.equals(target)) returnPath.removeIndex(returnPath.size - 1);
+                }
             }
         }
     }
