@@ -34,7 +34,6 @@ public final class AStar {
     private BinaryHeap<Node> openHeap;
     private Map<Vector2, Node> openSet;
     private Map<Vector2, Node> closedSet;
-    private Array<Node> path;
     private Vector2 tempTarget;
 
     public AStar(int mapWidth, int mapHeight, int tileSize) {
@@ -46,7 +45,6 @@ public final class AStar {
         openHeap = new BinaryHeap<Node>();
         openSet = new HashMap<Vector2, Node>();
         closedSet = new HashMap<Vector2, Node>();
-        path = new Array<Node>();
         tempTarget = new Vector2();
 
         collisions = new Array<Rectangle>();
@@ -94,7 +92,7 @@ public final class AStar {
         openHeap.clear();
         openSet.clear();
         closedSet.clear();
-        path.clear();
+        Array<Node> path = new Array<Node>();
 
         // initialize source
         Node source = new Node(start, null, 0, getHeuristic(start, target, heuristic));
