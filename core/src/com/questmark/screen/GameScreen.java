@@ -39,6 +39,8 @@ public class GameScreen extends AbstractScreen {
         KeyInputSystem inputSystem = new KeyInputSystem();
         input = new KeyInput(inputSystem);
         ecs.addSystem(inputSystem);
+
+        cam.zoom += 2;
     }
 
     @Override

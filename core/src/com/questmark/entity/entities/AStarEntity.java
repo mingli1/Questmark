@@ -4,9 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.questmark.entity.components.*;
-import com.questmark.entity.components.enemy.AggressionComponent;
-import com.questmark.entity.components.enemy.EnemyComponent;
-import com.questmark.entity.components.enemy.SourcePositionComponent;
+import com.questmark.entity.components.enemy.*;
 import com.questmark.util.Resources;
 
 public class AStarEntity extends Entity {
@@ -21,7 +19,9 @@ public class AStarEntity extends Entity {
         this.add(new VelocityComponent(0, 0));
         this.add(new SpeedComponent(14.f));
         this.add(new BoundingBoxComponent(12, 16));
-        this.add(new AggressionComponent(75));
+        this.add(new AggressionComponent(50));
+        this.add(new RandomMovementComponent());
+        this.add(new MovementFrequencyComponent(0.7f));
         this.add(new SourcePositionComponent(position.x, position.y));
     }
 

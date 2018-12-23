@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
 import com.questmark.entity.Mapper;
+import com.questmark.entity.components.enemy.AggressionComponent;
 import com.questmark.entity.components.enemy.EnemyComponent;
 import com.questmark.entity.components.SpeedComponent;
 import com.questmark.entity.components.VelocityComponent;
@@ -42,6 +43,14 @@ public class RandomMovementSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float dt) {
+        AggressionComponent agg = Mapper.AGGRESSION_MAPPER.get(entity);
+
+        if (agg != null) {
+            if (agg.atSource) handleMovement(entity, dt);
+        } else handleMovement(entity, dt);
+    }
+
+    private void handleMovement(Entity entity, float dt) {
         timers.put(entity, timers.get(entity) + dt);
 
         VelocityComponent vel = Mapper.VEL_MAPPER.get(entity);

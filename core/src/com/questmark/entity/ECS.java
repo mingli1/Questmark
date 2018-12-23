@@ -51,8 +51,8 @@ public final class ECS implements Disposable {
      * Initializes and adds all entities to the engine.
      */
     private void addEntities(Resources res) {
-        player = new Player(new Vector2(0, 0), res);
-        aStarEntity = new AStarEntity(new Vector2(103, 134), res);
+        player = new Player(new Vector2(168, 180), res);
+        aStarEntity = new AStarEntity(new Vector2(168, 180), res);
 
         engine.addEntity(player);
         engine.addEntity(aStarEntity);

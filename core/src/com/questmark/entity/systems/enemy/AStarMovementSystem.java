@@ -74,6 +74,7 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
 
         // player within aggression range
         if (pos.p.dst(playerPos.p) <= agg.range || agg.range == -1.f) {
+            agg.atSource = false;
             toSource.put(entity, false);
             timers.put(entity, timers.get(entity) + deltaTime);
 
@@ -120,6 +121,7 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
                     }
                 }
             }
+            if (pos.p.equals(source.s)) agg.atSource = true;
         }
     }
 

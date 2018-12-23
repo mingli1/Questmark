@@ -10,6 +10,7 @@ import com.questmark.entity.Mapper;
 import com.questmark.entity.components.PositionComponent;
 import com.questmark.entity.components.SpeedComponent;
 import com.questmark.entity.components.VelocityComponent;
+import com.questmark.entity.components.enemy.AggressionComponent;
 import com.questmark.entity.components.enemy.EnemyComponent;
 import com.questmark.entity.components.enemy.MovementDistanceComponent;
 import com.questmark.entity.components.enemy.VerticalMovementComponent;
@@ -55,6 +56,20 @@ public class VerticalMovementSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float dt) {
+        AggressionComponent agg = Mapper.AGGRESSION_MAPPER.get(entity);
+        PositionComponent pos = Mapper.POS_MAPPER.get(entity);
+        MovementDistanceComponent dist = Mapper.MOVE_DIST_MAPPER.get(entity);
+
+        if (agg != null) {
+            if (agg.atSource) {
+                if (pos.p.y == targets.get(entity))
+                    targets.put(entity, MathUtils.randomBoolean() ? pos.p.y + dist.dist : pos.p.y - dist.dist);
+                handleMovement(entity);
+            }
+        } else handleMovement(entity);
+    }
+
+    private void handleMovement(Entity entity) {
         PositionComponent pos = Mapper.POS_MAPPER.get(entity);
         VelocityComponent vel = Mapper.VEL_MAPPER.get(entity);
         SpeedComponent mag = Mapper.SPEED_MAPPER.get(entity);
