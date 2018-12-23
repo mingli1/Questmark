@@ -65,37 +65,22 @@ public final class AStar {
     }
 
     /**
-     * Returns a list of {@link Node} representing the A* path from a given start position to
-     * a given target position, considering a list of bounding boxes to avoid.
-     * Uses Euclidean heuristic function
-     *
-     * @param start the start position as the center of the tile the player's position is currently on
-     * @param target the target position
-     * @return an A* path
-     */
-    public Array<Node> findPath(Vector2 start, Vector2 target) {
-        return findPath(start, target, 0);
-    }
-
-    /**
      * Returns a list of {@link Node} representing the A* path from a given start position to a
-     * given target position, considering a list of bounding boxes to avoid. This function allows a
-     * choice for the heuristic function where (0 - euclidean, 1 - manhattan, 2 - diagonal)
+     * given target position, considering a list of bounding boxes to avoid.
      * Returns null is there is no possible path from start to target.
      *
      * @param start the start position of the tile the player's position is currently on
      * @param target the target position
-     * @param heuristic an int representing a heuristic function as documented above
      * @return an A* path and null if there is no path
      */
-    public Array<Node> findPath(Vector2 start, Vector2 target, int heuristic) {
+    public Array<Node> findPath(Vector2 start, Vector2 target) {
         openHeap.clear();
         openSet.clear();
         closedSet.clear();
         Array<Node> path = new Array<Node>();
 
         // initialize source
-        Node source = new Node(start, null, 0, getHeuristic(start, target, heuristic));
+        Node source = new Node(start, null, 0, diagonal(start, target));
         openHeap.add(source);
         openSet.put(source.position, source);
 
@@ -165,8 +150,8 @@ public final class AStar {
                     if (b1 && b2) continue;
                 }
 
-                float gScore = curr.gScore + getHeuristic(curr.position, tempTarget, heuristic);
-                float hScore = getHeuristic(tempTarget, target, heuristic);
+                float gScore = curr.gScore + diagonal(curr.position, tempTarget);
+                float hScore = diagonal(tempTarget, target);
                 Node successor = new Node(new Vector2(x, y), curr, gScore, hScore);
 
                 if (openSet.containsKey(successor.position) &&
@@ -185,36 +170,6 @@ public final class AStar {
     }
 
     /**
-     * Returns the heuristic calculation based on heuristic function type.
-     * (0 - euclidean, 1 - manhattan, 2 - diagonal)
-     *
-     * @param start
-     * @param target
-     * @param heuristic
-     * @return
-     */
-    private float getHeuristic(Vector2 start, Vector2 target, int heuristic) {
-        if (heuristic == 0) return euclidean(start, target);
-        if (heuristic == 1) return manhattan(start, target);
-        if (heuristic == 2) return diagonal(start, target);
-        return -1;
-    }
-
-    /** HEURISTIC FUNCTIONS **/
-
-    /**
-     * A heuristic function that returns the Manhattan distance between two given positions.
-     * Used for restricting A* search to four cardinal directions.
-     *
-     * @param start the start position
-     * @param target the target position
-     * @return the Manhattan distance
-     */
-    private float manhattan(Vector2 start, Vector2 target) {
-        return Math.abs(start.x - target.x) + Math.abs(start.y - target.y);
-    }
-
-    /**
      * A heuristic function that returns the diagonal distance between two given positions.
      * Used for restricting A* search to eight directions: N, E, S, W, NE, NW, SE, SW
      *
@@ -223,19 +178,11 @@ public final class AStar {
      * @return the diagonal distance
      */
     private float diagonal(Vector2 start, Vector2 target) {
-        return Math.max(Math.abs(start.x - target.x), Math.abs(start.y - target.y));
-    }
-
-    /**
-     * A heuristic function that returns the Euclidean distance between two given positions.
-     * Allows for unrestricted directions in A* search.
-     *
-     * @param start the start position
-     * @param target the end position
-     * @return the Euclidean distance
-     */
-    private float euclidean(Vector2 start, Vector2 target) {
-        return start.dst(target);
+        float dx = Math.abs(start.x - target.x);
+        float dy = Math.abs(start.y - target.y);
+        float d = 1.f;
+        float d2 = 1.41421f;
+        return d * (dx + dy) + (d2 - 2 * d) * Math.min(dx, dy);
     }
 
 }
