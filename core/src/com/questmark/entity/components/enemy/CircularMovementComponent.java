@@ -9,4 +9,11 @@ import com.badlogic.ashley.core.Component;
  * @author Ming Li
  */
 public final class CircularMovementComponent implements Component {
+
+    public final float dist;
+
+    public CircularMovementComponent(float dist) {
+        this.dist = dist;
+    }
+
 }

@@ -33,7 +33,7 @@ public final class ECS implements Disposable {
     private CircularMovementSystem circularMovementSystem;
     private HorizontalMovementSystem horizontalMovementSystem;
     private VerticalMovementSystem verticalMovementSystem;
-    private NaiveFollowMovementSystem naiveFollowMovementSystem;
+    private AStarMovementSystem aStarMovementSystem;
 
     // entities
     private Player player;
@@ -49,7 +49,7 @@ public final class ECS implements Disposable {
      * Initializes and adds all entities to the engine.
      */
     private void addEntities(Resources res) {
-        player = new Player(new Vector2(0, 0), res);
+        player = new Player(new Vector2(168, 180), res);
 
         engine.addEntity(player);
     }
@@ -69,7 +69,7 @@ public final class ECS implements Disposable {
         circularMovementSystem = new CircularMovementSystem();
         horizontalMovementSystem = new HorizontalMovementSystem();
         verticalMovementSystem = new VerticalMovementSystem();
-        naiveFollowMovementSystem = new NaiveFollowMovementSystem();
+        aStarMovementSystem = new AStarMovementSystem();
 
         addSystem(movementSystem);
         addSystem(tileMapCollisionSystem);
@@ -78,7 +78,7 @@ public final class ECS implements Disposable {
         addSystem(circularMovementSystem);
         addSystem(horizontalMovementSystem);
         addSystem(verticalMovementSystem);
-        addSystem(naiveFollowMovementSystem);
+        addSystem(aStarMovementSystem);
         addSystem(renderSystem);
     }
 
@@ -140,6 +140,7 @@ public final class ECS implements Disposable {
     public void updateCollisionSystems(int mapWidth, int mapHeight, int tileSize, Array<Rectangle> boundingBoxes) {
         tileMapCollisionSystem.setMapData(mapWidth, mapHeight, tileSize, boundingBoxes);
         entityCollisionSystem.setMapData(mapWidth, mapHeight, tileSize, boundingBoxes);
+        aStarMovementSystem.setMapData(mapWidth, mapHeight, tileSize, boundingBoxes);
     }
 
 }

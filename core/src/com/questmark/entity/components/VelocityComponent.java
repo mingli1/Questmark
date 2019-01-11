@@ -12,25 +12,14 @@ import com.questmark.input.Direction;
  */
 public final class VelocityComponent implements Component {
 
-    public float dx;
-    public float dy;
+    public Vector2 v;
 
     public VelocityComponent(float dx, float dy) {
-        this.dx = dx;
-        this.dy = dy;
+        v = new Vector2(dx, dy);
     }
 
     public VelocityComponent(Vector2 vel) {
-        this.setVel(vel);
-    }
-
-    public void setVel(Vector2 vel) {
-        this.dx = vel.x;
-        this.dy = vel.y;
-    }
-
-    public Vector2 getVel() {
-        return new Vector2(dx, dy);
+        this(vel.x, vel.y);
     }
 
     /**
@@ -42,16 +31,16 @@ public final class VelocityComponent implements Component {
     public void move(Direction dir, float mag) {
         switch (dir) {
             case Up:
-                dy = mag;
+                v.y = mag;
                 break;
             case Down:
-                dy = -mag;
+                v.y = -mag;
                 break;
             case Left:
-                dx = -mag;
+                v.x = -mag;
                 break;
             case Right:
-                dx = mag;
+                v.x = mag;
                 break;
         }
     }

@@ -3,8 +3,7 @@ package com.questmark.entity;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.questmark.entity.components.*;
-import com.questmark.entity.components.enemy.MovementDistanceComponent;
-import com.questmark.entity.components.enemy.MovementFrequencyComponent;
+import com.questmark.entity.components.enemy.*;
 
 /**
  * A utility class that contains a {@link ComponentMapper} for each Ashley {@link Component}
@@ -37,10 +36,22 @@ public final class Mapper {
 
     // enemy specific components
 
-    public static final ComponentMapper<MovementFrequencyComponent> MOVE_FREQ_MAPPER
-            = ComponentMapper.getFor(MovementFrequencyComponent.class);
+    public static final ComponentMapper<AggressionComponent> AGGRESSION_MAPPER
+            = ComponentMapper.getFor(AggressionComponent.class);
 
-    public static final ComponentMapper<MovementDistanceComponent> MOVE_DIST_MAPPER
-            = ComponentMapper.getFor(MovementDistanceComponent.class);
+    public static final ComponentMapper<SourcePositionComponent> SOURCE_POS_MAPPER
+            = ComponentMapper.getFor(SourcePositionComponent.class);
+
+    public static final ComponentMapper<CircularMovementComponent> CIR_MOVE_MAPPER
+            = ComponentMapper.getFor(CircularMovementComponent.class);
+
+    public static final ComponentMapper<HorizontalMovementComponent> HOR_MOVE_MAPPER
+            = ComponentMapper.getFor(HorizontalMovementComponent.class);
+
+    public static final ComponentMapper<VerticalMovementComponent> VER_MOVE_MAPPER
+            = ComponentMapper.getFor(VerticalMovementComponent.class);
+
+    public static final ComponentMapper<RandomMovementComponent> RAND_MOVE_MAPPER
+            = ComponentMapper.getFor(RandomMovementComponent.class);
 
 }

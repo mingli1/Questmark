@@ -38,16 +38,16 @@ public class KeyInputSystem extends EntitySystem implements KeyInputHandler {
         VelocityComponent velocity = Mapper.VEL_MAPPER.get(player);
         switch (direction) {
             case Up:
-                if (velocity.dy > 0) velocity.dy = 0.f;
+                if (velocity.v.y > 0) velocity.v.y = 0.f;
                 break;
             case Down:
-                if (velocity.dy < 0) velocity.dy = 0.f;
+                if (velocity.v.y < 0) velocity.v.y = 0.f;
                 break;
             case Left:
-                if (velocity.dx < 0) velocity.dx = 0.f;
+                if (velocity.v.x < 0) velocity.v.x = 0.f;
                 break;
             case Right:
-                if (velocity.dx > 0) velocity.dx = 0.f;
+                if (velocity.v.x > 0) velocity.v.x = 0.f;
                 break;
         }
     }

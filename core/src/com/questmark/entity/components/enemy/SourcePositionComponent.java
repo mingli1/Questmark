@@ -1,6 +1,7 @@
 package com.questmark.entity.components.enemy;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Represents the original position of an entity when it first spawns. Used
@@ -10,12 +11,14 @@ import com.badlogic.ashley.core.Component;
  */
 public final class SourcePositionComponent implements Component {
 
-    public final float sourceX;
-    public final float sourceY;
+    public final Vector2 s;
 
     public SourcePositionComponent(float sourceX, float sourceY) {
-        this.sourceX = sourceX;
-        this.sourceY = sourceY;
+        s = new Vector2(sourceX, sourceY);
+    }
+
+    public SourcePositionComponent(Vector2 source) {
+        this(source.x, source.y);
     }
 
 }

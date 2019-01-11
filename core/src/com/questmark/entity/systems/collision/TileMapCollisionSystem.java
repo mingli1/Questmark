@@ -34,32 +34,35 @@ public class TileMapCollisionSystem extends IteratingSystem implements Collision
 
     @Override
     protected void processEntity(Entity entity, float dt) {
-        BoundingBoxComponent boundingBox = Mapper.BOUNDING_BOX_MAPPER.get(entity);
+        BoundingBoxComponent bb = Mapper.BOUNDING_BOX_MAPPER.get(entity);
         PositionComponent position = Mapper.POS_MAPPER.get(entity);
         VelocityComponent velocity = Mapper.VEL_MAPPER.get(entity);
         DimensionComponent size = Mapper.SIZE_MAPPER.get(entity);
         PreviousPositionComponent prevPosition = Mapper.PREV_POS_MAPPER.get(entity);
-        boundingBox.bounds.setPosition(position.x + (size.width - boundingBox.bounds.width) / 2,
-                position.y + (size.height - boundingBox.bounds.height) / 2);
+        bb.bounds.setPosition(position.p.x + (size.width - bb.bounds.width) / 2,
+                position.p.y + (size.height - bb.bounds.height) / 2);
 
         // check for going outside of map
-        if (position.x < 0 || position.x > (mapWidth - 1) * tileSize
-                || position.y < 0 || position.y > (mapHeight - 1) * tileSize)  {
-            velocity.dx = 0.f;
-            velocity.dy = 0.f;
-            position.x = prevPosition.x;
-            position.y = prevPosition.y;
+        if (position.p.x < 0 || position.p.x > (mapWidth - 1) * tileSize) {
+            position.p.x = prevPosition.p.x;
+        }
+        if (position.p.y < 0 || position.p.y > (mapHeight - 1) * tileSize) {
+            position.p.y = prevPosition.p.y;
         }
 
         collisions.clear();
-        quadTree.retrieve(collisions, boundingBox.bounds);
+        quadTree.retrieve(collisions, bb.bounds);
 
         for (Rectangle bounds : collisions) {
-            if (boundingBox.bounds.overlaps(bounds)) {
-                velocity.dx = 0.f;
-                velocity.dy = 0.f;
-                position.x = prevPosition.x;
-                position.y = prevPosition.y;
+            if (bb.bounds.overlaps(bounds)) {
+                float bx = prevPosition.p.x + (size.width - bb.bounds.width) / 2;
+                float by = prevPosition.p.y + (size.height - bb.bounds.height) / 2;
+                if (bx + bb.bounds.width > bounds.x && bx <= bounds.x + bounds.width && velocity.v.y != 0) {
+                    position.p.y = prevPosition.p.y;
+                }
+                else if (by + bb.bounds.height > bounds.y && by <= bounds.y + bounds.height && velocity.v.x != 0) {
+                    position.p.x = prevPosition.p.x;
+                }
             }
         }
     }

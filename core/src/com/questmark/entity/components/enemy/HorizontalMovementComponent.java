@@ -9,4 +9,11 @@ import com.badlogic.ashley.core.Component;
  * @author Ming Li
  */
 public final class HorizontalMovementComponent implements Component {
+
+    public final float dist;
+
+    public HorizontalMovementComponent(float dist) {
+        this.dist = dist;
+    }
+
 }
