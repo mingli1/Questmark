@@ -21,14 +21,14 @@ class GameScreen(game: Questmark) : AbstractScreen(game) {
     private val input: KeyInput
 
     // entity
-    private val ecs: ECS = ECS(game.batch, game.res)
+    private val ecs: ECS = ECS(game.batch!!, game.res!!)
     private val player: Player
 
     // map
     private val tileMapManager: TileMapManager
 
     init {
-        player = ecs.player
+        player = ecs.player!!
         tileMapManager = TileMapManager(game.batch!!, cam)
 
         // player input system
