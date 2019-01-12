@@ -66,24 +66,24 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        AggressionComponent agg = Mapper.AGGRESSION_MAPPER.get(entity);
-        PositionComponent pos = Mapper.POS_MAPPER.get(entity);
-        PositionComponent playerPos = Mapper.POS_MAPPER.get(player);
-        VelocityComponent vel = Mapper.VEL_MAPPER.get(entity);
-        SpeedComponent mag = Mapper.SPEED_MAPPER.get(entity);
+        AggressionComponent agg = Mapper.INSTANCE.getAGGRESSION_MAPPER().get(entity);
+        PositionComponent pos = Mapper.INSTANCE.getPOS_MAPPER().get(entity);
+        PositionComponent playerPos = Mapper.INSTANCE.getPOS_MAPPER().get(player);
+        VelocityComponent vel = Mapper.INSTANCE.getVEL_MAPPER().get(entity);
+        SpeedComponent mag = Mapper.INSTANCE.getSPEED_MAPPER().get(entity);
 
         // player within aggression range
-        if (pos.p.dst(playerPos.p) <= agg.range || agg.range == -1.f) {
-            agg.atSource = false;
+        if (pos.getP().dst(playerPos.getP()) <= agg.getRange() || agg.getRange() == -1.f) {
+            agg.setAtSource(false);
             toSource.put(entity, false);
             timers.put(entity, timers.get(entity) + deltaTime);
 
             if (timers.get(entity) > freqs.get(entity)) {
-                Vector2 source = new Vector2(Math.round(pos.p.x / tileSize) * tileSize,
-                        Math.round(pos.p.y / tileSize) * tileSize);
-                Vector2 target = new Vector2(Math.round(playerPos.p.x / tileSize) * tileSize,
-                        Math.round(playerPos.p.y / tileSize) * tileSize);
-                if (source.equals(target)) vel.v.set(0.f, 0.f);
+                Vector2 source = new Vector2(Math.round(pos.getP().x / tileSize) * tileSize,
+                        Math.round(pos.getP().y / tileSize) * tileSize);
+                Vector2 target = new Vector2(Math.round(playerPos.getP().x / tileSize) * tileSize,
+                        Math.round(playerPos.getP().y / tileSize) * tileSize);
+                if (source.equals(target)) vel.getV().set(0.f, 0.f);
                 else paths.put(entity, getPath(entity, source, target));
                 timers.put(entity, timers.get(entity) - freqs.get(entity));
             }
@@ -92,19 +92,19 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
             if (path != null) {
                 if (path.size > 0) {
                     Vector2 target = path.get(path.size - 1).position;
-                    move(pos.p, target, vel.v, mag.speed, deltaTime);
+                    move(pos.getP(), target, vel.getV(), mag.getSpeed(), deltaTime);
                 }
             }
         }
         else {
-            SourcePositionComponent source = Mapper.SOURCE_POS_MAPPER.get(entity);
-            int sx = ((int) source.s.x / tileSize) * tileSize;
-            int sy = ((int) source.s.y / tileSize) * tileSize;
+            SourcePositionComponent source = Mapper.INSTANCE.getSOURCE_POS_MAPPER().get(entity);
+            int sx = ((int) source.getS().x / tileSize) * tileSize;
+            int sy = ((int) source.getS().y / tileSize) * tileSize;
 
             if (!toSource.get(entity)) {
                 Vector2 s = new Vector2(sx, sy);
-                returnPaths.put(entity, getPath(entity, new Vector2(Math.round(pos.p.x / tileSize) * tileSize,
-                        Math.round(pos.p.y / tileSize) * tileSize), s));
+                returnPaths.put(entity, getPath(entity, new Vector2(Math.round(pos.getP().x / tileSize) * tileSize,
+                        Math.round(pos.getP().y / tileSize) * tileSize), s));
                 toSource.put(entity, true);
             }
 
@@ -113,15 +113,15 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
                 if (returnPath.size > 0) {
                     Vector2 target = returnPath.get(returnPath.size - 1).position;
                     if (sx == target.x && sy == target.y) {
-                        move(pos.p, source.s, vel.v, mag.speed, deltaTime);
-                        if (pos.p.equals(source.s)) returnPath.removeIndex(returnPath.size - 1);
+                        move(pos.getP(), source.getS(), vel.getV(), mag.getSpeed(), deltaTime);
+                        if (pos.getP().equals(source.getS())) returnPath.removeIndex(returnPath.size - 1);
                     } else {
-                        move(pos.p, target, vel.v, mag.speed, deltaTime);
-                        if (pos.p.equals(target)) returnPath.removeIndex(returnPath.size - 1);
+                        move(pos.getP(), target, vel.getV(), mag.getSpeed(), deltaTime);
+                        if (pos.getP().equals(target)) returnPath.removeIndex(returnPath.size - 1);
                     }
                 }
             }
-            if (pos.p.equals(source.s)) agg.atSource = true;
+            if (pos.getP().equals(source.getS())) agg.setAtSource(true);
         }
     }
 
@@ -131,8 +131,8 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
         this.mapCollisions = boundingBoxes;
         this.tileSize = tileSize;
         for (Entity e : this.getEntities()) {
-            SpeedComponent mag = Mapper.SPEED_MAPPER.get(e);
-            freqs.put(e, (tileSize / 2) / mag.speed);
+            SpeedComponent mag = Mapper.INSTANCE.getSPEED_MAPPER().get(e);
+            freqs.put(e, (tileSize / 2) / mag.getSpeed());
         }
     }
 
@@ -150,8 +150,8 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
         allCollisions.addAll(mapCollisions);
         for (Entity entity : collidableEntities) {
             if (!e.equals(entity)) {
-                BoundingBoxComponent bb = Mapper.BOUNDING_BOX_MAPPER.get(e);
-                allCollisions.add(bb.bounds);
+                BoundingBoxComponent bb = Mapper.INSTANCE.getBOUNDING_BOX_MAPPER().get(e);
+                allCollisions.add(bb.getBounds());
             }
         }
         alg.setCollisionData(allCollisions);
