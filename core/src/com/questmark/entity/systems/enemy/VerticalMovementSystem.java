@@ -36,10 +36,10 @@ public class VerticalMovementSystem extends IteratingSystem {
         super.addedToEngine(engine);
         targets = new HashMap<Entity, Float>();
         for (Entity e : this.getEntities()) {
-            PositionComponent pos = Mapper.POS_MAPPER.get(e);
-            VerticalMovementComponent ver = Mapper.VER_MOVE_MAPPER.get(e);
-            VelocityComponent vel = Mapper.VEL_MAPPER.get(e);
-            SpeedComponent mag = Mapper.SPEED_MAPPER.get(e);
+            PositionComponent pos = Mapper.INSTANCE.getPOS_MAPPER().get(e);
+            VerticalMovementComponent ver = Mapper.INSTANCE.getVER_MOVE_MAPPER().get(e);
+            VelocityComponent vel = Mapper.INSTANCE.getVEL_MAPPER().get(e);
+            SpeedComponent mag = Mapper.INSTANCE.getSPEED_MAPPER().get(e);
             boolean p = MathUtils.randomBoolean();
             if (p) {
                 targets.put(e, pos.p.y + ver.dist);
@@ -54,9 +54,9 @@ public class VerticalMovementSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float dt) {
-        AggressionComponent agg = Mapper.AGGRESSION_MAPPER.get(entity);
-        PositionComponent pos = Mapper.POS_MAPPER.get(entity);
-        VerticalMovementComponent ver = Mapper.VER_MOVE_MAPPER.get(entity);
+        AggressionComponent agg = Mapper.INSTANCE.getAGGRESSION_MAPPER().get(entity);
+        PositionComponent pos = Mapper.INSTANCE.getPOS_MAPPER().get(entity);
+        VerticalMovementComponent ver = Mapper.INSTANCE.getVER_MOVE_MAPPER().get(entity);
 
         if (agg != null) {
             if (agg.atSource) {
@@ -68,10 +68,10 @@ public class VerticalMovementSystem extends IteratingSystem {
     }
 
     private void handleMovement(Entity entity) {
-        PositionComponent pos = Mapper.POS_MAPPER.get(entity);
-        VelocityComponent vel = Mapper.VEL_MAPPER.get(entity);
-        SpeedComponent mag = Mapper.SPEED_MAPPER.get(entity);
-        VerticalMovementComponent ver = Mapper.VER_MOVE_MAPPER.get(entity);
+        PositionComponent pos = Mapper.INSTANCE.getPOS_MAPPER().get(entity);
+        VelocityComponent vel = Mapper.INSTANCE.getVEL_MAPPER().get(entity);
+        SpeedComponent mag = Mapper.INSTANCE.getSPEED_MAPPER().get(entity);
+        VerticalMovementComponent ver = Mapper.INSTANCE.getVER_MOVE_MAPPER().get(entity);
 
         float target = targets.get(entity);
 

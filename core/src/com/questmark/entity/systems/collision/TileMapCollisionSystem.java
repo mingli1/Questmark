@@ -34,11 +34,11 @@ public class TileMapCollisionSystem extends IteratingSystem implements Collision
 
     @Override
     protected void processEntity(Entity entity, float dt) {
-        BoundingBoxComponent bb = Mapper.BOUNDING_BOX_MAPPER.get(entity);
-        PositionComponent position = Mapper.POS_MAPPER.get(entity);
-        VelocityComponent velocity = Mapper.VEL_MAPPER.get(entity);
-        DimensionComponent size = Mapper.SIZE_MAPPER.get(entity);
-        PreviousPositionComponent prevPosition = Mapper.PREV_POS_MAPPER.get(entity);
+        BoundingBoxComponent bb = Mapper.INSTANCE.getBOUNDING_BOX_MAPPER().get(entity);
+        PositionComponent position = Mapper.INSTANCE.getPOS_MAPPER().get(entity);
+        VelocityComponent velocity = Mapper.INSTANCE.getVEL_MAPPER().get(entity);
+        DimensionComponent size = Mapper.INSTANCE.getSIZE_MAPPER().get(entity);
+        PreviousPositionComponent prevPosition = Mapper.INSTANCE.getPREV_POS_MAPPER().get(entity);
         bb.bounds.setPosition(position.p.x + (size.width - bb.bounds.width) / 2,
                 position.p.y + (size.height - bb.bounds.height) / 2);
 

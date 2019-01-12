@@ -1,4 +1,4 @@
-package com.questmark.input;
+package com.questmark.input
 
 /**
  * Offers public methods for game commands triggered by key events such as
@@ -6,18 +6,18 @@ package com.questmark.input;
  *
  * @author Ming Li
  */
-public interface KeyInputHandler {
+interface KeyInputHandler {
 
     /**
      * Moves the player in a given direction
      *
      * @param direction
      */
-    void move(Direction direction);
+    fun move(direction: Direction)
 
     /**
      * Stops the player's movement in a given direction
      */
-    void stop(Direction direction);
+    fun stop(direction: Direction)
 
 }

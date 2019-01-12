@@ -36,15 +36,15 @@ public class EntityCollisionSystem extends EntitySystem implements CollisionSyst
     public void update(float dt) {
         quadTree.clear();
         for (Entity e : entities) {
-            BoundingBoxComponent b = Mapper.BOUNDING_BOX_MAPPER.get(e);
+            BoundingBoxComponent b = Mapper.INSTANCE.getBOUNDING_BOX_MAPPER().get(e);
             quadTree.insert(b.bounds);
         }
 
         for (Entity e : entities) {
-            BoundingBoxComponent bb = Mapper.BOUNDING_BOX_MAPPER.get(e);
-            PositionComponent p = Mapper.POS_MAPPER.get(e);
-            VelocityComponent v = Mapper.VEL_MAPPER.get(e);
-            PreviousPositionComponent pp = Mapper.PREV_POS_MAPPER.get(e);
+            BoundingBoxComponent bb = Mapper.INSTANCE.getBOUNDING_BOX_MAPPER().get(e);
+            PositionComponent p = Mapper.INSTANCE.getPOS_MAPPER().get(e);
+            VelocityComponent v = Mapper.INSTANCE.getVEL_MAPPER().get(e);
+            PreviousPositionComponent pp = Mapper.INSTANCE.getPREV_POS_MAPPER().get(e);
 
             collisions.clear();
             quadTree.retrieve(collisions, bb.bounds);

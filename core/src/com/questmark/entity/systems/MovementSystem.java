@@ -23,9 +23,9 @@ public class MovementSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float dt) {
-        PositionComponent position = Mapper.POS_MAPPER.get(entity);
-        VelocityComponent velocity = Mapper.VEL_MAPPER.get(entity);
-        PreviousPositionComponent prevPosition = Mapper.PREV_POS_MAPPER.get(entity);
+        PositionComponent position = Mapper.INSTANCE.getPOS_MAPPER().get(entity);
+        VelocityComponent velocity = Mapper.INSTANCE.getVEL_MAPPER().get(entity);
+        PreviousPositionComponent prevPosition = Mapper.INSTANCE.getPREV_POS_MAPPER().get(entity);
 
         prevPosition.p.set(position.p);
         position.p.x += velocity.v.x * dt;

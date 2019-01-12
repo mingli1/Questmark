@@ -42,7 +42,7 @@ public class CircularMovementSystem extends EntitySystem {
         lastDir = new HashMap<Entity, Direction>();
 
         for (Entity e : entities) {
-            PositionComponent pos = Mapper.POS_MAPPER.get(e);
+            PositionComponent pos = Mapper.INSTANCE.getPOS_MAPPER().get(e);
             targets.put(e, new Vector2(pos.p.x, pos.p.y));
             rotationDir.put(e, MathUtils.randomBoolean());
             lastDir.put(e, Direction.Up);
@@ -52,7 +52,7 @@ public class CircularMovementSystem extends EntitySystem {
     @Override
     public void update(float dt) {
         for (Entity e : entities) {
-            AggressionComponent agg = Mapper.AGGRESSION_MAPPER.get(e);
+            AggressionComponent agg = Mapper.INSTANCE.getAGGRESSION_MAPPER().get(e);
 
             if (agg != null) {
                 if (agg.atSource) handleMovement(e);
@@ -62,10 +62,10 @@ public class CircularMovementSystem extends EntitySystem {
     }
 
     private void handleMovement(Entity e) {
-        PositionComponent pos = Mapper.POS_MAPPER.get(e);
-        VelocityComponent vel = Mapper.VEL_MAPPER.get(e);
-        SpeedComponent mag = Mapper.SPEED_MAPPER.get(e);
-        CircularMovementComponent cir = Mapper.CIR_MOVE_MAPPER.get(e);
+        PositionComponent pos = Mapper.INSTANCE.getPOS_MAPPER().get(e);
+        VelocityComponent vel = Mapper.INSTANCE.getVEL_MAPPER().get(e);
+        SpeedComponent mag = Mapper.INSTANCE.getSPEED_MAPPER().get(e);
+        CircularMovementComponent cir = Mapper.INSTANCE.getCIR_MOVE_MAPPER().get(e);
 
         Direction prevDir = lastDir.get(e);
         Vector2 target = targets.get(e);

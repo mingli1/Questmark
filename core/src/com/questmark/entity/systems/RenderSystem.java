@@ -26,8 +26,8 @@ public class RenderSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float dt) {
-        TextureComponent texture = Mapper.TEXTURE_MAPPER.get(entity);
-        PositionComponent position = Mapper.POS_MAPPER.get(entity);
+        TextureComponent texture = Mapper.INSTANCE.getTEXTURE_MAPPER().get(entity);
+        PositionComponent position = Mapper.INSTANCE.getPOS_MAPPER().get(entity);
 
         batch.draw(texture.texture, position.p.x, position.p.y);
     }

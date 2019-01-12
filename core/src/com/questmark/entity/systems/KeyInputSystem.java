@@ -28,14 +28,14 @@ public class KeyInputSystem extends EntitySystem implements KeyInputHandler {
 
     @Override
     public void move(Direction direction) {
-        VelocityComponent velocity = Mapper.VEL_MAPPER.get(player);
-        SpeedComponent speed = Mapper.SPEED_MAPPER.get(player);
+        VelocityComponent velocity = Mapper.INSTANCE.getVEL_MAPPER().get(player);
+        SpeedComponent speed = Mapper.INSTANCE.getSPEED_MAPPER().get(player);
         velocity.move(direction, speed.speed);
     }
 
     @Override
     public void stop(Direction direction) {
-        VelocityComponent velocity = Mapper.VEL_MAPPER.get(player);
+        VelocityComponent velocity = Mapper.INSTANCE.getVEL_MAPPER().get(player);
         switch (direction) {
             case Up:
                 if (velocity.v.y > 0) velocity.v.y = 0.f;

@@ -42,7 +42,7 @@ public class RandomMovementSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float dt) {
-        AggressionComponent agg = Mapper.AGGRESSION_MAPPER.get(entity);
+        AggressionComponent agg = Mapper.INSTANCE.getAGGRESSION_MAPPER().get(entity);
 
         if (agg != null) {
             if (agg.atSource) handleMovement(entity, dt);
@@ -52,15 +52,15 @@ public class RandomMovementSystem extends IteratingSystem {
     private void handleMovement(Entity entity, float dt) {
         timers.put(entity, timers.get(entity) + dt);
 
-        VelocityComponent vel = Mapper.VEL_MAPPER.get(entity);
-        SpeedComponent mag = Mapper.SPEED_MAPPER.get(entity);
-        RandomMovementComponent rand = Mapper.RAND_MOVE_MAPPER.get(entity);
+        VelocityComponent vel = Mapper.INSTANCE.getVEL_MAPPER().get(entity);
+        SpeedComponent mag = Mapper.INSTANCE.getSPEED_MAPPER().get(entity);
+        RandomMovementComponent rand = Mapper.INSTANCE.getRAND_MOVE_MAPPER().get(entity);
 
         // change action every frequency seconds
         if (timers.get(entity) > rand.freq) {
             int action = MathUtils.random(4);
             if (action == 4) vel.v.x = vel.v.y = 0.f;
-            else vel.move(Direction.getDir(action), mag.speed);
+            else vel.move(Direction.Companion.getDir(action), mag.speed);
             timers.put(entity, timers.get(entity) - rand.freq);
         }
     }

@@ -66,11 +66,11 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        AggressionComponent agg = Mapper.AGGRESSION_MAPPER.get(entity);
-        PositionComponent pos = Mapper.POS_MAPPER.get(entity);
-        PositionComponent playerPos = Mapper.POS_MAPPER.get(player);
-        VelocityComponent vel = Mapper.VEL_MAPPER.get(entity);
-        SpeedComponent mag = Mapper.SPEED_MAPPER.get(entity);
+        AggressionComponent agg = Mapper.INSTANCE.getAGGRESSION_MAPPER().get(entity);
+        PositionComponent pos = Mapper.INSTANCE.getPOS_MAPPER().get(entity);
+        PositionComponent playerPos = Mapper.INSTANCE.getPOS_MAPPER().get(player);
+        VelocityComponent vel = Mapper.INSTANCE.getVEL_MAPPER().get(entity);
+        SpeedComponent mag = Mapper.INSTANCE.getSPEED_MAPPER().get(entity);
 
         // player within aggression range
         if (pos.p.dst(playerPos.p) <= agg.range || agg.range == -1.f) {
@@ -97,7 +97,7 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
             }
         }
         else {
-            SourcePositionComponent source = Mapper.SOURCE_POS_MAPPER.get(entity);
+            SourcePositionComponent source = Mapper.INSTANCE.getSOURCE_POS_MAPPER().get(entity);
             int sx = ((int) source.s.x / tileSize) * tileSize;
             int sy = ((int) source.s.y / tileSize) * tileSize;
 
@@ -131,7 +131,7 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
         this.mapCollisions = boundingBoxes;
         this.tileSize = tileSize;
         for (Entity e : this.getEntities()) {
-            SpeedComponent mag = Mapper.SPEED_MAPPER.get(e);
+            SpeedComponent mag = Mapper.INSTANCE.getSPEED_MAPPER().get(e);
             freqs.put(e, (tileSize / 2) / mag.speed);
         }
     }
@@ -150,7 +150,7 @@ public class AStarMovementSystem extends IteratingSystem implements CollisionSys
         allCollisions.addAll(mapCollisions);
         for (Entity entity : collidableEntities) {
             if (!e.equals(entity)) {
-                BoundingBoxComponent bb = Mapper.BOUNDING_BOX_MAPPER.get(e);
+                BoundingBoxComponent bb = Mapper.INSTANCE.getBOUNDING_BOX_MAPPER().get(e);
                 allCollisions.add(bb.bounds);
             }
         }
