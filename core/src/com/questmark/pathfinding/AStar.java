@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.BinaryHeap;
-import com.questmark.entity.QuadTree;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +18,6 @@ import java.util.Map;
 public final class AStar {
 
     // collidables to avoid
-    private QuadTree quadTree;
     private Array<Rectangle> collisions;
     private int tileSize;
     private int mapWidth;
@@ -41,7 +39,6 @@ public final class AStar {
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
 
-        quadTree = new QuadTree(0, new Rectangle(0, 0, mapWidth * tileSize, mapHeight * tileSize));
         openHeap = new BinaryHeap<Node>();
         openSet = new HashMap<Vector2, Node>();
         closedSet = new HashMap<Vector2, Node>();
@@ -55,13 +52,11 @@ public final class AStar {
 
     /**
      * Updates the list of collidables for the algorithm to account for.
-     * Uses a {@link QuadTree} for O(log n) bounding box retrieval
      *
      * @param boundingBoxes the bounding boxes of all entities and walls
      */
     public void setCollisionData(Array<Rectangle> boundingBoxes) {
-        quadTree.clear();
-        for (Rectangle bounds : boundingBoxes) quadTree.insert(bounds);
+        this.collisions = boundingBoxes;
     }
 
     /**
@@ -105,8 +100,6 @@ public final class AStar {
 
                 if (x < 0 || x > (mapWidth - 1) * tileSize || y < 0 || y > (mapHeight - 1) * tileSize) continue;
 
-                collisions.clear();
-                quadTree.retrieve(collisions, currBounds);
                 boolean invalid = false;
                 for (Rectangle bounds : collisions) {
                     if (currBounds.overlaps(bounds)) {

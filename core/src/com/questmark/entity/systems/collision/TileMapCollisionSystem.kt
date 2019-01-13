@@ -7,8 +7,8 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.utils.Array
 import com.questmark.entity.Mapper
-import com.questmark.entity.QuadTree
 import com.questmark.entity.components.*
+import com.questmark.entity.systems.MapSystem
 
 /**
  * A LibGDX Ashley [EntitySystem] that handles the collision between entities
@@ -20,10 +20,9 @@ class TileMapCollisionSystem :
         IteratingSystem(
                 Family.all(BoundingBoxComponent::class.java, PositionComponent::class.java,
                         VelocityComponent::class.java, PreviousPositionComponent::class.java).get()
-        ), CollisionSystem {
+        ), MapSystem {
 
-    private var quadTree: QuadTree? = null
-    private val collisions: Array<Rectangle> = Array()
+    private var collisions: Array<Rectangle> = Array()
 
     // tile map bounding boxes
     private var mapWidth: Int = 0
@@ -47,9 +46,6 @@ class TileMapCollisionSystem :
             position.p.y = prevPosition.p.y
         }
 
-        collisions.clear()
-        quadTree!!.retrieve(collisions, bb.bounds)
-
         for (bounds in collisions) {
             if (bb.bounds.overlaps(bounds)) {
                 val bx = prevPosition.p.x + (size.width - bb.bounds.width) / 2
@@ -67,14 +63,7 @@ class TileMapCollisionSystem :
         this.mapWidth = mapWidth
         this.mapHeight = mapHeight
         this.tileSize = tileSize
-
-        quadTree = QuadTree(0, Rectangle(0f, 0f, (mapWidth * tileSize).toFloat(), (mapHeight * tileSize).toFloat()))
-        // insert into quadtree only once in this instance because map bounding boxes don't change
-        // currently. but if we decide map objects can move in the future (moving tiles) then it
-        // will have to be inserted every update call
-        for (bounds in boundingBoxes) {
-            quadTree!!.insert(bounds)
-        }
+        this.collisions = boundingBoxes
     }
 
 }
