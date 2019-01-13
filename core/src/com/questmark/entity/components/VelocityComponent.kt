@@ -10,11 +10,11 @@ import com.questmark.input.Direction
  *
  * @author Ming Li
  */
-class VelocityComponent(dx: Float, dy: Float) : Component {
+class VelocityComponent(dx: Float = 0f, dy: Float = 0f) : Component {
 
     var v: Vector2 = Vector2(dx, dy)
 
-    constructor(vel: Vector2) : this(vel.x, vel.y)
+    constructor(vel: Vector2 = Vector2(0f, 0f)) : this(vel.x, vel.y)
 
     /**
      * Sets velocity given an direction and magnitude.

@@ -22,9 +22,9 @@ class MovementSystem :
         ) {
 
     override fun processEntity(entity: Entity, dt: Float) {
-        val position = Mapper.POS_MAPPER!!.get(entity)
-        val velocity = Mapper.VEL_MAPPER!!.get(entity)
-        val prevPosition = Mapper.PREV_POS_MAPPER!!.get(entity)
+        val position = Mapper.POS_MAPPER.get(entity)
+        val velocity = Mapper.VEL_MAPPER.get(entity)
+        val prevPosition = Mapper.PREV_POS_MAPPER.get(entity)
 
         prevPosition.p.set(position.p)
         position.p.x += velocity.v.x * dt

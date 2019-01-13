@@ -7,10 +7,7 @@ import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.MathUtils
 import com.questmark.entity.Mapper
-import com.questmark.entity.components.enemy.AggressionComponent
 import com.questmark.entity.components.enemy.EnemyComponent
-import com.questmark.entity.components.SpeedComponent
-import com.questmark.entity.components.VelocityComponent
 import com.questmark.entity.components.enemy.RandomMovementComponent
 import com.questmark.input.Direction
 
@@ -35,7 +32,7 @@ class RandomMovementSystem : IteratingSystem(Family.all(EnemyComponent::class.ja
     }
 
     override fun processEntity(entity: Entity, dt: Float) {
-        val agg = Mapper.AGGRESSION_MAPPER!!.get(entity)
+        val agg = Mapper.AGGRESSION_MAPPER.get(entity)
 
         if (agg != null) {
             if (agg.atSource) handleMovement(entity, dt)
@@ -46,9 +43,9 @@ class RandomMovementSystem : IteratingSystem(Family.all(EnemyComponent::class.ja
     private fun handleMovement(entity: Entity, dt: Float) {
         timers!![entity] = timers!![entity]!! + dt
 
-        val vel = Mapper.VEL_MAPPER!!.get(entity)
-        val mag = Mapper.SPEED_MAPPER!!.get(entity)
-        val rand = Mapper.RAND_MOVE_MAPPER!!.get(entity)
+        val vel = Mapper.VEL_MAPPER.get(entity)
+        val mag = Mapper.SPEED_MAPPER.get(entity)
+        val rand = Mapper.RAND_MOVE_MAPPER.get(entity)
 
         // change action every frequency seconds
         if (timers!![entity]!! > rand.freq) {

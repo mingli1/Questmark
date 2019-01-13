@@ -26,14 +26,14 @@ class ECS(batch: Batch, res: Resources) : Disposable {
     private val engine: Engine = Engine()
 
     // default systems that are inherent with entities
-    private var movementSystem: MovementSystem? = null
-    private var renderSystem: RenderSystem? = null
-    private var tileMapCollisionSystem: TileMapCollisionSystem? = null
-    private var randomMovementSystem: RandomMovementSystem? = null
-    private var circularMovementSystem: CircularMovementSystem? = null
-    private var horizontalMovementSystem: HorizontalMovementSystem? = null
-    private var verticalMovementSystem: VerticalMovementSystem? = null
-    private var aStarMovementSystem: AStarMovementSystem? = null
+    private lateinit var movementSystem: MovementSystem
+    private lateinit var renderSystem: RenderSystem
+    private lateinit var tileMapCollisionSystem: TileMapCollisionSystem
+    private lateinit var randomMovementSystem: RandomMovementSystem
+    private lateinit var circularMovementSystem: CircularMovementSystem
+    private lateinit var horizontalMovementSystem: HorizontalMovementSystem
+    private lateinit var verticalMovementSystem: VerticalMovementSystem
+    private lateinit var aStarMovementSystem: AStarMovementSystem
 
     // entities
     var player: Player? = null
@@ -70,14 +70,14 @@ class ECS(batch: Batch, res: Resources) : Disposable {
         verticalMovementSystem = VerticalMovementSystem()
         aStarMovementSystem = AStarMovementSystem()
 
-        addSystem(movementSystem ?: return)
-        addSystem(tileMapCollisionSystem ?: return)
-        addSystem(randomMovementSystem ?: return)
-        addSystem(circularMovementSystem ?: return)
-        addSystem(horizontalMovementSystem ?: return)
-        addSystem(verticalMovementSystem ?: return)
-        addSystem(aStarMovementSystem ?: return)
-        addSystem(renderSystem ?: return)
+        addSystem(movementSystem)
+        addSystem(tileMapCollisionSystem)
+        addSystem(randomMovementSystem)
+        addSystem(circularMovementSystem)
+        addSystem(horizontalMovementSystem)
+        addSystem(verticalMovementSystem)
+        addSystem(aStarMovementSystem)
+        addSystem(renderSystem)
     }
 
     fun update(dt: Float) {
@@ -125,8 +125,8 @@ class ECS(batch: Batch, res: Resources) : Disposable {
      * @param boundingBoxes
      */
     fun updateCollisionSystems(mapWidth: Int, mapHeight: Int, tileSize: Int, boundingBoxes: Array<Rectangle>) {
-        tileMapCollisionSystem!!.setMapData(mapWidth, mapHeight, tileSize, boundingBoxes)
-        aStarMovementSystem!!.setMapData(mapWidth, mapHeight, tileSize, boundingBoxes)
+        tileMapCollisionSystem.setMapData(mapWidth, mapHeight, tileSize, boundingBoxes)
+        aStarMovementSystem.setMapData(mapWidth, mapHeight, tileSize, boundingBoxes)
     }
 
 }

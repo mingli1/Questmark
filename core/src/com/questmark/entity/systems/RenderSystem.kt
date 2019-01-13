@@ -19,8 +19,8 @@ class RenderSystem(private val batch: Batch) :
         IteratingSystem(Family.all(AnimationComponent::class.java, PositionComponent::class.java).get()) {
 
     override fun processEntity(entity: Entity, dt: Float) {
-        val anim = Mapper.ANIM_MAPPER!!.get(entity)
-        val position = Mapper.POS_MAPPER!!.get(entity)
+        val anim = Mapper.ANIM_MAPPER.get(entity)
+        val position = Mapper.POS_MAPPER.get(entity)
 
         anim.anim.update(dt)
 

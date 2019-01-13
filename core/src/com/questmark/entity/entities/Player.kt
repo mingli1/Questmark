@@ -26,7 +26,7 @@ class Player(position: Vector2, res: Resources) : Entity() {
         this.add(DimensionComponent(texture!!.regionWidth, texture.regionHeight))
         this.add(PositionComponent(position))
         this.add(PreviousPositionComponent(position))
-        this.add(VelocityComponent(0f, 0f))
+        this.add(VelocityComponent())
         this.add(SpeedComponent(25f))
         this.add(BoundingBoxComponent(12, 16))
     }

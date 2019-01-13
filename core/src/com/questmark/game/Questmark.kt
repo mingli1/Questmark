@@ -14,11 +14,11 @@ import com.questmark.util.Resources
  */
 class Questmark : Game() {
 
-    var batch: Batch?= null
-    var res: Resources?= null
+    lateinit var batch: Batch
+    lateinit var res: Resources
 
     // screens
-    private var gameScreen: GameScreen?= null
+    private lateinit var gameScreen: GameScreen
 
     override fun create() {
         batch = SpriteBatch()
@@ -35,8 +35,8 @@ class Questmark : Game() {
 
     override fun dispose() {
         super.dispose()
-        batch!!.dispose()
-        res!!.dispose()
+        batch.dispose()
+        res.dispose()
     }
 
 }

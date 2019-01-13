@@ -30,11 +30,11 @@ class TileMapCollisionSystem :
     private var tileSize: Int = 0
 
     override fun processEntity(entity: Entity, dt: Float) {
-        val bb = Mapper.BOUNDING_BOX_MAPPER!!.get(entity)
-        val position = Mapper.POS_MAPPER!!.get(entity)
-        val velocity = Mapper.VEL_MAPPER!!.get(entity)
-        val size = Mapper.SIZE_MAPPER!!.get(entity)
-        val prevPosition = Mapper.PREV_POS_MAPPER!!.get(entity)
+        val bb = Mapper.BOUNDING_BOX_MAPPER.get(entity)
+        val position = Mapper.POS_MAPPER.get(entity)
+        val velocity = Mapper.VEL_MAPPER.get(entity)
+        val size = Mapper.SIZE_MAPPER.get(entity)
+        val prevPosition = Mapper.PREV_POS_MAPPER.get(entity)
         bb.bounds.setPosition(position.p.x + (size.width - bb.bounds.width) / 2,
                 position.p.y + (size.height - bb.bounds.height) / 2)
 

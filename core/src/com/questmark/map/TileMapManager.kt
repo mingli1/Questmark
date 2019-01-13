@@ -3,7 +3,6 @@ package com.questmark.map
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.maps.MapLayer
-import com.badlogic.gdx.maps.MapObjects
 import com.badlogic.gdx.maps.objects.RectangleMapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
@@ -32,12 +31,12 @@ class TileMapManager(batch: Batch, private val cam: OrthographicCamera) : Dispos
     private val mapLoader: TmxMapLoader = TmxMapLoader()
 
     // data
-    private var tiledMap: TiledMap? = null
+    private lateinit var tiledMap: TiledMap
 
-    private var bottom: TiledMapTileLayer? = null
-    private var middle: TiledMapTileLayer? = null
-    private var top: TiledMapTileLayer? = null
-    private var collision: MapLayer? = null
+    private lateinit var bottom: TiledMapTileLayer
+    private lateinit var middle: TiledMapTileLayer
+    private lateinit var top: TiledMapTileLayer
+    private lateinit var collision: MapLayer
 
     companion object {
 
@@ -78,18 +77,18 @@ class TileMapManager(batch: Batch, private val cam: OrthographicCamera) : Dispos
         tiledMap = mapLoader.load("$DIR$mapName.tmx")
 
         // retrieve data from set properties in the map files
-        tileSize = tiledMap!!.properties.get("tileSize", Int::class.java)
-        mapWidth = tiledMap!!.properties.get("mapWidth", Int::class.java)
-        mapHeight = tiledMap!!.properties.get("mapHeight", Int::class.java)
+        tileSize = tiledMap.properties.get("tileSize", Int::class.java)
+        mapWidth = tiledMap.properties.get("mapWidth", Int::class.java)
+        mapHeight = tiledMap.properties.get("mapHeight", Int::class.java)
 
         // map layers
-        bottom = tiledMap!!.layers.get(BOTTOM_LAYER) as TiledMapTileLayer
-        middle = tiledMap!!.layers.get(MIDDLE_LAYER) as TiledMapTileLayer
-        top = tiledMap!!.layers.get(TOP_LAYER) as TiledMapTileLayer
-        collision = tiledMap!!.layers.get(COLLISION_LAYER)
+        bottom = tiledMap.layers.get(BOTTOM_LAYER) as TiledMapTileLayer
+        middle = tiledMap.layers.get(MIDDLE_LAYER) as TiledMapTileLayer
+        top = tiledMap.layers.get(TOP_LAYER) as TiledMapTileLayer
+        collision = tiledMap.layers.get(COLLISION_LAYER)
 
         collisionBoxes.clear()
-        val objects = collision!!.objects
+        val objects = collision.objects
         for (rectangleMapObject in objects.getByType(RectangleMapObject::class.java)) {
             val collisionBox = rectangleMapObject.rectangle
             collisionBoxes.add(collisionBox)
@@ -109,22 +108,22 @@ class TileMapManager(batch: Batch, private val cam: OrthographicCamera) : Dispos
     /** Begin render functions. These must be between SpriteBatch.begin() and SpriteBatch.end()  */
 
     fun renderBottom() {
-        renderer.renderTileLayer(bottom!!)
+        renderer.renderTileLayer(bottom)
     }
 
     fun renderMiddle() {
-        renderer.renderTileLayer(middle!!)
+        renderer.renderTileLayer(middle)
     }
 
     fun renderTop() {
-        renderer.renderTileLayer(top!!)
+        renderer.renderTileLayer(top)
     }
 
     /** End render functions  */
 
     override fun dispose() {
         renderer.dispose()
-        tiledMap!!.dispose()
+        tiledMap.dispose()
     }
 
 }

@@ -21,7 +21,7 @@ class GameScreen(game: Questmark) : AbstractScreen(game) {
     private val input: KeyInput
 
     // entity
-    private val ecs: ECS = ECS(game.batch!!, game.res!!)
+    private val ecs: ECS = ECS(game.batch, game.res)
     private val player: Player
 
     // map
@@ -29,7 +29,7 @@ class GameScreen(game: Questmark) : AbstractScreen(game) {
 
     init {
         player = ecs.player!!
-        tileMapManager = TileMapManager(game.batch!!, cam)
+        tileMapManager = TileMapManager(game.batch, cam)
 
         // player input system
         val inputSystem = KeyInputSystem()
@@ -55,7 +55,7 @@ class GameScreen(game: Questmark) : AbstractScreen(game) {
      * current position except when the player moves to the edges of the map.
      */
     private fun updateCamera() {
-        val pc = Mapper.POS_MAPPER!!.get(player)
+        val pc = Mapper.POS_MAPPER.get(player)
         val mw = tileMapManager.mapWidth
         val mh = tileMapManager.mapHeight
         val ts = tileMapManager.tileSize
@@ -80,15 +80,15 @@ class GameScreen(game: Questmark) : AbstractScreen(game) {
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
-        game.batch!!.projectionMatrix = cam.combined
-        game.batch!!.begin()
+        game.batch.projectionMatrix = cam.combined
+        game.batch.begin()
 
         tileMapManager.renderBottom()
         tileMapManager.renderMiddle()
         ecs.update(dt)
         tileMapManager.renderTop()
 
-        game.batch!!.end()
+        game.batch.end()
     }
 
     override fun dispose() {

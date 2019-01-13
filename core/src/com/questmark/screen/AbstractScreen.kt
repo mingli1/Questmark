@@ -24,7 +24,7 @@ abstract class AbstractScreen(val game: Questmark) : Screen {
     init {
         cam.setToOrtho(false)
         viewport = StretchViewport(Config.V_WIDTH.toFloat(), Config.V_HEIGHT.toFloat(), cam)
-        stage = Stage(viewport, game.batch!!)
+        stage = Stage(viewport, game.batch)
     }
 
     abstract fun update(dt: Float)
