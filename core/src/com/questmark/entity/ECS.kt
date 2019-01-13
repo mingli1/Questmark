@@ -28,7 +28,6 @@ class ECS(batch: Batch, res: Resources) : Disposable {
     private var movementSystem: MovementSystem? = null
     private var renderSystem: RenderSystem? = null
     private var tileMapCollisionSystem: TileMapCollisionSystem? = null
-    private var entityCollisionSystem: EntityCollisionSystem? = null
     private var randomMovementSystem: RandomMovementSystem? = null
     private var circularMovementSystem: CircularMovementSystem? = null
     private var horizontalMovementSystem: HorizontalMovementSystem? = null
@@ -63,7 +62,6 @@ class ECS(batch: Batch, res: Resources) : Disposable {
         movementSystem = MovementSystem()
         renderSystem = RenderSystem(batch)
         tileMapCollisionSystem = TileMapCollisionSystem()
-        entityCollisionSystem = EntityCollisionSystem()
         randomMovementSystem = RandomMovementSystem()
         circularMovementSystem = CircularMovementSystem()
         horizontalMovementSystem = HorizontalMovementSystem()
@@ -72,7 +70,6 @@ class ECS(batch: Batch, res: Resources) : Disposable {
 
         addSystem(movementSystem ?: return)
         addSystem(tileMapCollisionSystem ?: return)
-        addSystem(entityCollisionSystem ?: return)
         addSystem(randomMovementSystem ?: return)
         addSystem(circularMovementSystem ?: return)
         addSystem(horizontalMovementSystem ?: return)
@@ -127,7 +124,6 @@ class ECS(batch: Batch, res: Resources) : Disposable {
      */
     fun updateCollisionSystems(mapWidth: Int, mapHeight: Int, tileSize: Int, boundingBoxes: Array<Rectangle>) {
         tileMapCollisionSystem!!.setMapData(mapWidth, mapHeight, tileSize, boundingBoxes)
-        entityCollisionSystem!!.setMapData(mapWidth, mapHeight, tileSize, boundingBoxes)
         aStarMovementSystem!!.setMapData(mapWidth, mapHeight, tileSize, boundingBoxes)
     }
 

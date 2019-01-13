@@ -14,7 +14,7 @@ import com.questmark.entity.components.*;
 import com.questmark.entity.components.enemy.AggressionComponent;
 import com.questmark.entity.components.enemy.EnemyComponent;
 import com.questmark.entity.components.enemy.SourcePositionComponent;
-import com.questmark.entity.systems.collision.CollisionSystem;
+import com.questmark.entity.systems.MapSystem;
 import com.questmark.pathfinding.AStar;
 import com.questmark.pathfinding.Node;
 
@@ -27,7 +27,7 @@ import java.util.Map;
  *
  * @author Ming Li
  */
-public class AStarMovementSystem extends IteratingSystem implements CollisionSystem {
+public class AStarMovementSystem extends IteratingSystem implements MapSystem {
 
     private AStar alg;
     private ImmutableArray<Entity> collidableEntities;
