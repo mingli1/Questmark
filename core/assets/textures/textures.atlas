@@ -1,54 +1,61 @@
 
 textures.png
-size: 128,32
+size: 256,32
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 cat
   rotate: false
-  xy: 56, 2
+  xy: 106, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 colonel
   rotate: false
-  xy: 2, 2
+  xy: 52, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 dog
   rotate: false
-  xy: 110, 2
+  xy: 160, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 luffy
   rotate: false
-  xy: 20, 2
+  xy: 70, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 nil
   rotate: false
-  xy: 38, 2
+  xy: 88, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 test_enemy
   rotate: false
-  xy: 74, 2
+  xy: 124, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
+test_normal_anim
+  rotate: false
+  xy: 2, 2
+  size: 48, 16
+  orig: 48, 16
+  offset: 0, 0
+  index: -1
 test_player
   rotate: false
-  xy: 92, 2
+  xy: 142, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

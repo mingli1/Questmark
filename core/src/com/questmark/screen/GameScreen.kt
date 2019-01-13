@@ -35,8 +35,6 @@ class GameScreen(game: Questmark) : AbstractScreen(game) {
         val inputSystem = KeyInputSystem()
         input = KeyInput(inputSystem)
         ecs.addSystem(inputSystem)
-
-        cam.zoom += 2f
     }
 
     override fun show() {
