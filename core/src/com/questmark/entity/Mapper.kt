@@ -19,7 +19,7 @@ object Mapper {
 
     val VEL_MAPPER: ComponentMapper<VelocityComponent>? = ComponentMapper.getFor(VelocityComponent::class.java)
 
-    val TEXTURE_MAPPER: ComponentMapper<TextureComponent>? = ComponentMapper.getFor(TextureComponent::class.java)
+    val ANIM_MAPPER: ComponentMapper<AnimationComponent>? = ComponentMapper.getFor(AnimationComponent::class.java)
 
     val BOUNDING_BOX_MAPPER: ComponentMapper<BoundingBoxComponent>? = ComponentMapper.getFor(BoundingBoxComponent::class.java)
 
