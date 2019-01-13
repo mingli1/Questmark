@@ -17,7 +17,7 @@ enum class AnimationState constructor(private val strState: String, private val 
     Idle("idle", true),
     InCombat("in_combat", true),
     Walking("walking", true),
-    
+
     MeleeAttack("melee_attack", false),
     RangeAttack("range_attack", false);
 
