@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Disposable
+import com.questmark.entity.entities.NormalAnim
 import com.questmark.entity.entities.Player
 import com.questmark.entity.systems.*
 import com.questmark.entity.systems.collision.*
@@ -51,6 +52,7 @@ class ECS(batch: Batch, res: Resources) : Disposable {
         player = Player(Vector2(168f, 180f), res)
 
         engine.addEntity(player)
+        engine.addEntity(NormalAnim(Vector2(180f, 192f), res))
     }
 
     /**

@@ -3,6 +3,7 @@ package com.questmark.entity.entities
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
+import com.questmark.anim.Animation
 import com.questmark.entity.components.*
 import com.questmark.util.Resources
 
@@ -21,7 +22,7 @@ class Player(position: Vector2, res: Resources) : Entity() {
     init {
         val texture = res.getSingleTexture("luffy")
         this.add(PlayerComponent())
-        this.add(TextureComponent(texture))
+        this.add(AnimationComponent(Animation(texture!!)))
         this.add(DimensionComponent(texture!!.regionWidth, texture.regionHeight))
         this.add(PositionComponent(position))
         this.add(PreviousPositionComponent(position))

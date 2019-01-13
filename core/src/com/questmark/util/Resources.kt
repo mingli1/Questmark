@@ -52,6 +52,8 @@ class Resources : Disposable {
         single["cat"] = atlas.findRegion("cat")
         single["dog"] = atlas.findRegion("dog")
         single["nil"] = atlas.findRegion("nil")
+
+        multiple["normal_anim"] = atlas.findRegion("test_normal_anim").split(16, 16)[0]
     }
 
     /**
