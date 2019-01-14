@@ -14,6 +14,7 @@ import com.questmark.entity.components.*
 import com.questmark.entity.components.enemy.AggressionComponent
 import com.questmark.entity.components.enemy.EnemyComponent
 import com.questmark.entity.components.enemy.SourcePositionComponent
+import com.questmark.entity.components.player.PlayerComponent
 import com.questmark.entity.systems.MapSystem
 import com.questmark.pathfinding.AStar
 import com.questmark.pathfinding.Node

@@ -1,4 +1,4 @@
-package com.questmark.entity.systems.collision
+package com.questmark.entity.systems
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.utils.Array
 import com.questmark.entity.Mapper
 import com.questmark.entity.components.*
-import com.questmark.entity.systems.MapSystem
 
 /**
  * A LibGDX Ashley [EntitySystem] that handles the collision between entities

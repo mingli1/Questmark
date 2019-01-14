@@ -1,13 +1,11 @@
-package com.questmark.entity.systems
+package com.questmark.input
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.core.Family
 import com.questmark.entity.Mapper
-import com.questmark.entity.components.PlayerComponent
-import com.questmark.input.Direction
-import com.questmark.input.KeyInputHandler
+import com.questmark.entity.components.player.PlayerComponent
 
 /**
  * A LibGDX Ashley [EntitySystem] that handles the updating of the player entity's

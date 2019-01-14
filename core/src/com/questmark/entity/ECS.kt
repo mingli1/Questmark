@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.Disposable
 import com.questmark.entity.entities.NormalAnim
 import com.questmark.entity.entities.Player
 import com.questmark.entity.systems.*
-import com.questmark.entity.systems.collision.*
 import com.questmark.entity.systems.enemy.*
 import com.questmark.util.Resources
 

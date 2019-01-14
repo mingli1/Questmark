@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.GL20
 import com.questmark.entity.ECS
 import com.questmark.entity.Mapper
 import com.questmark.entity.entities.Player
-import com.questmark.entity.systems.KeyInputSystem
+import com.questmark.input.KeyInputSystem
 import com.questmark.game.Questmark
 import com.questmark.input.KeyInput
 import com.questmark.map.TileMapManager

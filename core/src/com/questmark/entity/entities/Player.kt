@@ -1,10 +1,10 @@
 package com.questmark.entity.entities
 
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
 import com.questmark.anim.Animation
 import com.questmark.entity.components.*
+import com.questmark.entity.components.player.PlayerComponent
 import com.questmark.util.Resources
 
 /**
@@ -13,7 +13,6 @@ import com.questmark.util.Resources
  * The player is a LibGDX Ashley [Entity] that is defined by a set of
  * components [com.badlogic.ashley.core.Component] as part of the main ECS.
  * Only one instance of this object should exist at once.
- *
  *
  * @author Ming Li
  */
